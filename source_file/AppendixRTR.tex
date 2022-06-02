@@ -1,0 +1,112 @@
+\chapter{Technical Proofs for Riemannian Trust-Regions}\label{appdx:rtr}
+
+\section{Derivation of Riemannian Gradient and Hessian} \label{appdxrtr:riemannDerivations}
+We use two useful theorems from differential geometry, which relate directional (Frechet) derivatives with the Riemannian metric $d_{\bm{w}}$. For any function $f$, the Riemannian gradient satisfies
+\begin{equation}
+d_{\bm{w}}\big(\bm{u},\grad f\big)= \frac{\mathrm{d}}{\mathrm{d}t}\Big|_{t=0}\,f(\bm{w}+t\bm{u}_{\bm{w}}), \label{eqn:gradmetric}
+\end{equation}
+and the Riemannian Hessian satisfies
+\begin{equation}
+d_{\bm{w}}\big(\bm{u},\Hess f[\bm{u}]\big)= \frac{\mathrm{d}^2}{\mathrm{d}t^2}\Big|_{t=0}\,f(\bm{w}+t\bm{u}_{\bm{w}}). \label{eqn:hessmetric}
+\end{equation}
+
+\subsection{Single Source Recovery}
+Recall the objective function (\ref{eqn:cma}), which can be rewritten as:
+\begin{equation}
+f(\bm{w})=\frac{1}{K}\sum_{k=1}^K\big(\bm{w}\herm\bm{X}_k\bm{w}-1\big)^2=\frac{1}{K}\sum_{k=1}^Ka_k^2.
+\end{equation}
+
+As $f$ is a real-valued function, the Euclidean gradient with respect to the complex vector $\bm{w}$ is given by
+\begin{align}
+\nabla_{\bm{w}}f(\bm{w})&=2\frac{d}{d\bm{w}\herm}f(\bm{w})=\frac{2}{K}\sum_{k=1}^K 2a_k\big(\bm{X}_k\bm{w}+\bm{X}_k\herm\bm{w}\big)=\frac{4}{K}\sum_{k=1}^K a_k\bm{X}_k\bm{w}.
+\end{align}
+
+Additionally, the Euclidean derivative of $f$ in direction $\bm{u}$ with respect to $\bm{w}$ is given by
+\begin{align}
+\nabla_{\bm{w}}f(\bm{w})[\bm{u}_{\bm{w}}]&=\frac{\mathrm{d}}{\mathrm{d}t}\Big|_{t=0}\,f(\bm{w}+t\bm{u}_{\bm{w}})=\frac{2}{K}\sum_{k=1}^Ka_k\big(\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}\big)\nonumber\\
+&=\Big(\frac{2}{K}\sum_{k=1}^Ka_k\bm{X}_k\bm{w}\Big)\herm\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\Big(\frac{2}{K}\sum_{k=1}^Ka_k\bm{X}_k\bm{w}\Big)\nonumber\\
+&=d_{\bm{w}}\bigg(\bm{u},\frac{2}{K}\sum_{k=1}^Ka_k\bm{X}_k\bm{w}\bigg)=d_{\bm{w}}\big(\bm{u},\tfrac{1}{2}\nabla_{\bm{w}}f(\bm{w})\big).
+\end{align}
+
+Hence, using Eq.~(\ref{eqn:gradmetric}), we obtain $\grad f=\tfrac{1}{2}\nabla_{\bm{w}}f(\bm{w})$, and considering that $\bm{w}\herm\grad f=(\grad f)\herm\bm{w}$, we have that $\grad f$ belongs to the horizontal space $\mathcal{H}_{\bm{w}}\mathcal{C}$. Therefore, the matrix representation of the Riemannian gradient is
+\begin{equation}
+\mathrm{grad}_{\bm{w}}f(\bm{w})=\frac{2}{K}\sum_{k=1}^K \big(\bm{w}\herm\bm{X}_k\bm{w}-1\big)\bm{X}_k\bm{w}.
+\end{equation}
+
+The Riemannian Hessian depends on the directional derivative of the Euclidean gradient, which can be obtained as
+\begin{align}
+\nabla_{\bm{w}}^2f(\bm{w})[\bm{u}_{\bm{w}}]&=\frac{\mathrm{d}}{\mathrm{d}t}\Big|_{t=0}\,\nabla_{\bm{w}}f(\bm{w}+t\bm{u}_{\bm{w}})\nonumber\\
+&=\frac{4}{K}\sum_{k=1}^K \big(\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}+\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}})\bm{X}_k\bm{w}+\frac{4}{K}\sum_{k=1}^K \big(\bm{w}\herm\bm{X}_k\bm{w}-1\big)\bm{X}_k\bm{u}_{\bm{w}},
+\end{align}
+and, using a similar procedure as before, we obtain
+\begin{align}
+\frac{\mathrm{d}^2}{\mathrm{d}t^2}\Big|_{t=0}\,f(\bm{w}+t\bm{u}_{\bm{w}})
+&=\frac{2}{K}\sum_{k=1}^K\big(\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}\big)^2+2a_k\bm{u}\herm\bm{X}_k\bm{u}\nonumber\\
+&=\Big(\frac{2}{K}\sum_{k=1}^K \big(\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}\big)\bm{X}_k\bm{w} +a_k\bm{X}_k\bm{u}\Big)\herm\bm{u}_{\bm{w}} \nonumber\\
+&+\bm{u}_{\bm{w}}\herm\Big(\frac{2}{K}\sum_{k=1}^K \big(\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}\big)\bm{X}_k\bm{w} +a_k\bm{X}_k\bm{u}\Big)\nonumber\\
+&=d_{\bm{w}}\bigg(\bm{u},\frac{2}{K}\sum_{k=1}^K \big(\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}\big)\bm{X}_k\bm{w} +a_k\bm{X}_k\bm{u}\bigg)\nonumber\\
+&=d_{\bm{w}}\big(\bm{u},\tfrac{1}{2}\nabla_{\bm{w}}^2f(\bm{w})[\bm{u}]\big).
+\end{align}
+Thus, using Eq.~(\ref{eqn:hessmetric}), we have $\Hess f[\bm{u}]=\tfrac{1}{2}\nabla_{\bm{w}}^2f(\bm{w})$, and we also have $\bm{u}\herm\Hess f[\bm{u}]=(\Hess f[\bm{u}])\herm\bm{u}$, hence $\Hess f[\bm{u}]$ belongs to the horizontal space $\mathcal{H}_{\bm{w}}\mathcal{C}$, and the matrix representation of the Riemannian Hessian is
+\begin{equation}
+\Hess f(\bm{w})[\bm{u}]=\frac{2}{K}\sum_{k=1}^K\bigg( \big(\bm{w}\herm\bm{X}_k\bm{u}_{\bm{w}}+\bm{u}_{\bm{w}}\herm\bm{X}_k\bm{w}\big)\bm{X}_k\bm{w} +a_k\bm{X}_k\bm{u}\bigg).
+\end{equation}
+
+\subsection{Multiple Source Recovery}
+In the case of multiple signal recovery, without loss of generality we derive the gradient and Hessian expressions for only $J=2$ sources to be recovered. Thus, and considering the sample covariance matrix 
+\begin{align}
+\bm{O}=K^{-1}\sum_k\bm{X}_k=K^{-1}\sum_k\bm{x}_k\bm{x}_k\herm,
+\end{align} 
+the objective function (\ref{eqn:cma_msr}) can be rewritten as:
+\begin{align}
+g(\bm{w}_1,\bm{w}_2)&=f(\bm{w}_1)+f(\bm{w}_2)+\gamma_0\big|\bm{w}_{1}\herm\bm{O}\bm{w}_{2}\big|^2\nonumber\\
+&=\frac{1}{K}\sum_{k=1}^Ka_{k,1}^2+\frac{1}{K}\sum_{k=1}^Ka_{k,2}^2+\gamma_0\Big(\bm{w}_1\herm\bm{O}\bm{w}_2\bm{w}_2\herm\bm{O}\bm{w}_1\Big).
+\end{align}
+
+As $g$ is a real-valued function, we calculate without loss of generality the Euclidean gradient with respect to the complex vector $\bm{w}_1$:
+\begin{align}
+\nabla_{\bm{w}_1}g&=\frac{d}{d\bm{w}_1\herm}g(\bm{w}_1,\bm{w}_2)\nonumber\\
+&=\frac{1}{K}\sum_{k=1}^K 2a_{k,1}\big(\bm{X}_k+\bm{X}_k\herm\big)\bm{w}_1+\gamma_0\bigg(\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}+\big(\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\big)\herm\bigg)\bm{w}_1 \nonumber\\
+&=\frac{4}{K}\sum_{k=1}^K a_{k,1}\bm{X}_k\bm{w}_1 + 2\gamma_0\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\bm{w}_1.
+\end{align}
+
+
+Additionally, the Euclidean derivative of $g$ in direction $\bm{u}_1$ with respect to $\bm{w}_1$ is given by
+\begin{align}
+&\nabla_{\bm{w}_1}g(\bm{w}_1,\bm{w}_2)[\bm{u}_1,\bm{u}_2]=\frac{\mathrm{d}}{\mathrm{d}t}\Big|_{t=0}\,g(\bm{w}_1+t\bm{u}_1,\bm{w}_2+t\bm{u}_2)\nonumber\\
+&\qquad=\frac{2}{K}\sum_{k=1}^Ka_{k,1}\big(\bm{w}_1\herm\bm{X}_k\bm{u}_1+\bm{u}_1\herm\bm{X}_k\bm{w}_1\big)+\gamma_0\big(\bm{w}_1\herm\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\bm{u}_1+\bm{u}_1\herm\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\bm{w}_1\big)\nonumber\\
+&\qquad=d_{\bm{w}_1}\bigg(\bm{u}_1,\frac{2}{K}\sum_{k=1}^Ka_{k,1}\bm{X}_k\bm{w}_1+\gamma_0\bm{O}\bm{w}_2\bm{w}_2\herm\bm{O}\bm{w}_1\bigg)\nonumber\\
+&\qquad=d_{\bm{w}_1}\big(\bm{u}_1,\tfrac{1}{2}\nabla_{\bm{w}_1}g(\bm{w}_1,\bm{w}_2)\big).
+\end{align}
+
+%\begin{align}
+%&\nabla_{\bm{w}_1}g(\bm{w}_1,\bm{w}_2)[\bm{u}_1,\bm{u}_2]\nonumber\\
+%&\qquad=\frac{\mathrm{d}}{\mathrm{d}t}\Big|_{t=0}\,g(\bm{w}_1+t\bm{u}_1,\bm{w}_2+t\bm{u}_2)\nonumber\\
+%&\qquad=\frac{2}{K}\sum_{k=1}^Ka_{k,1}\big(\bm{w}_1\herm\bm{X}_k\bm{u}_1+\bm{u}_1\herm\bm{X}_k\bm{w}_1\big)\nonumber\\
+%&\qquad\quad+\frac{2}{K}\sum_{k=1}^Ka_{k,2}\big(\bm{w}_2\herm\bm{X}_k\bm{u}_2+\bm{u}_2\herm\bm{X}_k\bm{w}_2\big)\nonumber\\
+%&\qquad\quad+\gamma_0\big(\bm{w}_1\herm\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\bm{u}_1+\bm{u}_1\herm\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\bm{w}_1\big)\nonumber\\
+%&\qquad\quad+\gamma_0\big(\bm{w}_2\herm\bm{O}\bm{w}_{1}\bm{w}_{1}\herm\bm{O}\bm{u}_2+\bm{u}_2\herm\bm{O}\bm{w}_{1}\bm{w}_{1}\herm\bm{O}\bm{w}_2\big)\nonumber\\
+%&\qquad=d_{\bm{w}_1}\bigg(\bm{u}_1,\frac{2}{K}\sum_{k=1}^Ka_{k,1}\bm{X}_k\bm{w}_1+\gamma_0\bm{O}\bm{w}_2\bm{w}_2\herm\bm{O}\bm{w}_1\bigg)\nonumber\\
+%&\qquad\quad+d_{\bm{w}_2}\bigg(\bm{u}_2,\frac{2}{K}\sum_{k=1}^Ka_{k,2}\bm{X}_k\bm{w}_2+\gamma_0\bm{O}\bm{w}_1\bm{w}_1\herm\bm{O}\bm{w}_2\bigg)\nonumber\\
+%&\qquad=d_{\bm{w}_1}\big(\bm{u}_1,\tfrac{1}{2}\nabla_{\bm{w}_1}g(\bm{w}_1,\bm{w}_2)\big)+d_{\bm{w}_2}\big(\bm{u}_1,\tfrac{1}{2}\nabla_{\bm{w}_2}g(\bm{w}_1,\bm{w}_2)\big).
+%\end{align}
+
+Hence, we obtain $\grad_{\bm{w}_1} g=\tfrac{1}{2}\nabla_{\bm{w}_1}g(\bm{w}_1,\bm{w}_2)$, and considering that $\bm{w}\herm\grad_{\bm{w}_1}g=(\grad_{\bm{w}_1} g)\herm\bm{w}$, we have that $\grad_{\bm{w}_1} g$ belongs to the horizontal space $\mathcal{H}_{\bm{w}_1}\mathcal{C}$. Therefore, the matrix representation of the Riemannian gradient is
+\begin{equation}
+\mathrm{grad}_{\bm{w}_1}g(\bm{w}_1,\bm{w}_2)=\frac{2}{K}\sum_{k=1}^K (\bm{w}_1\herm\bm{X}_k\bm{w}_1-1)\bm{X}_k\bm{w}_1 + \gamma_0\bm{O}\bm{w}_{2}\bm{w}_{2}\herm\bm{O}\bm{w}_1.
+\end{equation}
+The same derivations and conclusions apply as well for $\mathrm{grad}_{\bm{w}_2}g(\bm{w}_1,\bm{w}_2)$.
+
+The Riemannian Hessian depends on the directional derivative of the Euclidean gradient, which can be obtained as
+\begin{align}
+\nabla_{\bm{w}_j}^2g(\bm{b})[\bm{\eta}_{\bm{w}_j}]&=\frac{\mathrm{d}}{\mathrm{d}t}\Big|_{t=0}\,\nabla_{\bm{w}}g(\bm{w}+t\bm{\eta}_{\bm{w}_j})\nonumber\\
+&=\frac{4}{K}\sum_{k=1}^K \big(\bm{\eta}_{\bm{w}_j}\herm\bm{X}_k\bm{w}_j+\bm{w}_j\herm\bm{X}_k\bm{u}_{\bm{w}})\bm{X}_k\bm{w}_j+\frac{4}{K}\sum_{k=1}^K \big(\bm{w}_j\herm\bm{X}_k\bm{w}_j-1\big)\bm{X}_k\bm{\eta}_{\bm{w}_j}\nonumber\\
+&\quad+2\gamma_0\sum_{j_1\neq j}^J\bigg(\bm{O}\bm{w}_{j_1}\bm{w}_{j_1}\herm\bm{O} \bm{\eta}_{\bm{w}_j}+\bm{O}\big(\bm{\eta}_{\bm{w}_j}\bm{w}_{j_1}\herm +\bm{w}_{j_1}\bm{\eta}_{\bm{w}_{j_1}}\herm\big)\bm{O}\bm{w}_j\bigg)
+\end{align}
+and using the same arguments as in the single source recovery scenario, the Riemannian Hessian can be then computed using the definitions from Table~\ref{table:riemmann}, and is given by
+\begin{align}
+\Hess_{\bm{w}_j} g(\bm{b})[\bm{\eta}_{\bm{w}_j}]
+	&=\frac{2}{K}\sum_{k=1}^K \big(\bm{\eta}_{\bm{w}_j}\herm\bm{X}_k\bm{w}_j+\bm{w}_j\herm\bm{X}_k\bm{u}_{\bm{w}})\bm{X}_k\bm{w}_j+\frac{2}{K}\sum_{k=1}^K \big(\bm{w}_j\herm\bm{X}_k\bm{w}_j-1\big)\bm{X}_k\bm{\eta}_{\bm{w}_j}\nonumber\\
+	&\quad+\gamma_0\sum_{j_1\neq j}^J\bigg(\bm{O}\bm{w}_{j_1}\bm{w}_{j_1}\herm\bm{O} \bm{\eta}_{\bm{w}_j}+\bm{O}\big(\bm{\eta}_{\bm{w}_j}\bm{w}_{j_1}\herm +\bm{w}_{j_1}\bm{\eta}_{\bm{w}_{j_1}}\herm\big)\bm{O}\bm{w}_j\bigg).
+\end{align}
+

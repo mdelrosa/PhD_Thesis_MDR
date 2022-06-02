@@ -1,0 +1,31 @@
+\chapter{Future research directions}
+\label{chap:future}
+
+In the following, we discuss the extensions of our current work as well as our
+future research directions. 
+
+First, we aim to tackle the theoretical analysis for multiple source recovery, both for WF and RTR. We have some work in these regard but is yet incomplete, and for the sake of brevity we omitted those analysis in this document. Obtaining theoretical guarantees of these methods for MSR scenarios is what actually supports the use of CMA-based approaches for grant-free access in wireless communications.
+
+A natural extension of our project is to explore and adapt new non-convex optimization approaches to the CMA problem. In the case of Wirtinger Flow for phase retrieval, a number of new initialization procedures have been proposed \cite{Candes2015a_phaseretrievalWF,Chen2015truncatedwf,Zhang2016mediantruncatedwf,Bostan2018AcceleratedWF} that improve the sample efficiency, mostly based on trimming samples that act as outliers and yield more accurate initial estimates. 
+Some of these extensions are also shown to deal with arbitrary corruptions \cite{Zhang2016mediantruncatedwf} (as long as the corruptions are present only in a fraction of the observed samples) or random noise \cite{Cai2016thresholdedwf,Lazreg2018optimasparselrobustwf} (as long as the noise is bounded in some way). The extrapolation of these techniques to blind equalization is not necessarily straightforward, though, as in phase retrieval, the corruption and noise are added to the observed sampled data in the form 
+\begin{equation}
+y_k=|\bm{a}_k\herm\bm{z}|^2 + \eta_k+\omega_k,
+\end{equation} 
+with $\bm{a}_k$ the (known) sampling vectors, $\bm{z}$ the unknown variable, $\eta_k$ the corruption and $\omega_k$ the random noise. In the case of blind estimation, AWGN noise is added to the received symbols 
+\begin{equation}
+\bm{x}_k=\bm{H}\bm{s}_k+\bm{n}_k,
+\end{equation}
+and corruptions could be understood as deviations from the desired output radius $R_2$, as
+\begin{equation}
+y_k=R_2+\eta_k.
+\end{equation} 
+Studying the applicability of these new formulations (or potential changes) and theoretical guarantees (if any) for initialization methods in CMA could result in new methods better suited to blind estimation.
+
+As stated in Chapter~\ref{chap:RTR}, we also aim to explore different Riemannian manifolds that suit the recovery of multiple signals, avoiding regularization and thus hopefully reducing the computational cost of the algorithm, or improving the convergence speed. New manifolds imply the derivation of the geometry expressions analogue to the ones in Table~\ref{table:riemmann}, and the computational cost could be effectively reduced by means of removing the regularization in the cost function for multiple user recovery. Among several options, one strong candidate is the noncompact Stiefel manifold, that characterizes matrices with linearly independent columns, as this would eliminate the need of the covariance of the different combiners in the cost function. 
+
+Other extension is to include forward-error correction constraints into the optimization. When the receiver knows the codeword alphabet of the source(s), we aim to exploit this additional information into the optimization algorithm, possibly enhancing the source recovery capabilities of blind beamforming, or the performance speed of blind equalization. The addition of FEC constrains via linear programming have been succesfully applied for blind demixing by my fellow Ph.D. student Amin Jalali, and we want to investigate the impact of FEC constrains in the blind estimation problem, using linear programming techniques and/or soft information from the decoder.
+
+Finally, we also want to look into different cost functions that have been proposed for blind equalization and beamforming \cite{Benveniste1980bgr,Sato1975,Shalvi1990}. A number of works on phase retrieval have proposed techniques based on WF extensions for different cost functions \cite{Zhang2016mediantruncatedwf,Cai2016thresholdedwf,Lazreg2018optimasparselrobustwf} that resemble those proposed for blind equalization. Additionally, some of these cost functions are nonconvex and not smooth, and there are recent works in Riemannian Manifold optimization that deal with these type of functions \cite{Kovnatsky2016madmmriemann,Absil2019nonsmoothriemannian}. We think is interesting to study these new methods in the blind estimation context.
+
+
+

@@ -1,0 +1,43 @@
+\newpage
+{\baselineskip 14pt 
+\rightline{Carlos Feres}
+\rightline{914504993}}
+\vspace{10pt}
+\centerline{\Huge \bf {Abstract}} 
+\vspace{5pt}
+\addcontentsline{toc}{section}{Abstract}
+
+\begin{center}
+Geometrical Frameworks for Wireless Access in Large Scale Multi-Antenna Networks\\
+\end{center}
+\vspace{18pt}
+
+Explosive growth of mobile networking and IoT demands efficient and reliable service for massive wireless systems. With limited radio resources, multi-input-multi-output (MIMO) technologies are successfully utilizing spatial diversity to substantially improve spectral efficiency.  
+When considering large scale deployments, managing radio resource is more important than ever to service all these devices with appropriate quality of service. Moreover, in the context of performance-constrained, low-complexity devices, there is a clear need for new approaches that yield good performance with appropriate computational complexity.
+%, in both uplink and downlink.
+In this dissertation, we study such large scale networks from a geometric perspective, in order to
+%characteristics of the underlying geometry of these networks to 
+better manage the networks' limited resources and mitigate co-channel interference in two key scenarios: when the multi-antenna servicing node is unaware of which devices are active (uplink access control); and when it does know all active devices (user scheduling). 
+
+In the first part of this dissertation, we tackle the problem of uplink grant-based access via blind signal recovery. 
+%Different from traditional access mechanisms, in grant-free access the receiving node deals with signal collisions by multi-user detection. 
+%Due to the network characteristics, blind signal recovery is the  
+Different from traditional grant-free access mechanisms that use pilot signals for signal separation, we propose two blind approaches based on the Constant Modulus Algorithm (CMA) for simultaneous multiple signal recovery: a regularized CMA cost function, and a Riemannian manifold optimization framework. By characterizing the underlying geometry of these formulations, we provide theoretical convergence guarantees for CMA-based signal recovery with limited data samples. The resulting algorithms provide successful signal recovery with high probability and reasonable computational load.
+
+On the other hand, user scheduling is a combinatorial, NP-hard problem that has been long eluded optimal solutions. 
+In MIMO networks, users groups with low co-channel interference correspond to groups that show high spatial channel diversity. 
+In the second part of this dissertation, we propose a new two-step paradigm for MIMO user scheduling. First, unsupervised learning identifies which devices experience similar channel conditions (i.e., low spatial diversity) and would incur in high co-channel interference if they were to share resources. By clustering in the Grassmannian manifold, spatial similarity is inherent to the geometry and is easily computed in a global sense. We then leverage these learned features to assign users into low CCI groups that avoid pairings of users from the same cluster. The resulting similarity-assisted scheduling yields increased spectral efficiency and better user quality of service across design parametes for large number of users, compared to a direct scheduling mechanism.
+
+
+
+
+
+
+%My dissertation investigates geometrical frameworks to service users in large scale multi-antenna networks. 
+%Given a centralized multi-antenna base station (BS), we consider two separate scenarios: nodes with low-activity and high-activity. 
+
+%The former case is characterized by sporadic communications, and network coordination is impractical in a massive network. The goal is then to detect and recover transmitted signals in uplink. In this setting, the BS does not know channel state information of users (CSI), and it is inconvenient to use unique pilot sequences for estimating CSI. Thus, we propose the use of blind grant-free access. Our main contributions are the theoretical convergence of nonconvex CMA-based multiple signal recovery with a finite number of samples. First, forcing recovery of distinct signals via regularization, we establish local convergence with high probability by characterizing the geometry of the neighborhood of optimal solutions. Furthermore, we drop regularization and identify the signal orthogonality constraint as a Riemannian manifold, which we study to provide global convergence guarantees. Our methods yield efficient, successful recovery of all detected signals, with high probability, requiring only a modest number of data samples, and low computational complexity and runtime.
+
+%When considering high-activity nodes, network coordination is practical and the goal is to maximize spectral efficiency in both uplink and downlink. Now, the BS knows user CSIs and shall attempt to exploit spatial diversity to schedule users into resource-sharing groups with low co-channel interference. This is an NP-hard, combinatorial problem, even for a modest number of users. We propose a two-step strategy that first leverages unsupervised learning in the Grassmann manifold to identify similar CSIs in terms of spatial correlation, to then assist the scheduling process with the learned features, exploiting spatial diversity. Our low-complexity scheduling strategy proves to be both efficient and scalable for thousands of users, and moreover,  it can be generalized to different learning/scheduling methods and performance metrics.
+
+

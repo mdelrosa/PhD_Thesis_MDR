@@ -1,0 +1,39 @@
+\chapter{Future research directions}
+\label{chap:future}
+
+In the following, we discuss the extensions of our current work as well as possible
+future research directions. 
+
+%First, there is room to both improve the theoretical analysis for multiple source recovery, both for WF and RMSR. We have some work in these regard but is yet incomplete, and for the sake of brevity we omitted those analysis in this document. Obtaining theoretical guarantees of these methods for MSR scenarios is what actually supports the use of CMA-based approaches for grant-free access in wireless communications.
+
+A natural extension of first presented topics  is to explore and adapt new non-convex optimization approaches to the CMA problem. In the case of Wirtinger Flow for phase retrieval, a number of new initialization procedures have been proposed \cite{Candes2015a_phaseretrievalWF,Chen2015truncatedwf,Zhang2016mediantruncatedwf,Bostan2018AcceleratedWF} that improve the sample efficiency, mostly based on trimming samples that act as outliers and yield more accurate initial estimates. 
+Some of these extensions are also shown to deal with arbitrary corruptions \cite{Zhang2016mediantruncatedwf} (as long as the corruptions are present only in a fraction of the observed samples) or random noise \cite{Cai2016thresholdedwf,Lazreg2018optimasparselrobustwf} (as long as the noise is bounded in some way). The extrapolation of these techniques to blind equalization is not necessarily straightforward, though, as in phase retrieval, the corruption and noise are added to the observed sampled data in the form 
+\begin{equation}
+y_k=|\bm{a}_k\herm\bm{z}|^2 + \eta_k+\omega_k,
+\end{equation} 
+with $\bm{a}_k$ the (known) sampling vectors, $\bm{z}$ the unknown variable, $\eta_k$ the corruption and $\omega_k$ the random noise. In the case of blind estimation, AWGN noise is added to the received symbols 
+\begin{equation}
+\bm{x}_k=\bm{H}\bm{s}_k+\bm{n}_k,
+\end{equation}
+and corruptions could be understood as deviations from the desired output radius $R_2$, as
+\begin{equation}
+y_k=R_2+\eta_k.
+\end{equation} 
+
+Studying the applicability of these new formulations (or potential changes) and theoretical guarantees (if any) for initialization methods in CMA could result in new methods better suited to blind estimation.
+
+Another line of work is related to the analysis of different cost functions that have been proposed for blind equalization and beamforming \cite{Benveniste1980bgr,Sato1975,Shalvi1990}. A number of works on phase retrieval have proposed techniques based on WF extensions for different cost functions \cite{Zhang2016mediantruncatedwf,Cai2016thresholdedwf,Lazreg2018optimasparselrobustwf} that resemble those proposed for blind equalization.
+
+Additionally, future work may consider stronger initialization methods with provable convergence improvement for source signals without constant modulus, or theoretical analysis and convergence properties under noisy scenarios. 
+Other lines of research could focus on the inclusion of additional information for successful signal recovery, such as forward error correction codes \cite{Jalali2020}, or adapting the algorithm for signals that change constellation size over the duration of the data packet, e.g. WiFi, which has QPSK preambles and $M$-QAM payloads. 
+
+
+% RMSR
+Regarding the application of Riemannian geometry into the multiple source recovery problem, research paths are similar to the ones described above based on advances in Wirtinger-Flow adaptations. Some examples include the adaptation for multiple source recovery and equalization over MIMO ISI fading channels, a stochastic or mini-batch reformulation of the ROCMA algorithm, and most importantly, the definition of new geometrical perspectives that could exploit information from forward error correction procedures, or further improve the computational cost.
+Additionally, nonconvex and not smooth cost functions can also be adopted in Riemannian Optimization, as recent works present mechanisms that deal with these type of functions in this context \cite{Kovnatsky2016madmmriemann,Absil2019nonsmoothriemannian}. 
+
+
+% U-SCH
+Finally, our study of grant-free scheduling is still in early stages. The results are promising, although we realize that the system model is rather simple and could be generalized. One clear example is to consider systems with both time- and frequency-division multiple access (TDMA/FDMA), which are now commonplace in commercial applications. New geometries can leverage the similarity of users in multiple bands within a time slot, providing further insights to be considered while scheduling. When considering time/frequency slots (also known as resource blocks in cellular systems), users with different rate requirements could utilize multiple resource blocks in a given frame, and the allocation of users with unequal rates using CSI similarity is an interesting research direction. We also visualize the design of scheduling algorithms that can further exploit similarity information in terms of spectral efficiency, user data rate, and fairness, to name a few relevant metrics.
+
+

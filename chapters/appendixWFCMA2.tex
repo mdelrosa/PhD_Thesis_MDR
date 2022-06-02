@@ -1,0 +1,1998 @@
+\chapter{Proofs for CMA Convergence under Wirtinger Flow}
+
+\section{Technical Lemmas and Corollaries for Single Source Recovery} \label{appdx:wfcma_ssr}
+Here, we establish several useful results to prove Theorem~\ref{wfcma:thm:convergence_ssr}. \crfootnote{Part of this chapter is reprinted, with permission, from [C. Feres and Z. Ding, ``Wirtinger Flow Meets Constant Modulus Algorithm: Revisiting Signal Recovery for Grant-Free Access" in \textit{IEEE Transactions on Signal Processing (Early Access)}, Aug. 2021], its supplemental material, and followup modifications for final publication. Notations may have changed for consistency throughout this dissertation.} 
+\begin{lem}[Concentration of sample covariance]
+	\label{wfcma:lemma:concentration_covariance}
+	Consider independent subgaussian vectors $\bm{a}_k\in\mathbb{C}^L$. For every $\delta>0$, there exist $C(\delta)>0$ and $c(\delta)>0$ such that for $K\geq C(\delta)L$,
+	\begin{equation}
+		\bigg\|\frac{1}{K}\sum_{k=1}^K\bm{a}_k\bm{a}_k\herm-\mathbb{E}\{\bm{a}_k\bm{a}_k\herm\}\bigg\| \leq \delta,\nonumber%
+	\end{equation}
+	holds with probability of at least $1-2\e{-c(\delta) K}$.
+\end{lem}
+\begin{proof} Subgaussian vectors $\bm{a}_k$ can be defined as the independent rows of a $K\times L$ matrix $A$. Hence, Lemma~\ref{wfcma:lemma:concentration_covariance} is a direct consequence of \cite[Theorem 5.39]{Vershynin2012nonasymptoticmatrices}.
+\end{proof}	
+
+\begin{cor} \label{wfcma:cor:abs_s}	 
+	Under the conditions of Lemma~\ref{wfcma:lemma:concentration_covariance}, for $K\geq C(\delta)L$ and $\bm{h}\in\mathbb{C}^L$, with probability at least $1-2\e{-c(\delta) K}$,
+	\begin{equation}
+		-\delta\|\bm{h}\|^2\leq \frac{1}{K}\sum_{k=1}^K|\bm{a}_k\herm\bm{h}|^2- \bm{h}\herm\mathbb{E}\{\bm{a}_k\bm{a}_k\herm\}\bm{h}\leq\delta\|\bm{h}\|^2. \nonumber%\label{wfcma:wfcma:eqn:concentration_covariance}
+	\end{equation}
+\end{cor}
+
+The expectation of matrices $\bm{A}(\bm{q})$ and $\bm{B}(\bm{q})$ are:
+\begin{align}
+	\mathbb{E}\{\bm{A}(\bm{q})\}&=m_2^2(\|\bm{q}\|^2\bm{I} +\bm{q}\bm{q}\herm) + \kappa\ddiag(\bm{q}\bm{q}\herm),\nonumber\\
+	\mathbb{E}\{\bm{B}(\bm{q})\}&=2  m_2^2\bm{q}\bm{q}\T+\kappa\ddiag(\bm{q}\bm{q}\T).\nonumber
+\end{align}
+%and the expectation of the gradient of $f$ is
+%\begin{align}
+%	\mathbb{E}\{\nabla f(\bm{q})\}&=\mathbb{E}\big\{ \bm{A}(\bm{q})\bm{q}-R_2\bm{S}\bm{q}\big\}= \mathbb{E}\big\{ \bm{A}(\bm{q})\big\}\bm{q}-R_2\mathbb{E}\big\{\bm{S}\big\}\bm{q}\nonumber\\
+%	& = \big(m_2^2\|\bm{q}\|^2+m_2^2\bm{q}\bm{q}\herm+\kappa\ddiag(\bm{q}\bm{q}\herm)\big)\bm{q}-R_2m_2\bm{q}.\nonumber \label{wfcma:eqn:expectation_gradient}
+%\end{align}
+
+The solutions of the CMA problem of Eq.(\ref{wfcma:eqn:cma_orig}) are of the form $\bm{z}=\e{j\theta}\bm{e}_{\ell_j}$, with  $\ell_j\in\{1,\ldots,L\}, \theta\in[0,2\pi]$. 
+%Hence, $\|\bm{z}\|=1$ and the eigenvalues of the matrix $\ddiag(\bm{z}\bm{z}\herm)$ are equal to 1 (with multiplicity 1) and 0 (with multiplicity $L-1$). 
+%Hence, we have 
+%\begin{align}
+%	\mathbb{E}\{\nabla f(\bm{z})\}&= \big(m_2^2\|\bm{z}\|^2+m_2^2\bm{z}\bm{z}\herm+\kappa\ddiag(\bm{z}\bm{z}\herm)\big)\bm{z}-R_2m_2\bm{z}\nonumber\\
+%	&= 2m_2^2\bm{z}+\kappa\ddiag(\bm{z}\bm{z}\herm)\bm{z}-(\kappa+2m_2^2)\bm{z}\nonumber\\
+%	&= \kappa\big(\ddiag(\bm{z}\bm{z}\herm)-\bm{I}\big)\bm{z}= \kappa\big(\ddiag(\bm{e}_{\ell})-\bm{I}\big)\e{j\theta_{\ell}}\bm{e}_{\ell} = \bm{0}\label{wfcma:eqn:expectation_gradient_z}
+%\end{align}
+%
+%The following Corollary establishes that the gradient of $f$ at a CMA solution is an approximate stationary point, which often suffices for gradient descent to 
+%\begin{cor}[Concentration of the gradient at a CMA solution] \label{wfcma:cor:concentration_gradient_z}  
+%	Suppose $K\geq C_1(\delta)L$. Then, with probability at least $1-6\e{-c_1(\delta)K}$,
+%	\begin{equation}
+	%		\big\|\nabla f(\bm{z})\big\|=\|\nabla f(\bm{z})-\mathbb{E}\{\nabla f(\bm{z})\}\big\|\leq \frac{\delta}{4}. \nonumber\label{wfcma:eqn:concentration_gradient_z}
+	%	\end{equation}
+%\end{cor}
+%\begin{proof}
+%	From Lemma 1, it follows that $-\delta/8\bm{I}\preceq\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\preceq\delta/8\bm{I}$ and  $-(8R_2)^{-1}\delta\bm{I}\preceq\bm{S}-\mathbb{E}\{\bm{S}(\bm{z})\}\preceq(8R_2)^{-1}\delta\bm{I}$. Therefore, via the triangular inequality, for all $\bm{u}$ such that $\|\bm{u}\|=1$, we have
+%	\begin{align}
+	%		\Big|\bm{u}\herm\big(\nabla f(\bm{z})-\mathbb{E}\{\nabla f(\bm{z})\}\big)\Big|
+	%		&\leq \Big|\bm{u}\herm\big(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\bm{z}\Big|+R_2\Big|\bm{u}\herm\big(\bm{S}-\mathbb{E}\{\bm{S}\}\big)\bm{z}\Big|\nonumber\\
+	%		&\leq \big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\big\|\|\bm{z}\|+R_2\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|\|\bm{z}\|\nonumber\\
+	%		&\leq \frac{\delta}{8}+R_2\frac{\delta}{8R_2}=\frac{\delta}{4}.
+	%	\end{align}
+%\end{proof}
+
+
+Two corollaries are helpful to prove Lemmas~\ref{wfcma:lem:lcc} and~\ref{wfcma:lem:lsc}:
+\begin{cor} \label{wfcma:cor:absabs} %cor:hAzh
+	Let $K\geq C_1(\delta)L$. Then, with probability of at least $1-6\e{-c_1(\delta)K}$, for all $\bm{h}\in\mathbb{C}^L$ such that $\|\bm{h}\|=1$, we have
+	\begin{align}
+%		&
+		(m_2^2 - \delta)\|\bm{h}\|^2 + (m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2 
+%		\nonumber\\&\quad
+		\leq   \frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2 
+%		\nonumber\\&\quad
+		\leq(m_2^2 +\delta)\|\bm{h}\|^2 + (m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2. \nonumber%\label{wfcma:eqn:A_Bounds}
+	\end{align}
+\end{cor}
+\begin{proof}
+	Note that 
+	$
+	\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2=\bm{h}\herm\bm{A}(\bm{z})\bm{h} \nonumber
+	$
+	and from Lemma~\ref{wfcma:lemma:concentration_hessian} it follows that $-\delta\bm{I}\preceq\textbf{}\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\preceq\delta\bm{I}$. For the lower bound, we obtain
+	\begin{align}
+		\bm{h}\herm\bm{A}(\bm{z})\bm{h}&
+		% \nonumber\\&\quad
+		\geq m_2^2(\|\bm{h}\|^2+|\bm{h}\herm\bm{z}|^2) - \delta\|\bm{h}\|^2
+%		\nonumber\\&\quad
+		+\kappa \bm{h}\herm\big(\ddiag(\bm{zz}\herm)\big)\bm{h},\nonumber % \qedhere
+	\end{align}
+	
+	and knowing that $\bm{z}=\e{\theta}\bm{e}_{\ell}$, we have
+	\begin{align}
+		&\kappa \bm{h}\herm\big(\ddiag(\bm{zz}\herm)\big)\bm{h}=\kappa \sum_{a=1}^L|\overline{h_a}z_a|^2=\kappa|\bm{h}\herm\bm{z}|^2.\nonumber%\geq\kappa\|\bm{h}\|^2.\nonumber (this applies only for our z and h, not for all)
+	\end{align}
+	The upper bound is obtained similarly.
+\end{proof}
+
+\begin{cor} \label{wfcma:cor:re2} %cor:rehhz2
+	Let $K\geq C_1(\delta)L$. Then, with probability of at least $1-6\e{-c_1(\delta)K}$, for all $\bm{h}\in\mathbb{C}^L$ such that $\|\bm{h}\|=1$, we have
+	\begin{align}
+		&\frac{m_2^2-\delta}{2}\|\bm{h}\|^2+\frac{3m_2^2+2\kappa}{2}\re(\bm{h}\herm\bm{z})^2-\frac{m_2^2}{2}\im(\bm{h}\herm\bm{z})^2\nonumber\\
+		&\quad\leq\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2\nonumber\\
+		&\quad\leq  \frac{m_2^2+\delta}{2}\|\bm{h}\|^2+\frac{3m_2^2+2\kappa}{2}\re(\bm{h}\herm\bm{z})^2-\frac{m_2^2}{2}\im(\bm{h}\herm\bm{z})^2. \nonumber%\label{wfcma:eqn:Rehssz_Bounds}
+	\end{align}
+\end{cor}
+\begin{proof}
+	Lemma~\ref{wfcma:lemma:concentration_hessian} states that 	$\delta\bm{I}\preceq\bm{U}(\bm{z})-\mathbb{E}\{\bm{U}(\bm{z})\}\preceq\delta\bm{I}$.
+	For the lower bound, recall that  $2\re(c)^2=|c|^2+\re(c^2)$ for $c\in\mathbb{C}$, and 
+	\begin{align}
+		&\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2
+		=\frac{1}{4}\begin{bmatrix}
+			\bm{h}\\%[0.2em]
+			\overline{\bm{h}}
+		\end{bmatrix}\herm
+		\begin{bmatrix}
+			\bm{A}(\bm{z})&\bm{B}(\bm{z})\\%[0.2em]
+			\overline{\bm{B}(\bm{z})}&\overline{\bm{A}(\bm{z})}
+		\end{bmatrix}
+		\begin{bmatrix}
+			\bm{h}\\%[0.2em]
+			\overline{\bm{h}}
+		\end{bmatrix}\nonumber\\
+		&\quad\geq\frac{m_2^2-\delta}{2}\|\bm{h}\|^2+\frac{3m_2^2}{2}\re(\bm{h}\herm\bm{z})^2-\frac{m_2^2}{2} \im(\bm{h}\herm\bm{z})^2
+		\nonumber\\&\qquad\quad
+		+\frac{\kappa}{2}\re\Big(\bm{h}\herm\big(\ddiag(\bm{zz}\herm)\big)\bm{h}+\bm{h}\herm\big(\ddiag(\bm{zz}\T)\big)\overline{\bm{h}}\Big). \nonumber%\label{wfcma:eqn:cor1_lower_bound_1}
+	\end{align}
+	
+	Knowing that $\bm{z}=\e{\theta}\bm{e}_{\ell}$, the last term is equal to 
+	\begin{align}
+		&\frac{\kappa}{2}\re\Big(\bm{h}\herm\big(\ddiag(\bm{zz}\herm)\big)\bm{h}+\bm{h}\herm\big(\ddiag(\bm{zz}\T)\big)\overline{\bm{h}}\Big)
+%		\nonumber\\&\quad
+		=\kappa\sum_{a=1}^L\re(\overline{h_a}z_a)^2=\kappa\re(\bm{h}\herm\bm{z})^2.\nonumber%\geq\kappa\|\bm{h}\|^2.\nonumber (this applies only for our z and h, not for all)
+	\end{align}
+	
+	The upper bound is obtained similarly.
+\end{proof}
+
+
+\section{Proof of Lemma~\ref{wfcma:lemma:concentration_hessian}}\label{wfcma:appdx:concentration_hessian}
+
+Rewrite the Hessian
+\begin{align}
+	\nabla^2f(\bm{z})&=\begin{bmatrix}
+		\bm{A}(\bm{z})&\bm{B}(\bm{z})\\%[0.2em]
+		\overline{\bm{B}(\bm{z})}&\overline{\bm{A}(\bm{z})}
+	\end{bmatrix}+\begin{bmatrix}
+		\bm{A}(\bm{z})&\bm{0}\\%[0.2em]
+		\bm{0}&\overline{\bm{A}(\bm{z})}\end{bmatrix}
+	-R_2\begin{bmatrix}
+		\bm{S}&\bm{0}\\%[0.2em]
+		\bm{0}&\overline{\bm{S}}\end{bmatrix}\nonumber\\
+	&=\bm{U}(\bm{z})+\bm{A}'(\bm{z})-R_2\bm{S}'.\nonumber
+\end{align}
+
+Observe that $\bm{U}(\bm{z})$ corresponds to the Hessian of the Phase Retrieval problem, which differs from the CMA Hessian due to the use of a desired average magnitude instead of known sampled amplitudes. Using the triangle inequality, to prove the lemma we show that
+\begin{align}
+	\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|&\leq \delta_S={\delta}/{(8R_2)}, \label{wfcma:eqn:concentration_ineq_S}\\
+	\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\big\|&\leq \delta_A={\delta}/{8}, \label{wfcma:eqn:concentration_ineq_A}\\
+	\|\bm{U}(\bm{z})-\mathbb{E}\{\bm{U}(\bm{z})\}\|&\leq 
+	\delta_U={\delta}/{2}. \label{wfcma:eqn:concentration_ineq_U}
+\end{align}
+
+Recall that the signal vectors are independent for $k\in\{1,\ldots,K\}$. Moreover, QAM constellations are bounded. Thus, the signal vectors are subgaussian. Hence, via Lemma~\ref{wfcma:lemma:concentration_covariance},  Eq.(\ref{wfcma:eqn:concentration_ineq_S}) holds with probability of at least $1-2\e{-c_3(\delta_S)K}$ by choosing $K\geq C_3(\delta_S)L$.
+
+Let $\bm{a}_k= \big(\bm{s}_k\herm\bm{z}\big) \bm{s}_k$, which are independent for $k\in\{1,\ldots,K\}$. Note that $\bm{s}_k\herm\bm{z}=\sqrt{m_2}\,\e{j\varphi}\overline{s_{\ell_j}[k]}$. Therefore, vectors $\bm{a}_k$ have bounded, discrete elements over an exponentially large set, and as such they are subgaussian \cite{Vershynin2018hdprobability}. Additionally, we have
+\begin{align}
+	\bm{A}(\bm{z})= \frac{1}{K}\sum_{k=1}^K \bm{a}_k\bm{a}_k\herm.\nonumber
+\end{align}
+
+Therefore, by invoking Lemma~\ref{wfcma:lemma:concentration_covariance},   Eq.(\ref{wfcma:eqn:concentration_ineq_A}) holds with probability of at least $1-2\e{-c_4(\delta_A)K}$ for $K\geq C_4(\delta_A)L$.
+
+Now define $\bm{u}_k\herm=[\bm{a}_k\herm\,\,\bm{a}_k\T ]$. Using a similar reasoning as above, $\bm{u}_k$ are also subgaussian and independent for $k\in\{1,\ldots,K\}$, and 
+\begin{align}
+	\bm{U}(\bm{z})= \frac{1}{K}\sum_{k=1}^K\bm{u}_k\bm{u}_k\herm. \nonumber
+\end{align}
+
+Lemma~\ref{wfcma:lemma:concentration_covariance} then states that Eq.(\ref{wfcma:eqn:concentration_ineq_U}) holds with probability of at least $1-2\e{-c_5(\delta/2)K}$ by choosing $K\geq C_5(\delta_U)L$.
+
+Finally, set $C_1(\delta)\geq\max\{C_3(\delta_S),C_4(\delta_A),C_5(\delta_U)\}$. By selecting $K\geq C_1(\delta)L$, Lemma~\ref{wfcma:lemma:concentration_hessian} holds with probability of at least $1-6\e{-c_1(\delta)K}$, where $c_1(\delta)=\min\{c_3(\delta_S),c_4(\delta_A),c_5(\delta_U)\}$.
+
+\section{Proof of Lemma~\ref{wfcma:lem:lcc}}\label{wfcma:appdx:llc}
+Let $\bm{q}\in E(\epsilon)$ and $\bm{h}=\e{-i\phi(\bm{q})}\bm{q}-\bm{z}$. Hence $\|\bm{h}\|\leq\epsilon$ and $\im(\bm{h}\herm\bm{z})=0$, as $\bm{h}$ and $\bm{z}$ are geometrically aligned:
+\begin{align}
+	\bm{h}\herm\z&=\e{-i\angle(\bm{q}\herm\bm{z})}\bm{q}\herm\z-\bm{z}\herm\z %\nonumber\\&
+	=|\bm{q}\herm\z|-\|\bm{z}\|^2\in\mathbb{R}.
+\end{align}
+
+%Recall that $\nabla f(\e{j\theta}\bm{z})\approx0$ for any $\theta\in[0,2\pi]$, thus 
+The proof is equivalent to proving
+\begin{align}
+	%	&\mathrm{Re}\Big( \big\langle\nabla f(\bm{q}), \bm{q} - \e{j\phi(\bm{q})}\z\big\rangle\Big)\nonumber\\
+	&\mathrm{Re}\Big( \big\langle\nabla f(\bm{q})-\nabla f(\e{j\phi(\bm{q})}\bm{z}), \bm{q} - \e{j\phi(\bm{q})}\z\big\rangle\Big)\nonumber\\
+	&\quad=\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+%	\nonumber\\&\qquad
+	+\frac{19}{20}|\bm{s}_k\herm\bm{h}|^4+
+	\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+	\nonumber\\
+	&\quad\geq \Big( \frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}\Big)\|\bm{h}\|^2\nonumber
+\end{align}
+for all $\bm{h}$ satisfying $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|\leq\epsilon$. 
+It suffices to show that for all $\bm{h}$ such that $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon$, the following inequality holds
+\begin{align}
+	&\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+%	\nonumber\\&\qquad
+	+\frac{19}{20}\xi^2|\bm{s}_k\herm\bm{h}|^4+
+	\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)\nonumber\\
+	&\quad \geq \frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}. \nonumber
+\end{align}
+
+Invoking Corollary~\ref{wfcma:cor:re2}, we show that for all $\bm{h}$ such that $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon$,
+\begin{align}
+	&\frac{1}{K}\sum_{k=1}^K\Big(\frac{45}{19}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+%	\nonumber\\&\qquad
+	+\frac{19}{20}\xi^2|\bm{s}_k\herm\bm{h}|^4+
+	\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)\nonumber\\
+	&\quad
+	\geq  \frac{1}{\alpha}+\frac{11m_2^2-2R_2m_2+5\delta}{38} +\frac{21m_2^2+14\kappa}{38}\re(\bm{h}\herm\bm{z})^2. \label{wfcma:eqn:llc_lemma_proof}
+\end{align}
+
+For constant modulus signals, the last averaging term of the LHS of Eq.(\ref{wfcma:eqn:llc_lemma_proof}) is zero. For non-constant modulus QAM signals, the term is bounded by Corollaries~\ref{wfcma:cor:abs_s} and~\ref{wfcma:cor:absabs}:
+\begin{align}
+	\frac{1}{K}\sum_{k=1}^K\Big(|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}|^2-R_2|\bm{s}_k\herm\bm{h}|^2\Big)
+%	\nonumber\\&\qquad 
+	\geq\big( m_2^2-R_2m_2-(1+R_2)\delta+(m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2\big).\nonumber
+\end{align}
+
+Let 
+\begin{align}
+	\bm{Y}(\bm{h},\xi)=\frac{1}{K}\sum_{k=1}^K\Big(\frac{45}{19}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2
+%	\nonumber\\&\qquad
+	+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{19\xi^2}{20}|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber% \label{wfcma:eqn:ineq1}
+\end{align}
+
+Since $(a-b)^2\geq\frac{a^2}{2}-b^2$, we have that
+\begin{align}
+	\bm{Y}(\bm{h},\xi)
+%	\nonumber\\&
+	&\geq\Bigg(\sqrt{\frac{45}{19K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2}-\sqrt{\frac{19\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4}\Bigg)^2\nonumber\\
+	&\geq \frac{45}{38K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2-\frac{19\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber% \label{wfcma:eqn:ineq1}
+\end{align}
+
+By means of Corollary~\ref{wfcma:cor:abs_s}, with high probability we have
+\begin{align}
+	\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\leq\max_k\|\bm{s}_k\|^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2\Big)\leq B^2L(m_2+\delta).\nonumber
+\end{align}
+
+Using this result and the first inequality of Corollary~\ref{wfcma:cor:re2}, for
+$\|\bm{h}\|=1$, it holds with high probability that
+\begin{align}
+	\bm{Y}(\bm{h},\xi)&\geq\frac{135m_2^2+90\kappa}{76}\re(\bm{h}\herm\bm{z})^2+\frac{45}{76}(m_2^2-\delta)
+%	\nonumber\\&\quad\quad
+	-\frac{19B^2L}{20}\xi^2(  m_2+\delta).\nonumber
+\end{align}
+
+Hence, Lemma~\ref{wfcma:lem:lcc} holds under the following condition:
+\begin{align}
+	&\frac{135 m_2^2+90\kappa}{76}\re(\bm{h}\herm\bm{z})^2+\frac{45}{76}(m_2^2-\delta)-\frac{19B^2L}{20}\xi^2(  m_2+\delta)\nonumber\\
+	&\quad+\big( m_2^2-R_2m_2-(1+R_2)\delta+(m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2\big)\cdot\bm{1}[Q\neq 4] \nonumber\\
+	&\quad\geq  \frac{1}{\alpha}+\frac{11m_2^2-2R_2m_2+5\delta}{38} +   \frac{21m_2^2+14\kappa}{38}\re(\bm{h}\herm\bm{z})^2.\label{wfcma:eqn:lcc_alpha}
+\end{align}
+
+With $\xi\leq\epsilon=(10B\sqrt{L})^{-1}$ and $\delta\leq0.01$, Eq.(\ref{wfcma:eqn:lcc_alpha}) holds for 
+\begin{align}
+	\begin{array}{lcc}
+		\alpha\geq 3&\text{for}&Q=4,\\
+		\alpha\geq 83&\text{for}&Q\neq4.\\
+	\end{array}	\nonumber
+\end{align} 
+
+\section{Proof of Lemma~\ref{wfcma:lem:lsc}}\label{wfcma:appdx:lsc}
+Let $\bm{q}\in E(\epsilon)$ and $\bm{h}=\e{-i\phi(\bm{q})}\bm{q}-\bm{z}$. For any $\bm{u}\in\mathbb{C}^L$ such that $\|\bm{u}\|=1$, let $\bm{v}=\e{-i\phi(\bm{q})}\bm{u}$. 
+%Recall that $f(\e{j\theta}\bm{z})\approx0$ for any $\theta\in[0,2\pi]$. 
+Therefore, it suffices to show that 
+\begin{align}
+	&\Big|\bm{u}\herm\big(\nabla f(\bm{q})-\nabla f(\e{j\phi(\bm{q})}\bm{z})\big)\Big|^2\nonumber\\
+	&\,\,=\bigg|\frac{1}{K}\sum_{k=1}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\Big(|\bm{s}_k\herm\bm{h}|^2+2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})\Big)
+	\nonumber\\&\qquad\qquad
+	+\Big(|\bm{s}_k\herm\bm{h}|^2+2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})+|\bm{s}_k\herm\bm{z}|^2-R_2\Big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\bigg|^2\nonumber\\
+	&\,\,\leq\bigg(\frac{1}{K}\sum_{k=1}^K2|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}| +3|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2
+%	\nonumber\\&\quad
+	+|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|
+	\nonumber\\&\qquad
+	+\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\bigg)^2\nonumber\\
+	&\,\,\leq\beta\Big(\frac{2  m_2^2-R_2m_2-\delta}{19}\|\bm{h}\|^2+\frac{1}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\nonumber
+\end{align}
+holds for all $\bm{h}$ and $\bm{v}$ such that $\im(\bm{h}\herm\bm{z})=0$, $\|\bm{h}\|\leq\epsilon$, and $\|\bm{v}\|=1$. Equivalently, we prove that for all $\bm{h}$ and $\bm{v}$ such that $\im(\bm{h}\herm\bm{z})=0$, $\|\bm{h}\|=\|\bm{v}\|=1$ and
+for all $\xi$ with $0\leq \xi\leq \epsilon$, the following inequality holds
+\begin{align}
+	&\bigg(\frac{1}{K}\sum_{k=1}^K2|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}| +3\xi|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2
+%	\nonumber\\&\quad
+	+\xi^2|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|
+	\nonumber\\&\qquad
+	+\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\bigg)^2
+	\nonumber\\
+	&\,\,\leq\beta\Big(\frac{2  m_2^2-R_2m_2+\delta}{19}+\frac{\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber
+\end{align}
+
+Note that $|\bm{s}_k\herm\bm{z}|^2=m_2=R_2$ for constant-modulus signals, and thus the last term in the LHS is zero if $Q=4$, and non-zero otherwise. Let $D=3+\bm{1}[Q\neq4]$, and knowing that $\big(\sum_{i=1}^n a_i\big)^2\leq n\sum_{i=1}^n a_i^2$, we have
+\begin{align}
+	&\Big|\bm{u}\herm\big(\nabla f(\bm{q})-\nabla f(\e{j\phi(\bm{q})}\bm{z})\big)\Big|^2\nonumber\\
+ 	&\quad
+	\leq 4D\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|\Big)^2  
+%	\nonumber\\&\qquad
+	+9D\xi^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2\Big)^2
+	\nonumber\\&\qquad
+	+D\xi^4\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|\Big)^2
+%	\nonumber\\&\qquad
+	+\Big|\frac{1}{K}\sum_{k=1}^K\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\Big|^2\cdot\bm{1}[Q\neq4]\nonumber\\
+	&\quad\leq 4DI_1+9D\xi^2I_2+D\xi^4I_3+I_4\cdot\bm{1}[Q\neq4].\nonumber
+\end{align}
+
+We now bound these terms on the right-hand side. By means of the Cauchy-Schwarz inequality and Corollary~\ref{wfcma:cor:absabs},
+\begin{align}
+	I_1&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}|^2\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2\Big)
+%	\nonumber\\&
+	\leq(2  m_2^2+\kappa+\delta)^2,\nonumber
+\end{align}
+and
+\begin{align}
+	I_2&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{v}|^2|\bm{s}_k\herm\bm{z}|^2\Big)
+%	\nonumber\\&
+	\leq\frac{2  m_2^2+\kappa+\delta}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber
+\end{align}
+
+Invoking Corollary~\ref{wfcma:cor:abs_s}, the bounded norm $\|\bm{s}_k\|\leq B\sqrt{L}$, and the Cauchy-Schwarz inequality, we obtain
+\begin{align}
+	I_3&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3\max_{k}\|\bm{s}_k\|\Big)^2
+	%\nonumber\\&
+	\leq\frac{B^2L(  m_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber
+\end{align}
+
+For non-constant modulus QAM signals, we can bound $I_4$ by invoking Corollaries~\ref{wfcma:cor:abs_s} and~\ref{wfcma:cor:absabs}:
+\begin{align}
+	I_4&=\Big|\bm{h}\herm\big(\bm{A}(\bm{z})-R_2\bm{S}\big)\bm{h}\Big|^2
+%	\nonumber\\&
+	\leq \Big|m_2^2-R_2m_2-(1+R_2)\delta\big|^2=\big(m_2^2+\kappa+(1+R_2)\delta\big)^2.\nonumber
+\end{align}
+
+Therefore, we obtain
+\begin{align}
+	\big\|\nabla f(\bm{q})\big\|^2 
+%	\nonumber\\
+	&=
+	\max_{\|\bm{u}\|=1}\Big|\bm{u}\herm\big(\nabla f(\bm{q})-\nabla f(\e{j\phi(\bm{q})}\bm{z})\big)\Big|^2
+	\nonumber\\&
+%	\quad
+	\leq 4D(2 m_2^2+\kappa+\delta)^2
+%	\nonumber\\&\qquad
+	+\frac{9D\xi^2(2 m_2^2+\kappa+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4
+	\nonumber\\&\qquad
+	+\frac{DB^2L\xi^4(  m_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4
+%	\nonumber\\&\qquad
+	+\big(m_2^2+\kappa+(1+R_2)\delta\big)^2\cdot\bm{1}[Q\neq 4]
+	\nonumber\\
+	%\big(\xi^2+\big)\nonumber\\
+	%&\quad+3s|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}||\bm{v}\herm\bm{s}_k|\nonumber\\
+%	&\quad
+	&\leq\beta\Big(\frac{2  m_2^2-R_2m_2-\delta}{19}+\frac{\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber
+\end{align}
+
+Hence, Lemma~\ref{wfcma:lem:lsc} holds under the following condition:
+\begin{align}
+	\beta\geq&\max\Big\{\frac{76D(2m_2^2+\kappa+\delta)^2}{2m_2^2-R_2m_2-\delta}
+%	\nonumber\\&\qquad 
+	+\frac{19(m_2^2+\kappa+(1+R_2)\delta\big)^2}{2m_2^2-R_2m_2-\delta}\cdot\bm{1}[Q\neq4], \nonumber\\
+	&\qquad 180D(2m_2^2+\kappa+\delta)+20DB^2L\epsilon^2(m_2+\delta)\Big\}.\label{wfcma:eqn:lsc_beta}
+\end{align}
+
+With $\epsilon=(10B\sqrt{L})^{-1}$ and $\delta\leq0.01$, Eq.(\ref{wfcma:eqn:lsc_beta}) holds for 
+\begin{align}
+	\begin{array}{lcc}
+		\beta\geq 235&\text{for}&Q=4,\\
+		\beta\geq 959&\text{for}&Q\neq4.\\
+	\end{array}	\nonumber
+\end{align} 
+
+
+
+
+
+
+
+
+
+
+
+\section{Technical Lemmas and Corollaries for Multiple Source Recovery} \label{appdx:wfcma_msr}
+
+We first introduce additional notations to aid exposition. Using the overall system parameter space $\bm{q}$, we rewrite the cost function for MSR as
+\begin{align}
+	g(\bm{q})=\sum_{\ell=1}^J f(\bm{q}_{\ell}) +\gamma_0\sum_{\ell=1}^J\sum_{i\neq {\ell}}^J\big|\bm{q}_{i}\bm{S}\bm{q}_{\ell}\big|^2 = \sum_{\ell=1}^J f(\bm{q}_{\ell}) +\gamma_0 r(\bm{q}), \label{eqn:cma_msr_qspace}
+\end{align}
+where $\bm{q}=\big[\bm{q}_1\T\;\ldots\;\bm{q}_J\T\,\big]\T$ is the aggregation of the $J$ demixers, $f$ is the CMA cost function for single source recovery, and $\bm{S}$ is the sample covariance matrix of source signals.
+The gradient of $g$, using Wirtinger calculus, is given by
+\begin{align}
+	\nabla_{\ell} g&=\frac{1}{K}\sum_{k=1}^K\Big(|\bm{s}_k\herm\bm{q}_{\ell}|^2-R_2\Big)\bm{s}_k\bm{s}_k\herm\bm{q}_{\ell}+\gamma_0\sum_{i\neq {\ell}}^J\bm{S}\bm{q}_{i}\bm{q}_{i}\herm\bm{S}\bm{q}_{\ell} = \nabla f(\bm{q}_{\ell}) + \gamma_0 \nabla_{\ell} r(\bm{q}), \label{eqn:wfgradient_msr}
+\end{align}
+and the Wirtinger Hessian of the cost function $g$ is
+\begin{align}
+	\nabla^2 g(\bm{q})
+	&= \mathrm{Bdiag}\Big(\big\{\nabla^2 f(\bm{q}_{\ell})\big\}_{{\ell}=1}^J\Big)
+	%\nonumber\\&\quad\preceq
+	+\gamma_0\begin{bmatrix}
+		\bm{G}_{1}(\bm{q}) & \cdots&\bm{H}_{1 J}(\bm{q})\\
+		\vdots & \ddots&\vdots\\
+		\bm{H}_{J 1}(\bm{q}) & \cdots&\bm{G}_{J}(\bm{q})\\
+	\end{bmatrix} 
+	\nonumber\\
+	&=
+	\mathrm{Bdiag}\Big(\big\{\nabla^2 f(\bm{q}_{\ell})\big\}_{{\ell}=1}^J\Big)
+	%\nonumber\\&\quad\preceq
+	+\gamma_0\nabla^2 r(\bm{q}).\label{eqn:hessian_msr}
+\end{align}
+%where $\mathrm{Bdiag}()$ constructs a block diagonal matrix out of the matrices 
+%\begin{align}
+%	\nabla^2 f(\bm{q}_{\ell}) &=\begin{bmatrix}
+%		2\bm{A}(\bm{q}_{{\ell}})-R_2\bm{S} & \bm{B}(\bm{q}_{{\ell}})\\[0.5em]
+%		\overline{\bm{B}(\bm{q}_{{\ell}})} &2\overline{\bm{A}(\bm{q}_{{\ell}})}-R_2\overline{\bm{S}}\\
+%	\end{bmatrix}.\label{eqn:hessianMatricesV_msr}
+%\end{align}
+%
+%$\bm{A}(\bm{q}_{{\ell}})$, $\bm{B}(\bm{q}_{{\ell}})$, and $\bm{S}$ have been defined in the main text, and % evaluated at $\bm{q}_{{\ell}}$,
+%\begin{align}
+%	\bm{G}_{{\ell}}(\bm{q}) &=\begin{bmatrix}
+%		\bm{C}_{{\ell}}(\bm{q}) & \bm{0}\\[0.5em]
+%		\bm{0} &\overline{\bm{C}_{{\ell}}(\bm{q})}\\
+%	\end{bmatrix},\quad
+%	\bm{C}_{{\ell}}(\bm{q}) = \sum_{i\neq {\ell}}^J\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}. \label{eqn:hessianC_msr}
+%\end{align}
+%
+%Furthermore, we have 
+%\begin{align}
+%	\bm{H}_{{\ell}i}(\bm{q}) &=\begin{bmatrix}
+%		\bm{E}_{{\ell}i}(\bm{q}) & \bm{F}_{{\ell}i}(\bm{q})\\[0.5em]
+%		\overline{\bm{F}_{{\ell}i}(\bm{q})} &\overline{\bm{E}_{{\ell}i}(\bm{q})}
+%	\end{bmatrix},\quad
+%	%\nonumber\\
+%	\bm{E}_{{\ell}i}(\bm{q}) =\bm{q}_i\herm\bm{S}\bm{q}_{\ell}\bm{S},\quad
+%	\bm{F}_{{\ell}i}(\bm{q}) = \bm{S}\bm{q}_i\bm{q}_{\ell}\T\bm{S}^T.\label{eqn:hessianF_msr}
+%\end{align}
+
+
+
+%We now introduce the convergence analysis of Algorithm~\ref{alg:wf-msr}. 
+%\begin{thm2} \label{thm:convergence_msr}
+%Consider signal vectors $\bm{s}_k\in\mathbb{C}^L$ with elements 
+%that are i.i.d. from a square QAM constellation. Let $\bm{z}$ be a solution of the MSR CMA problem with cost function (\ref{eqn:cma_msr}). Moreover, let $\alpha\geq30$, $\beta\geq580$, $\epsilon=\sqrt{J}(2 B\sqrt{L})^{-1}$, $\gamma_0=1$ and $\delta=0.1$. Then, there exist $C_2>0$ and $c_2>0$ such that, if the number of samples $K\geq C_2 L$, then for all $\bm{q}\in E(\epsilon)$, the cost function $g(\cdot)$ satisfies the generalized regularity condition
+%	\begin{align}
+	%	&\mathrm{Re}\Big( \big\langle\nabla_{\ell} g(\bm{q}), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell}\big\rangle\Big) \geq
+	%	\nonumber\\ &\qquad
+	%	\frac{1}{\alpha}\mathrm{dist}^2(\bm{q}_{\ell},\bm{z}_{\ell}) + \frac{1}{\beta}\big\|\nabla_{\ell} g(\bm{q})\big\|^2 \label{eqn:regularity_condition_msr}
+	%	\end{align}
+%with probability at least $1 -6\e{-c_2K}$.
+%Furthermore, by selecting a stepsize $0 < \mu \leq 2/\beta$ and
+%$\bm{q}^{t}\in E(\epsilon)$, then 
+%the MSR WF-CMA updates from Algorithm~\ref{alg:wf-msr}
+%	\begin{equation}
+	%\bm{q}_{\ell}^{t+1} = \bm{q}_{\ell}^t - \mu\nabla_{\ell} g(\bm{q}^t )
+	%	\end{equation}
+%will lead to $\bm{q}^{t+1}\in E(\epsilon)$ and
+%	\begin{equation}
+	%	\mathrm{dist}^2	(\bm{q}^{t+1} ,\bm{z}) \leq \Big(1 -\frac{2\mu}{\alpha}\Big) \mathrm{dist}^2	(\bm{q}^t,\bm{z}). \label{eqn:contraction_thm_msr}
+	%	\end{equation}
+%\end{thm2}
+%
+%The proof of Theorem~\ref{thm:convergence_msr} follows a similar approach as
+%proof of Theorem~\ref{thm:convergence_ssr}, 
+%with requisite modifications to account for the additional terms 
+%in the cost function $g(\cdot)$, i.e. the multiple 
+%CM costs for each demixer 
+%and the pairwise covariances of demixers in Eq.(\ref{eqn:cma_msr_qspace}). To summarize:
+%\begin{enumerate}
+%	\item {\bf Establish concentration of measure for the MSR Hessian.} Lemma~\ref{lemma:concentration_hessian_msr} proves that the MSR Hessian is also close to its expected value with high probability.%, we show that with high probability, the WF-CMA Hessian is close to its expected value provided a sufficient number of samples. %This result also requires  the concentration of the sample covariance matrix of the signal vectors.   
+%	\item {\bf Describe local geometry of the MSR cost function.} We show that the MSR cost function exhibits strong convexity and smoothness in the $\epsilon$-vicinity of the ground truth. These properties are proven in Lemmas~\ref{lem:lcc_msr} and~\ref{lem:lsc_msr} by way of Lemmas~\ref{lemma:concentration_hessian}, \ref{lem:lcc}, \ref{lem:lsc} and \ref{lemma:concentration_hessian_msr}. 
+%	\item {\bf Prove that the MSR update is a contraction.} This is shown in Lemma~\ref{lemma:contraction_msr} for iteration within the basin of attraction $E(\epsilon)$. 
+%\end{enumerate}
+%The detailed proofs of the following lemmas are omitted for brevity, and can
+%be found in our supplemental material \cite{postedSupplemental}.
+%
+%\begin{lem}[Concentration of the MSR Hessian] \label{lemma:concentration_hessian_msr} 
+%	Let $\bm{z}$ be a solution of (\ref{eqn:cma_msr}) independent of the signal vectors $\bm{s}_k$, under the setup of Theorem~\ref{thm:convergence_msr}. Then, there exists $C_2,c_2>0$ such that, if $K\geq C_2 L$, then
+%	\begin{equation}
+	%	\|\nabla^2 g(\bm{z}) - \mathbb{E}\{\nabla^2 g(\bm{z})\}\| \leq \delta \label{eqn:concentration_hessian_msr}
+	%	\end{equation}
+%	holds with probability at least $1 -6\e{-c_2K}$.
+%\end{lem}
+%%\begin{proof}
+%%	See Appendix~\ref{appdx:concentration_hessian_msr}.
+%%\end{proof} 
+%
+%
+%\begin{lem}[MSR Local Curvature Condition] \label{lem:lcc_msr}
+%	Assume Lemma~\ref{lemma:concentration_hessian_msr} holds, and let $\alpha\geq30$, $\epsilon=\sqrt{J}(2 B\sqrt{L})^{-1}$, $\gamma_0=1$ and $\delta=0.1$. Then, for all vectors $\bm{q}\in E(\epsilon)$ and all ${\ell}\in\{1,\ldots,J\}$, the cost function $g(\cdot)$ satisfies
+%\begin{align}
+%	&\mathrm{Re}\Big( \big\langle\nabla_{\ell} g(\bm{q}), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell}\big\rangle\Big) \nonumber\\
+%	&\qquad\geq\Big(\frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2+\delta}{4}\Big)\mathrm{dist}^2(\bm{q}_{\ell},\bm{z}_{\ell}) \nonumber\\
+%	&\qquad\quad+ \frac{1}{10 K}\sum_{k=1}^K \Big|\bm{s}_k\herm(\bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell})\Big|^4. \label{eqn:llc_msr}
+%	\end{align}  
+%\end{lem}
+%%\begin{proof}
+%%	See Appendix~\ref{appdx:lcc_msr}.
+%%\end{proof} 
+%
+%\begin{lem}[MSR Local Smoothness Condition] \label{lem:lsc_msr}
+%	Assume Lemma~\ref{lemma:concentration_hessian_msr} holds, and let $\beta\geq580$, $\epsilon=\sqrt{J}(2 B\sqrt{L})^{-1}$, $\gamma_0=1$ and $\delta=0.1$. Then, for all vectors $\bm{q}\in E(\epsilon)$  and all ${\ell}\in\{1,\ldots,J\}$, the cost function $g(\cdot)$ satisfies
+%	\begin{align}
+%	&\frac{1}{\beta}\|\nabla_{\ell} g(\bm{q})\|^2\leq \frac{2  m_2^2-R_2  m_2+\delta}{4}\mathrm{dist}^2(\bm{q}_{\ell},\bm{z}_{\ell})\nonumber\\
+%	&\qquad\quad+ \frac{1}{10 K}\sum_{k=1}^K \Big|\bm{s}_k\herm(\bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell})\Big|^4. \label{eqn:lsc_msr}
+%	\end{align}
+%\end{lem}
+%%\begin{proof}
+%%	See Appendix~\ref{appdx:lsc_msr}.
+%%\end{proof}
+%%&\qquad\quad+2\gamma_0\re\Big( \langle\sum_{i\neq {\ell}}\bm{S}\bm{q}_{i}\bm{q}_{i}\herm\bm{S}\bm{q}_{\ell}, \bm{q}_{\ell} - \e{j\phi(\bm{q_{\ell}})}\z_{\ell}\rangle\Big)
+%
+%\begin{lem}[Contraction of MSR Update Rule] \label{lemma:contraction_msr}
+%	Assume all conditions in Theorem~\ref{thm:convergence_msr}, and consider $\bm{q}^t\in E(\epsilon)$ and $0 < \mu \leq 2/\beta$. Using the update rules of Algorithm~\ref{alg:wf-msr},
+%	\begin{equation}
+%	\bm{q}_{\ell}^{t+1} = \bm{q}_{\ell}^t - \mu\nabla_j g(\bm{q}^t ),
+%	\end{equation}
+%	we have that $\bm{q}^{t+1}\in E(\epsilon)$ and
+%	\begin{equation}
+%	\mathrm{dist}^2	(\bm{q}^{t+1} ,\bm{z}) \leq \Big(1 -\frac{2\mu}{\alpha}\Big) \mathrm{dist}^2	(\bm{q}^t,\bm{z}). \label{eqn:contraction_msr}
+%	\end{equation}
+%\end{lem} 
+%\begin{proof}
+%	It suffices to follow the proof of Lemma~\ref{lemma:contraction_ssr}, but now considering $J$ demixers with non-unique global solutions: for any solution $\z$, $\bm{\hat{z}}=[\e{j\phi_1}\z_1\ldots \e{j\phi_J}\z_J]$ is also a solution.
+%\end{proof}
+
+
+%\subsection{Technical Lemmas and Corollaries} \label{appdx:technical}
+%Here, we establish a lemma to prove Lemma~\ref{lemma:concentration_hessian}. 
+%\begin{lem}[Concentration of sample covariance]
+%	\label{lemma:concentration_covariance}
+%	Consider independent subgaussian vectors $\bm{a}_k\in\mathbb{C}^L$. For every $\delta>0$, there exist $C(\delta),c(\delta)>0$ such that for $K\geq C(\delta)L$,
+%	\begin{equation}
+%	\bigg\|\frac{1}{K}\sum_{k=1}^K\bm{a}_k\bm{a}_k\herm-\mathbb{E}\{\bm{a}_k\bm{a}_k\herm\}\bigg\| \leq \delta,\nonumber%
+%	\end{equation}
+%	holds with probability at least $1-2\e{-c(\delta) K}$.
+%\end{lem}
+%\begin{proof} Subgaussian vectors $\bm{a}_k$ can be defined as the independent rows of a $K\times L$ matrix $A$. Hence, Lemma~\ref{lemma:concentration_covariance} is a consequence of \cite[Theorem 5.39]{Vershynin2012nonasymptoticmatrices}.
+%\end{proof}	
+%%\begin{cor} \label{cor:abs_s}	 
+%%Consider signal vectors $\bm{s}_k\in\mathbb{C}^L$ with i.i.d. elements from a square QAM constellation with second moment $m_2$. Then, for $K\geq C(\delta)L$ and $\bm{h}\in\mathbb{C}^L$,% with probability at least $1-2\e{-c(\delta) K}$ we have
+%%	\begin{equation}
+%%	(  m_2-\delta)\|\bm{h}\|^2\leq \frac{1}{K}\sum_{k=1}^K|\bm{a}_k\herm\bm{h}|^2 \leq(  m_2+\delta)\|\bm{h}\|^2. \nonumber%\label{eqn:concentration_covariance}
+%%	\end{equation}
+%%\end{cor}
+%
+%\begin{cor} \label{cor:abs_s}	 
+%	In the setting of Lemma~\ref{lemma:concentration_covariance}, for $K\geq C(\delta)L$ and $\bm{h}\in\mathbb{C}^L$, with probability at least $1-2\e{-c(\delta) K}$,
+%	\begin{equation}
+%	-\delta\|\bm{h}\|^2\leq \frac{1}{K}\sum_{k=1}^K|\bm{a}_k\herm\bm{h}|^2- \bm{h}\herm\mathbb{E}\{\bm{a}_k\bm{a}_k\herm\}\bm{h}\leq\delta\|\bm{h}\|^2. \nonumber%\label{eqn:concentration_covariance}
+%	\end{equation}
+%\end{cor}
+
+The expectation of matrices $\bm{A}(\bm{q})$ and $\bm{B}(\bm{q})$ are defined in Section~\ref{appdx:wfcma_ssr}, and the matrices $\bm{C}_{\ell}(\bm{q})$, $\bm{E}_{{\ell}i}(\bm{q})$ and $\bm{F}_{{\ell}i}(\bm{q})$ of the MSR Hessian satisfy
+\begin{align}
+\mathbb{E}\{\bm{C}_{\ell}(\bm{q})\}&=\sum_{i\neq {\ell}}^J\Big(   m_2^2\bm{q}_i\bm{q}_i\herm +\frac{m_2^2}{K}  \|\bm{q}_i\|^2\bm{I}+ \frac{\kappa}{K}  \big(\ddiag(\bm{q}_i\bm{q}_i\herm)\big)\Big),\nonumber\\
+\mathbb{E}\{\bm{E}_{{\ell}i}(\bm{q})\}&=  m_2^2(\bm{q}_i\herm\bm{q}_{\ell})\bm{I}+ \frac{  m_2^2}{K}\bm{q}_{\ell}\bm{q}_i\herm+\frac{\kappa}{K}\big(\ddiag(\bm{q}_{\ell}\bm{q}_i\herm)\big),\nonumber\\
+\mathbb{E}\{\bm{F}_{{\ell}i}(\bm{q})\}&=  m_2^2\bm{q}_i\bm{q}_{\ell}\T+\frac{  m_2^2}{K}\bm{q}_{\ell}\bm{q}_i\T+ \frac{\kappa}{K}\big(\ddiag(\bm{q}_{\ell}\bm{q}_i\T)\big),\nonumber
+\end{align}
+
+%%To derive upper and lower bounds, we 
+%The solutions of the CMA problem of Eq.(\ref{eqn:cma_orig}) are of the form $\bm{z}=\e{j\theta}\bm{e}_{\ell_j}$, with  $\ell_j\in\{1,\ldots,L\}, \theta\in[0,2\pi]$. Hence, $\|\bm{z}\|=1$ and the eigenvalues of the matrix $\ddiag(\bm{z}\bm{z}\herm)$ are equal to 1 (with multiplicity 1) and 0 (with multiplicity $L-1$). 
+%%\begin{align}
+%%\lambda_{\mathrm{max}}(\bm{z})=\max_{1\leq i\leq L}|z_i|^2=1,\quad\lambda_{\mathrm{min}}(\bm{z})=\min_{1\leq i\leq L}|z_i|^2=0.\nonumber
+%%\end{align}
+
+and thus, the expectation of the ${\ell}$-th gradient of the regularizing term is
+\begin{align}
+\mathbb{E}\{\nabla_{\ell} r(\bm{q})\}&=\mathbb{E}\big\{\bm{C}_{\ell}(\bm{q})\big\}\bm{q}_{\ell}
+%	\nonumber\\& 
+= \sum_{i\neq {\ell}}^J\big(   m_2^2\bm{q}_i\bm{q}_i\herm\bm{q}_{\ell} +\frac{m_2^2}{K}  \|\bm{q}_i\|^2\bm{q}_{\ell}+ \frac{\kappa}{K}  \big(\ddiag(\bm{q}_i\bm{q}_i\herm)\big)\bm{q}_{\ell}. \label{eqn:expectation_gradient_msr}
+\end{align}
+
+Note that at a MSR CMA solution $\bm{z}=\big[\e{j\theta_{\ell_1}}\bm{e}_{\ell_1}\T\;\ldots\e{j\theta_{\ell_J}}\bm{e}_{\ell_J}\T\,\big]\T$, we have $\bm{z}_i\herm\bm{z}_{\ell}=0$ for all $i\neq {\ell}$. Hence,
+\begin{align}
+\mathbb{E}\{\nabla_{\ell} r(\bm{z})\}&= \sum_{i\neq {\ell}}^J\Big(   m_2^2\bm{z}_i\bm{z}_i\herm\bm{z}_{\ell} +\frac{m_2^2}{K}  \|\bm{z}_i\|^2\bm{z}_{\ell}+ \frac{\kappa}{K}  \ddiag(\bm{z}_i\bm{z}_i\herm)\bm{z}_{\ell}\Big)
+	\nonumber\\&
+= \sum_{i\neq {\ell}}^J\Big( \frac{m_2^2}{K}\bm{z}_{\ell}+ \frac{\kappa}{K}  \bm{e}_i\bm{e}_i\T\bm{z}_{\ell}\Big)\nonumber= \frac{(J-1)m_2^2}{K}\bm{z}_{\ell},\label{eqn:expectation_gradient_msr_z}
+\end{align}
+which is non-zero, but decreases with the number of samples $K$ and is aligned with the ${\ell}$-th component of the solution. Therefore, for large $K$, the CMA solution corresponds to an approximate stationary point in gradient-descent schemes, which often yields satisfactory numerical solutions. In particular, we have the following result that defines the CMA solution in multiple source recovery as a approximate stationary point.
+\setcounter{thm}{14}
+\begin{cor}\label{cor:gradient_regularizer_z}
+Let $K\geq C_2(\delta)L$. Then, with probability at least $1-12\e{-c_2(\delta)K}$,\begin{align}
+	\Big\|\nabla_{\ell} g(\bm{z})-\mathbb{E}\big\{\nabla_{\ell} g(\bm{z})\big\}\Big\|\leq (1+R_2+\gamma_0) \delta.\nonumber
+\end{align}
+\end{cor}
+\begin{proof}
+By definition and the triangular inequality,
+\begin{align}
+	\Big\|\nabla_{\ell} g(\bm{z})-\mathbb{E}\big\{\nabla_{\ell} g(\bm{z})\big\}\Big\|
+	&=\max_{\bm{v}\in\mathbb{C}^L,\,\|\bm{v}\|=1}\Big|\bm{v}\herm\Big(\nabla_{\ell} g(\bm{z})-\mathbb{E}\big\{\nabla_{\ell} g(\bm{z})\big\}\Big)\Big|\nonumber\\
+	&\leq\max_{\bm{v}\in\mathbb{C}^L,\,\|\bm{v}\|=1}\Big|\bm{v}\herm\Big(\nabla f(\bm{z}_{\ell})-\mathbb{E}\big\{\nabla f(\bm{z}_{\ell})\big\}\Big)\Big|\nonumber\\
+	&\qquad+\gamma_0\max_{\bm{v}\in\mathbb{C}^L,\,\|\bm{v}\|=1}\Big|\bm{v}\herm\Big(\nabla_{\ell} r(\bm{z})-\mathbb{E}\big\{\nabla_{\ell} r(\bm{z})\big\}\Big)\Big|.\nonumber
+\end{align}
+Note that $\nabla f(\bm{z}_{\ell})= \bm{A}(\bm{z}_{\ell})\bm{z}_{\ell}-R_2\bm{S}\bm{z}_{\ell}$ and $\nabla_{\ell} r(\bm{z})= \bm{C}_{\ell}(\bm{z})\bm{z}_{\ell}$. Invoking Lemma~5 and the triangular inequality, we have that for all $\bm{v}\in\mathbb{C}^L$ such that $\|\bm{v}\|=1$, 
+\begin{align}
+	\Big|\bm{v}\herm\Big(\nabla f(\bm{z}_{\ell})-\mathbb{E}\big\{\nabla f(\bm{z}_{\ell})\big\}\Big)\Big|&\leq \Big(\big\|\bm{A}(\bm{z}_{\ell})-\mathbb{E}\big\{\bm{A}(\bm{z}_{\ell})\big\}\big\|+R_2\big\|\bm{S}-\mathbb{E}\big\{\bm{S}\big\}\big\|\Big)\|\bm{z}_{\ell}\|\|\bm{v}\|\nonumber\\
+	&\leq(1+R_2)\delta,\nonumber\\
+	\Big|\bm{v}\herm\Big(\nabla_{\ell} r(\bm{z})-\mathbb{E}\big\{\nabla_{\ell} r(\bm{z})\big\}\Big)\Big|&\leq \Big\|\bm{C}_{\ell}(\bm{z})-\mathbb{E}\big\{\bm{C}_{\ell}(\bm{z})\big\}\Big\|\|\bm{z}_{\ell}\|\|\bm{v}\|\leq\delta.\nonumber\qedhere 
+\end{align}
+\end{proof}
+
+
+We now define corollaries that will be useful to prove Lemmas~\ref{wfcma:lem:lcc_msr} and~\ref{wfcma:lem:lsc_msr}:
+
+\begin{cor} \label{cor:c_quad_form} 
+Let $K\geq C_2(\delta)L$. Then, with probability at least $1-12\e{-c_2(\delta)K}$, for all $\bm{v}\in\mathbb{C}^{L}$ such that $\|\bm{v}\|=1$, we have
+%		\begin{align}
+	%			&(J-1)\frac{m_2^2}{K}\|\bm{v}\|^2 + \Big(m_2^2+\frac{\kappa}{K}\Big)\sum_{i\neq {\ell}}^J |v_{\ell_i}|^2 - \delta\|\bm{v}\|^2
+	%			\nonumber\\&\qquad\leq
+	%			\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{v}
+	%			\nonumber\\&\qquad\leq
+	%			(J-1)\frac{m_2^2}{K}\|\bm{v}\|^2 +\Big(m_2^2+\frac{\kappa}{K}\Big)\sum_{i\neq {\ell}}^J |v_{\ell_i}|^2 +  \delta\|\bm{v}\|^2\nonumber. %\label{eqn:A_Bounds}
+	%		\end{align}	
+\begin{align}
+	&\Big(\frac{J-1}{K}m_2^2-\delta\Big)\|\bm{v}\|^2
+	%		\nonumber\\&\qquad
+	\leq\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{v}
+	%		\nonumber\\&\qquad
+	\leq\Big(\frac{K+J-1}{K}m_2^2 +\frac{\kappa}{K} +  \delta\Big)\|\bm{v}\|^2\nonumber. %\label{eqn:A_Bounds}
+\end{align}	
+\end{cor}
+\begin{proof}
+From Lemma 5, we have that $-\delta\bm{I}\preceq\bm{C}_{\ell}(\bm{z})-\mathbb{E}\{\bm{C}_{\ell}(\bm{z})\}\preceq\delta\bm{I}$. Hence, the lower bound is
+\begin{align}
+	\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{v}&\geq
+	\sum_{i\neq {\ell}}^J\Big(m_2^2|\bm{v}\herm\bm{z}_i|^2 +\frac{m_2^2}{K}  \|\bm{z}_i\|^2\|\bm{v}\|^2+ \frac{\kappa}{K}  \bm{v}\herm\big(\ddiag(\bm{z}_i\bm{z}_i\herm)\bm{v}\big)\Big) - \delta\|\bm{v}\|^2\nonumber\\
+	&\geq
+	(J-1)\frac{m_2^2}{K}\|\bm{v}\|^2 +
+	\sum_{i\neq {\ell}}^J\Big(m_2^2|\bm{v}\herm\bm{z}_i|^2+ \frac{\kappa}{K}  \bm{v}\herm\big(\ddiag(\bm{z}_i\bm{z}_i\herm)\bm{v}\big)\Big) - \delta\|\bm{v}\|^2. \nonumber%\label{eqn:A_Bounds}
+\end{align}
+Note that $Km_2^2+\kappa>0$ for all $K>1$ and all QAM modulations. Additionally, knowing that $\bm{z}_{\ell}=\e{\theta_{\ell_j}}\bm{e}_{\ell_j}$ for all ${\ell}_j\in\{1,\ldots,J\}$, we have that
+\begin{align}
+	0\leq\sum_{i\neq {\ell}}^J|\bm{v}\herm\bm{z}_i|^2=
+	\sum_{i\neq {\ell}}^J \bm{v}\herm\big(\ddiag(\bm{z}_i\bm{z}_i\herm)\big)\bm{v}=\sum_{i\neq {\ell}}^J |v_{\ell,i}|^2\leq\|\bm{v}\|^2.\nonumber
+\end{align}
+The upper bound is obtained similarly.
+\end{proof}
+\begin{cor} \label{cor:ziSzj} 
+Let $K\geq C_2(\delta)L$. Then, with probability at least $1-12\e{-c_2(\delta)K}$, we have
+\begin{align}
+	&\big|\bm{z}_{\ell}\bm{S}\bm{z}_i\big|^2\leq\delta\nonumber.
+\end{align}	
+\end{cor}
+\begin{proof}
+From Lemma 1, we have that $-\delta\bm{I}\preceq\bm{S}-m_2\bm{I}\preceq\delta\bm{I}$. 
+Then, we have that for all $\bm{u}$ and $\bm{v}$ such that $\|\bm{u}\|=\|\bm{v}\|=1$,	
+\begin{align}
+	\big|\bm{u}\herm\bm{S}\bm{v}\big|^2&
+	%		=\Big|m_2\bm{u}\herm\bm{v}+\bm{u}\herm\big(\bm{S}-m_2\bm{I}\big)\bm{v}\Big|^2 
+	%		\nonumber\\	&
+	\leq m_2\big|\bm{u}\herm\bm{v}\big| +\Big|\bm{u}\herm\big(\bm{S}-m_2\bm{I}\big)\bm{v}\Big|^2
+	%		\nonumber\\&
+	\leq m_2\big|\bm{u}\herm\bm{v}\big| +\big\|\bm{S}-m_2\bm{I}\big\|\|\bm{u}\|\|\bm{v}\|
+			\nonumber\\&
+	\leq m_2\big|\bm{u}\herm\bm{v}\big| +\delta\|\bm{u}\|\|\bm{v}\|.\nonumber
+	%\label{eqn:A_Bounds}
+\end{align}
+Knowing that $\bm{z}_{\ell}=\e{\theta_{\ell_j}}\bm{e}_{\ell_j}$ for all ${\ell}_j\in\{1,\ldots,J\}$, we have that $|\bm{z}_{\ell}\herm\bm{z}_i|=0$ for all $i\neq {\ell}$, and we obtain the bound.
+\end{proof}
+
+\begin{cor} \label{cor:normFji} 
+Let $K\geq C_2(\delta)L$. Then, with probability at least $1-12\e{-c_2(\delta)K}$, we have
+\begin{align}
+	\big\|\bm{F}_{{\ell}i}(\bm{z})\big\|\leq m_2^2+\delta\nonumber.
+\end{align}	
+\end{cor}
+
+\begin{proof}
+From Lemma 5, we have that $-\delta\bm{I}\preceq\bm{F}_{{\ell}i}(\bm{z})-\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}\preceq\delta\bm{I}$, or equivalently, 
+\begin{align}
+	\big\|\bm{F}_{{\ell}i}(\bm{z})-\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}\big\|\leq\delta.\nonumber
+\end{align}
+
+Furthermore, using \cite[Corollary 8.6.2]{GolubVanLoan2013} for the largest singular value (i.e. the operator norm), we have
+\begin{align}
+	\big\|\bm{F}_{{\ell}i}(\bm{z})\big\|\leq\big\|\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}\big\|+\delta.\nonumber
+\end{align}
+
+Knowing that $\bm{z}_{\ell}=\e{\theta_{\ell_j}}\bm{e}_{\ell_j}$ for all ${\ell}_j\in\{1,\ldots,J\}$, we also have that
+\begin{align}
+	\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}&=m_2^2\bm{z}_i\bm{z}_{\ell}\T+\frac{m_2^2}{K}\bm{z}_{\ell}\bm{z}_i\T+\frac{\kappa}{K}\ddiag\big(\bm{z}_{\ell}\bm{z}_i\T\big) 
+	%		\nonumber\\&
+	=m_2^2\e{j(\theta_{\ell_{\ell}}+\theta_{\ell_i})}\bm{e}_i\bm{e}_{\ell}\T+\frac{m_2^2}{K}\e{j(\theta_{\ell_j}+\theta_{\ell_i})}\bm{e}_{\ell}\bm{e}_i\T,
+	\nonumber
+	%\label{eqn:A_Bounds}
+\end{align}
+which means that $\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}$ has only two non-zero elements in positions $({\ell},i)$ and $(i,{\ell})$ with $i\neq {\ell}$. Hence, its non-zero columns are independent, and its norm is the largest absolute value of the non-zero elements, i.e.
+\begin{align}
+	\big\|\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}\bm\|&=\max\bigg\{\Big|\e{j(\theta_{\ell_j}+\theta_{\ell_i})}m_2^2\Big|,\Big|\e{j(\theta_{\ell_j}+\theta_{\ell_i})}\frac{m_2^2}{K}\Big|\bigg\}=m_2^2.
+	\nonumber\qedhere
+	%\label{eqn:A_Bounds}
+\end{align}
+\end{proof}
+
+\begin{cor} \label{cor:hessian_r_quad_form} 
+Let $K\geq C_2(\delta)L$. Then, with probability at least $1-12\e{-c_2(\delta)K}$, for all $\bm{h}\in\mathbb{C}^{JL}$ such that its $J$ components have unit norm, i.e., $\|\bm{h}_{\ell}\|=1$, we have
+%		\begin{align}
+	%			&(J-1)\frac{m_2^2}{K}\|\bm{v}\|^2 + \Big(m_2^2+\frac{\kappa}{K}\Big)\sum_{i\neq {\ell}}^J |v_{\ell_i}|^2 - \delta\|\bm{v}\|^2
+	%			\nonumber\\&\qquad\leq
+	%			\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{v}
+	%			\nonumber\\&\qquad\leq
+	%			(J-1)\frac{m_2^2}{K}\|\bm{v}\|^2 +\Big(m_2^2+\frac{\kappa}{K}\Big)\sum_{i\neq {\ell}}^J |v_{\ell_i}|^2 +  \delta\|\bm{v}\|^2\nonumber. %\label{eqn:A_Bounds}
+	%		\end{align}	
+\begin{align}
+	\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J  |\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\big|^2
+	+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big)
+	+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+	\geq -\Big(\frac{m_2^2}{K}+\delta\Big)\big\|\bm{h}\big\|^2. %\label{eqn:A_Bounds}
+\end{align}	
+\end{cor}
+\begin{proof}
+Recall $\nabla^2 r(\bm{z})$ as defined in Eq.(\ref{eqn:hessian_msr}). Now, notice that
+\begin{align}
+	&\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J  |\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\big|^2
+	+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big)
+	+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+	\nonumber\\&\qquad
+	=\sum_{{\ell}=1}^J\sum_{i< {\ell}}^J |\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\big|^2
+	+|\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|^2
+	+2\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big)
+	+2\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big)
+	\nonumber\\%\label{eqn:A_Bounds}
+	&\qquad
+	=\frac{1}{2}\tilde{\bm{h}}\herm\nabla^2 r(\bm{z})\tilde{\bm{h}},\nonumber
+\end{align}
+where in the second equality we collect pairs $(i,{\ell})$ and $({\ell},i)$ in one summation, and $\tilde{\bm{h}}$ is the stacked version of all $\bm{h}_{\ell}$ and their complex conjugates, i.e. 
+$\tilde{\bm{h}}=\big[\bm{h}_1\T\;\bm{h}_1\herm\;\cdots\;\bm{h}_J\T \;\bm{h}_J\herm\,\big]\T$.
+From Lemma 5, we have that $-\delta\bm{I}\preceq\nabla^2 r(\bm{z})-\mathbb{E}\{\nabla^2 r(\bm{z})\}\preceq\delta\bm{I}$. 	
+Hence, we have that
+\begin{align}
+%	&
+	\frac{1}{2}\tilde{\bm{h}}\herm\nabla^2 r(\bm{z})\tilde{\bm{h}}
+%	\nonumber\\	&\quad
+	&\geq\frac{1}{2}\tilde{\bm{h}}\herm\mathbb{E}\big\{\nabla^2 r(\bm{z})\big\}\tilde{\bm{h}}-\frac{\delta}{2}\|\tilde{\bm{h}}\|^2
+	\nonumber\\
+	&=\sum_{{\ell}=1}^J\bigg( \re\big(\bm{h}_{\ell}\herm\mathbb{E}\big\{\bm{C}_{\ell}(\bm{z})\big\}\bm{h}_{\ell}\big) + \sum_{i\neq {\ell}}^J \re\big(\bm{h}_{\ell}\herm\mathbb{E}\big\{\bm{E}_{{\ell}i}(\bm{z})\big\}\bm{h}_i\big)
+	\nonumber\\&\qquad 
+	+ \sum_{i\neq {\ell}}^J \re\big(\bm{h}_{\ell}\herm\mathbb{E}\big\{\bm{F}_{{\ell}i}(\bm{z})\big\}\overline{\bm{h}_i}\big) \bigg)-\delta\|\bm{h}\|^2
+	\nonumber\\
+	&=\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\bigg( 
+	\re\Big(\bm{h}_{\ell}\herm\big(m_2^2\bm{z}_i\bm{z}_i\herm +\frac{m_2^2}{K}  \|\bm{z}_i\|^2\bm{I}+ \frac{\kappa}{K}  \ddiag(\bm{z}_i\bm{z}_i\herm)\big)  \bm{h}_{\ell}\Big) 
+	\nonumber\\&\qquad
+	+\re\Big(\bm{h}_{\ell}\herm\big(m_2^2(\bm{z}_i\herm\bm{z}_{\ell})\bm{I}+ \frac{  m_2^2}{K}\bm{z}_{\ell}\bm{z}_i\herm+\frac{\kappa}{K}\ddiag(\bm{z}_{\ell}\bm{z}_i\herm)  \big)\bm{h}_i\Big) 
+	\nonumber\\&\qquad
+	+\re\Big(\bm{h}_{\ell}\herm\big(m_2^2\bm{z}_i\bm{z}_{\ell}\T+\frac{  m_2^2}{K}\bm{z}_{\ell}\bm{z}_i\T+ \frac{\kappa}{K}\ddiag(\bm{z}_{\ell}\bm{z}_i\T)  \big)\overline{\bm{h}_i}\Big) \bigg)
+	%		\nonumber\\&\qquad
+	-\delta\|\bm{h}\|^2.
+	\nonumber
+\end{align}
+
+Knowing that $\bm{z}_{\ell}=\e{\theta_{\ell_j}}\bm{e}_{\ell_j}$ for all ${\ell}_j\in\{1,\ldots,J\}$, we have that $|{h}_{{\ell},i}|=|\bm{h}_{\ell}\herm\bm{z}_i|$, and  $\ddiag(\bm{z}_{\ell}\bm{z}_i\herm)=\ddiag(\bm{z}_i\bm{z}_{\ell}\herm)=\bm{0}$ and $(\bm{z}_{\ell}\herm\bm{z}_i)=0$ for all $i\neq {\ell}$. Hence,
+\begin{align}
+	\frac{1}{2}\tilde{\bm{h}}\herm\nabla^2 r(\bm{z})\tilde{\bm{h}}
+	&\geq\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\bigg( 
+	m_2^2
+	\big|\bm{h}_{\ell}\herm\bm{z}_i\big|^2 +\frac{m_2^2}{K} \|\bm{z}_i\|^2\big\|\bm{h}_{\ell}\big\|^2+ \frac{\kappa}{K}
+	%		 \big|\bm{h}_{{\ell},i}\big|^2   
+	%		\nonumber\\&\qquad
+	+\frac{m_2^2}{K}\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\bm{z}_i\herm\bm{h}_i\big)
+	\nonumber\\&\qquad 
+	+ m_2^2\re\big(\bm{h}_{\ell}\herm\bm{z}_i\bm{z}_{\ell}\T\overline{\bm{h}_i}\big)+\frac{  m_2^2}{K}\re(\bm{h}_{\ell}\herm\bm{z}_{\ell}\bm{z}_i\T\overline{\bm{h}_i} \big) \bigg)
+	%		\nonumber\\&\qquad
+	-\delta\|\bm{h}\|^2
+	\nonumber\\
+	&=\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\bigg( 
+	\Big(m_2^2+\frac{\kappa}{K}\Big)
+	\big|\bm{h}_{\ell}\herm\bm{z}_i\big|^2 +\frac{m_2^2}{K} \big\|\bm{h}_{\ell}\big\|^2  
+	\nonumber\\&\qquad
+	+\frac{2m_2^2}{K}\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big)
+	+ m_2^2\re\big(\bm{h}_{\ell}\herm\bm{z}_i\bm{h}_i\herm\bm{z}_{\ell}\big) \bigg)
+	%		\nonumber\\&\qquad
+	-\delta\|\bm{h}\|^2\nonumber\\
+	&=m_2^2\sum_{{\ell}=1}^J\sum_{i< {\ell}}^J\bigg( 
+	\big|\bm{h}_{\ell}\herm\bm{z}_i\big|^2 + \big|\bm{h}_i\herm\bm{z}_{\ell}\big|^2+ 2\re\big(\bm{h}_{\ell}\herm\bm{z}_i\bm{h}_i\herm\bm{z}_{\ell}\big)\Bigg)
+	\nonumber\\
+	&\qquad
+	+\frac{1}{K}\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\bigg( 
+	\kappa\big|\bm{h}_{\ell}\herm\bm{z}_i\big|^2 +m_2^2\big\|\bm{h}_{\ell}\big\|^2  
+	%		\nonumber\\&\qquad
+	+2m_2^2\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big)\bigg)
+	%		\nonumber\\&\qquad
+	-\delta\|\bm{h}\|^2.
+	\label{appdx:eqn:HessR_Bound}
+\end{align}
+
+The first term in the RHS of Eq.(\ref{appdx:eqn:HessR_Bound}) is a perfect square, and is bounded below by 0. Rewriting $\|\bm{h}_{\ell}\|=\sum_{a=1}^L|{h}_{{\ell},a}|^2$ in the second term in the RHS, we have
+\begin{align}
+	\frac{1}{2}\tilde{\bm{h}}\herm\nabla^2 r(\bm{z})\tilde{\bm{h}}
+	&\geq\frac{1}{K}\sum_{{\ell}=1}^J  \sum_{i\neq {\ell}}^J\bigg( (m_2^2+
+	\kappa)\big|\bm{h}_{\ell}\herm\bm{z}_i\big|^2 +m_2^2\sum_{a\neq i}^L|{h}_{{\ell},a}|^2
+	\nonumber\\
+	&\qquad +2m_2^2\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big)\bigg)
+	-\delta\|\bm{h}\|^2\nonumber\\
+	&=\frac{m_2^2+
+		\kappa}{K}\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\big|\bm{h}_{\ell}\herm\bm{z}_i\big|^2 +\frac{m_2^2}{K}
+	\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J
+	%	\sum_{\mathclap{\substack{a\neq i\\a\neq {\ell}}}}
+	\sum_{a\neq i,{\ell}}
+	^L|{h}_{{\ell},a}|^2 
+		\nonumber\\&\qquad
+	+\frac{m_2^2}{K}
+	\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J\bigg(|\bm{h}_{\ell}\herm\bm{z}_{\ell}|^2+|\bm{h}_i\herm\bm{z}_i|^2+2\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big)\bigg)
+	\nonumber\\&\qquad
+	+\frac{2m_2^2}{K}
+	\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big)
+	-\delta\|\bm{h}\|^2.\label{eqn:hessian_r_dev}
+\end{align}
+
+
+Knowing that in square QAM modulations $|\kappa|\leq m_2^2$, we have that the first term of the RHS is bounded below by zero. Furthermore, the second and third terms in the RHS of Eq.(\ref{eqn:hessian_r_dev}) are perfect squares, and are also bounded below by zero. We now focus on bounding the remaining term
+\begin{align}
+	\frac{2m_2^2}{K}\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big).\label{eqn:hessian_r_remainingSum}
+\end{align}
+
+For each $({\ell},i)$ pair, the summands can be negative. However, note that for $J>2$, it is not possible that all summands are negative, i.e., for all pairs $({\ell},i)$ with $i<{\ell}$: some summands \emph{will} be positive, as they are composed of pairwise products. Moreover, every $\bm{h}_a\herm \bm{z}_a$ can have at most magnitude equal to 1 by construction, and we also have that $\|\bm{h}\|=J$. We then count the number of negative summands to obtain the worst-case scenario. There is a total of $J(J-1)/2$ summands, and the maximum number of negative summands is equal to all combinations of half of summands with one sign and the other with the opposite sign:
+\begin{align}
+	\binom{\lfloor J/2\rfloor}{1}\binom{\lceil J/2\rceil}{1}=\bigg\lfloor \frac{J}{2}\bigg\rfloor\bigg\lceil \frac{J}{2}\bigg\rceil=\begin{cases}
+		J^2/4&J\text{ even},\\
+		(J^2-1)/4&J\text{ odd}.
+	\end{cases}
+\end{align}
+
+Thus, the worst sum (with each term of the form $\bm{h}_{\ell}\herm\bm{z}_{\ell}$ having a magnitude of 1) corresponds to the maximum amount of negative summands with a negative sign, plus the remaining positive summands, i.e.,  
+\begin{align}
+	-\bigg\lfloor \frac{J}{2}\bigg\rfloor\bigg\lceil \frac{J}{2}\bigg\rceil + \Bigg(\frac{J(J-1)}{2}-\bigg\lfloor \frac{J}{2}\bigg\rfloor\bigg\lceil \frac{J}{2}\bigg\rceil\Bigg) \geq -2\max\bigg\{\frac{J^2}{4},\frac{J^2-1}{4}\bigg\}+\frac{J^2}{2}-\frac{J}{2}=- \frac{J}{2}. \nonumber\\
+\end{align}
+
+Replacing in (\ref{eqn:hessian_r_remainingSum}), we have
+\begin{align}
+	\frac{2m_2^2}{K}\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J\re\big(\bm{h}_{\ell}\herm \bm{z}_{\ell}\big)\re\big(\bm{h}_i\herm\bm{z}_i\big)\geq -\frac{m_2^2}{K}J=-\frac{m_2^2}{K}\|\bm{h}\|^2,
+\end{align}
+which completes the proof.
+\end{proof}
+
+%\subsection{Generalized Regularity Condition for WF-CMA (MSR case)} \label{sec:generalized_RC}
+Finally, we describe the generalized regularity condition of WFCMA-based multiple source recovery as stated throughout Section~\ref{wfcma:Analysis_MSR}. Let $\nabla G (\bm{q}) = \big[\nabla_1 g(\bm{q})\T\;\cdots\; \nabla_J g(\bm{q})\T\,\big]\T$ be the total gradient of the MSR function, stacking the gradients with respect to each CMA solution. 
+Let $\bm{D}(\bm{q})= \diag(\e{j\phi_1(\bm{q})},\ldots,\e{j\phi_J(\bm{q})})\otimes\bm{I}_L$ be the diagonal matrix that aligns the demixers $\bm{q}_{\ell}$ with their respective ground truths $\bm{z}_{\ell}$ using their optimal rotations with phases $\phi_{\ell}(\bm{q})$. Thus, $\bm{D}(\bm{q})\bm{z}=\big[\e{j\phi(\bm{q}_{1})}\bm{z}_1\T\;\cdots\; \e{j\phi(\bm{q}_{J})}\bm{z}_J\T\,\big]\T $. Moreover, for all $\ell\in\{1,\ldots,J\}$, simple algebra reveals that
+\begin{align}
+	\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big)
+	&= \nabla f(\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell}) + \gamma_0 \sum_{i\neq {\ell}}^J\bm{S}\big(\e{j\phi(\bm{q}_{i})}\bm{z}_{i}\big)\big(\e{j\phi(\bm{q}_{i})}\bm{z}_{i}\big)\herm\bm{S}\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell} \nonumber\\
+	&= \e{j\phi(\bm{q}_{\ell})}\nabla f(\bm{z}_{\ell}) + \gamma_0 \e{j\phi(\bm{q}_{\ell})} \sum_{i\neq {\ell}}^J\bm{S}\bm{z}_{i}\bm{z}_{i}\herm\bm{S}\bm{z}_{\ell} \nonumber\\
+	&= \e{j\phi(\bm{q}_{\ell})}\nabla_{\ell}g(\bm{z})=\nabla_{\ell} g(\e{j\phi(\bm{q}_{\ell})}\bm{z}),\nonumber
+\end{align}
+and therefore we can obtain the generalized regularity condition (\ref{wfcma:eqn:regularity_condition_msr}) of Theorem~\ref{wfcma:thm:convergence_msr} as follows:
+\begin{align}
+	&\sum_{{\ell}=1}^J\re\big(\langle \nabla_{\ell} g(\bm{q})-\nabla_{\ell} g(\e{j\phi(\bm{q}_{\ell})}\bm{z}),\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell} \rangle\big)\nonumber\\
+	&\qquad=\sum_{{\ell}=1}^J\re\big(\langle \nabla_{\ell} g(\bm{q})-\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big),\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell} \rangle\big)\nonumber\\
+	&\qquad=\re\big(\langle \nabla G(\bm{q})-\nabla G(\bm{D}(\bm{q})\bm{z}),\bm{q}-\bm{D}(\bm{q})\bm{z} \rangle\big)\nonumber\\
+	&\qquad\geq \frac{1}{\alpha} \dist^2(\bm{q},\bm{z})+\frac{1}{\beta}\big\|\nabla G(\bm{q})-\nabla G(\bm{D}(\bm{q})\bm{z})\big\|^2\nonumber\\
+	&\qquad=\frac{1}{\alpha}\dist^2(\bm{q},\bm{z})+\frac{1}{\beta}\sum_{{\ell}=1}^J\big\|\nabla_{\ell} g(\bm{q})-\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big)\big\|^2.\nonumber\\
+	&\qquad=\frac{1}{\alpha}\dist^2(\bm{q},\bm{z})+\frac{1}{\beta}\sum_{{\ell}=1}^J\big\|\nabla_{\ell} g(\bm{q})-\nabla_{\ell} g(\e{j\phi(\bm{q}_{\ell})}\bm{z})\big\|^2.\nonumber
+\end{align}
+
+%For notation purposes, we let $\bm{D}(\bm{q})$ the diagonal matrix that aligns each component of $\bm{q}$ to its corresponding component of the optimum $\bm{z}$, i.e. $\bm{q}_{\ell}$ and $\bm{z}_{\ell}$, using the optimal rotations with phases $\phi_{\ell}(\bm{q})$, i.e. $\bm{D}(\bm{q})=\diag(\e{j\phi(\bm{q}_1)},\ldots,\e{j\phi(\bm{q}_J)})\otimes\bm{I}_L$, such that $\dist(\bm{q},\z)=\|\bm{q}-\bm{D}(\bm{q})\bm{z}\|$.
+
+
+%\begin{align}
+%	\bm{h}\herm\nabla^2 r(\bm{z})\bm{h}&=\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J \big|\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\big|^2 +|\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\big|^2+2\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)
+%	\nonumber\\
+%	&\qquad\qquad
+%	+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) +\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) +\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+%	\nonumber\\
+%	&=\sum_{{\ell}=1}^J\sum_{i< {\ell}}^J 2\big|\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\big|^2 +|\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\big|^2+|\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|^2
+%	\nonumber\\
+%	&\qquad\qquad
+%	+3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)
+%	+3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) +2\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+%	+2\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big)
+%	\nonumber\\%\label{eqn:A_Bounds}
+%\end{align}
+%\newpage
+
+%Recall that $\nabla f(\e{j\theta}\bm{z}_{\ell})=0$ for any $\theta\in[0,2\pi]$. On the other hand, this does not apply for the MSR function. Denote the regularizing term as 
+%\begin{align}
+%r(\bm{q}) = \sum_{i\neq {\ell}}^J |\bm{q}_{\ell}\bm{S}\bm{q}_i|^2 
+%\end{align}
+%and the stacked form of $J$ global minimizers of $f$ as $\bm{z}=[\bm{z}_1\T\,ldots,\bm{z}_J\T]\T$. Then, the gradient of $r$ at $\bm{z}$ for finite $K$
+%\begin{align}
+%\nabla_{\ell} r(\bm{q}) = \sum_{i\neq {\ell}} \bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}
+%\end{align}
+%does not vanish for finite $K$. However, in expectation, it does: 
+%\begin{align}
+%	\mathbb{E}\big\{\nabla_{\ell} r(\bm{q})\big\}&= \sum_{i\neq {\ell}} \bm{E}\big\{\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\big\}\bm{z}_{\ell}\nonumber\\
+%	& = \frac{1}{KJ^2} sum_{i\neq {\ell}}\sum_{k=1}^K\sim_{m=1}^K \bm{E}\big\{\bm{s}_k\bm{s}_k\herm\bm{z}_i\bm{z}_i\herm\bm{s}_m\bm{s}_m\herm\big\}\bm{z}_{\ell}\nonumber\\
+%	\frac{1}{KJ^2} sum_{i\neq {\ell}}\sum_{k=1}^K\sim_{m=1}^K \bm{E}\big\{\bm{s}_k\bm{s}_k\herm\bm{z}_i\bm{z}_i\herm\bm{s}_m\bm{s}_m\herm\big\}\bm{z}_{\ell}
+%\end{align}
+
+
+\section{Proof of Lemma~\ref{wfcma:lemma:concentration_hessian_msr} }\label{wfcma:appdx:concentration_hessian_msr}
+
+Using the triangle inequality and Eq.(\ref{eqn:hessian_msr}), to prove the lemma we show that $\forall {\ell}\in\{1,\ldots,J\}$ and $\forall i\neq {\ell}$,
+\begin{align}
+\Big\|\nabla^2 f(\bm{z}_{\ell})-\mathbb{E}\big\{\nabla^2 f(\bm{z}_{\ell})\big\}\Big\|&\leq \delta_f=\frac{\delta}{2J}, \label{eqn:concentration_ineq_bdiagf}\\
+\|\bm{C}_{\ell}(\bm{z})-\mathbb{E}\{\bm{C}_{\ell}(\bm{z})\}\|&\leq 
+\delta_C=\frac{\delta}{8\gamma_0J}. \label{eqn:concentration_ineq_G}\\
+\|\bm{E}_{{\ell}i}(\bm{z})-\mathbb{E}\{\bm{E}_{{\ell}i}(\bm{z})\}\|&\leq \delta_E =
+\frac{\delta}{8\gamma_0J(J-1)}, \label{eqn:concentration_ineq_E}\\
+\|\bm{F}_{{\ell}i}(\bm{z})-\mathbb{E}\{\bm{F}_{{\ell}i}(\bm{z})\}\|&\leq \delta_F =
+\frac{\delta}{8\gamma_0J(J-1)}. \label{eqn:concentration_ineq_F}
+\end{align}
+
+Eq.(\ref{eqn:concentration_ineq_bdiagf}) corresponds to the concentration inequality of $J$ Hessians of the single source recovery cost function. Thus, Lemma 1 states that Eq.(\ref{eqn:concentration_ineq_bdiagf}) holds with probability at least $1-6\e{-c_1(\delta_f)K}$ by choosing $K\geq C_1(\delta_f)L$.
+
+Let $\bm{c}_{i,k}= \bm{s}_k(\bm{s}_k\herm\bm{z}_i)$, which are independent for $k\in\{1,\ldots,K\}$, and in particular, $\bm{c}_{i,k}$ is independent of $\bm{c}_{i,m}$ for $m\neq k$. Note that $\bm{s}_k\herm\bm{z}_i=\sqrt{m_2}\,\e{j\varphi}\overline{s_{\ell_i}[k]}$, and therefore the vectors $\bm{c}_{i,k}$ have bounded, discrete elements over an exponentially large set, and as such they are subgaussian \cite{Vershynin2018hdprobability}. Moreover, the sum of these vectors over index $i$ is also subgaussian. Thus, we have
+\begin{align}
+\bm{C}_{{\ell}}(\bm{z}) &= \frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m=1}^K\bm{c}_{i,k}\bm{c}_{i,m}\herm= \frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\bm{c}_{i,k}\bm{c}_{i,k}\herm+ \frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m\neq k}^K\bm{c}_{i,k}\bm{c}_{i,m}\herm,
+\end{align}
+and invoking Lemma 9 for each $i\neq {\ell}$ and results of concentration of quadratic forms \cite[Chapter 6]{Vershynin2018hdprobability}, Eq.(\ref{eqn:concentration_ineq_G}) holds with probability at least $1-2\e{-c_6(\delta_C)K}$ by choosing $K\geq C_6(\delta_C)L$.
+
+In a similar fashion, note that
+\begin{align}
+\bm{F}_{{\ell}i}(\bm{z})=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\bm{c}_{i,k}\bm{c}_{{\ell},m}\T=\frac{1}{K^2}\sum_{k=1}^K\bm{c}_{i,k}\bm{c}_{{\ell},k}\T+\frac{ 1}{K^2}\sum_{k=1}^K\sum_{m\neq k}^K\bm{c}_{i,k}\bm{c}_{{\ell},m}\T,
+\end{align}
+where we leverage the reasoning of the previous result, the fact that $\bm{c}_{i,k}$ is independent of $\bm{c}_{{\ell},m}$ for $m\neq k$ and $i\neq {\ell}$, and the concentration of measure of $\bm{U}(\bm{z})$ in Lemma 1 of the main text (for the transposition instead of conjugate transpose). Hence, Eq.(\ref{eqn:concentration_ineq_F}) holds with probability $1-2\e{-c_7(\delta_F)K}$ by choosing $K\geq C_7(\delta_F)L$. 
+
+Now define $\bm{e}_{{\ell},k,m}=(\bm{s}_k\herm\bm{z}_{\ell})\bm{s}_m$. The vectors $\bm{e}_{{\ell},k,k}$ are independent for $k\in\{1,\ldots,K\}$, and $\bm{e}_{{\ell},k,m}$ is independent of $\bm{e}_{i,k,m}$ for $m\neq k$ and $i\neq {\ell}$
+. Following a similar reasoning as above, the $\bm{e}_{{\ell},k,m}$ are subgaussian, and we obtain
+\begin{align}
+\bm{E}_{{\ell}i}(\bm{z})=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\bm{e}_{{\ell},k,m}\bm{e}_{i,k,m}\herm=\frac{1}{K^2}\sum_{k=1}^K\bm{e}_{{\ell},k,k}\bm{e}_{i,k,k}\herm+\frac{1}{K^2}\sum_{k=1}^K\sum_{m\neq k}^K\bm{e}_{{\ell},k,m}\bm{e}_{i,k,m}\herm,
+\end{align}
+thus Eq.(\ref{eqn:concentration_ineq_E}) holds with probability $1-2\e{-c_8(\delta_E)K}$ by choosing $K\geq C_8(\delta_E)L$. 
+
+Finally, set $C_2(\delta)\geq\max\{C_1(\delta_f),C_6(\delta_C),C_7(\delta_F),C_8(\delta_E)\}$. By selecting $K\geq C_2(\delta)L$ and letting $c_2(\delta)=\min\{c_5(\delta_f),c_6(\delta_C),c_7(\delta_F),c_8(\delta_E)\}$, Lemma~5 holds with probability at least $1-12\e{-c_2(\delta)K}$.
+
+
+
+
+
+
+
+%To prove the concentration lemma, it suffices to show that
+%\begin{align}
+%\big\|2(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\})-R_2(\bm{S}-\mathbb{E}\{\bm{S}\})\big\|\leq {\delta}/{4}, \label{eqn:concentration_ineq_A}\\
+%\|\bm{B}(\bm{z})-\mathbb{E}\{\bm{B}(z)\}\|\leq 
+%{\delta}/{4}. \label{eqn:concentration_ineq_B}
+%\end{align}
+%Observe that the left-hand side (LHS) of
+%Eq.(\ref{eqn:concentration_ineq_A}) differs from the case of phase retrieval, because we rely on a desired average amplitude instead of the true amplitudes of source samples. 
+%Using triangle inequality on the LHS of (\ref{eqn:concentration_ineq_A}), we have
+%\begin{align}
+%&\big\|2(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\})-R_2(\bm{S}-\mathbb{E}\{\bm{S}\})\big\|\nonumber\\
+%%&\quad=\Big\|\frac{1}{K}\sum_{k=1}^K(2|\bm{s}_k\herm \bm{z}|^2-R_2)\bm{s}_k\bm{s}_k\herm-2m_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\nonumber\\
+%%&\quad\quad+R_2  m_2\bm{I}-2\kappa\ddiag(\z\z\herm)\Big\|\nonumber\\
+%&\quad\leq2\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\}\big\|+R_2\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|\leq \delta/4.\nonumber
+%%&\quad\leq2\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\big\|+R_2\delta
+%\end{align}
+%QAM constellations are bounded, thus the signal vectors are subgaussian with $\|\bm{s}_k\|_{\varphi_2}\leq B'$. Hence, via Lemma~\ref{lemma:concentration_covariance},  $R_2\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|\leq\delta/8$ holds with probability at least $1-2\e{-c_3(\delta/8R_2)K}$ by choosing $K\geq C_3(\delta/8R_2)L$. \\
+%Let $\bm{a}_k= \big(\bm{s}_k\herm\bm{z}\big) \bm{s}_k$, thus
+%\begin{align}
+%\bm{A}(\bm{z})= \frac{1}{K}\sum_{k=1}^K \bm{a}_k\bm{a}_k\herm.\nonumber
+%\end{align}
+%Additionally, note that $\bm{s}_k\herm\bm{z}=\sqrt{R_2/m_2}\,\e{j\varphi}\overline{s_{\ell_{\ell}}[k]}$, and therefore the vectors
+%\begin{align}
+%\bm{a}_k=\sqrt{\frac{R_2}{m_2}}\e{j\varphi}\overline{s_{\ell_{\ell}}[k]}\bm{s}_k\nonumber
+%\end{align} 
+%have bounded, discrete elements, and as such they are subgaussian (details in supplemental material).  Therefore we invoke Lemma~\ref{lemma:concentration_covariance} and  $\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\}\big\|\leq \delta/16$ with probability at least $1-2\e{-c_4(\delta/16)K}$ whenever $K\geq C_4(\delta/16)L$.\\
+%Finally, note that
+%\begin{align}
+%\bm{B}(\bm{z})= \frac{1}{K}\sum_{k=1}^K\bm{a}_k\bm{a}_k\T. \nonumber
+%\end{align}
+%By using a similar reasoning, we use Lemma~\ref{lemma:concentration_covariance} to bound Eq.(\ref{eqn:concentration_ineq_B}) with probability at least $1-2\e{-c_5(\delta/4)K}$, by choosing $K\geq C_5(\delta/4)L$.
+%Selecting $K\geq C_1(\delta)L$, where $C_1(\delta)\geq\max\{C_3(\delta/8R_2),C_4(\delta/16),C_5(\delta/4)\}$, forces both Eqs.(\ref{eqn:concentration_ineq_A}) and (\ref{eqn:concentration_ineq_B}) to hold with probability at least $1-6\e{-c_1(\delta)K}$, where $c_1(\delta)=\min\{c_3(\delta/8R_2),c_4(\delta/16),c_5(\delta/4)\}$.
+
+
+
+%\begin{align}
+%\bm{u}_k= \big(\bm{z}\herm\bm{s}_k\big) \bm{s}_k  \nonumber
+%\end{align}
+%
+%To prove the concentration inequality, it suffices to show
+%\begin{align}
+%\big\|2(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\})-R_2(\bm{S}-\mathbb{E}\{\bm{S}\})\big\|\leq {\delta}/{4}, \label{eqn:concentration_ineq_A}\\
+%\|\bm{B}(\bm{z})-\mathbb{E}\{\bm{B}(z)\}\|\leq 
+%{\delta}/{4}. \label{eqn:concentration_ineq_B}
+%\end{align}
+%
+%
+%%Let $\bm{D}$ be a $K\times M$ matrix whose rows are given by $[\bm{D}]_{{\ell}:}=(\bm{z}\herm\bm{s}_k)\bm{s}_k\herm$. Thus, $\bm{D}\herm\bm{D}=\nabla^2 f(\bm{z})$. Let $\bm{\Sigma}=\mathbb{E}\{\bm{D}\herm\bm{D}\}$. Finally, we apply concentration inequalities for sample covariances matrices \cite[Theorem 5.39]{Vershynin2012nonasymptoticmatrices}, and for $t>0$, 
+%%\begin{equation}
+%%\|\frac{1}{K}\bm{D}\herm\bm{D}-\bm{\Sigma}\|\leq \delta
+%%\end{equation}
+%%with probability at least $1-2\e{-c_2t^2}$, as long as the number of samples $K \geq C_1(t/\delta)^2L$, with $C_1>0$ a sufficiently large constant. 
+%
+%%{\textbf{Work to obtain a better version.} 
+%To prove the concentration inequality, it suffices to show
+%\begin{align}
+%\big\|2(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\})-R_2(\bm{S}-\mathbb{E}\{\bm{S}\})\big\|\leq {\delta}/{4}, \label{eqn:concentration_ineq_A}\\
+%\|\bm{B}(\bm{z})-\mathbb{E}\{\bm{B}(z)\}\|\leq 
+%{\delta}/{4}. \label{eqn:concentration_ineq_B}
+%\end{align}
+%\textcolor{blue}{Observe that the left-hand side (LHS) of
+	%(\ref{eqn:concentration_ineq_A}) differs from the case of phase retrieval, 
+	%because only the desired average amplitude is known, instead of the true amplitudes
+	%of the source samples. Additionally, QAM constellations are bounded, thus the signal vectors are subgaussian with $\|\bm{s}_k\|_{\varphi_2}\leq CB=B'$.}
+%
+%%
+%%
+%%
+%%For any $\epsilon>0$ there exist postive
+%%$C_3$ and $c_3$ such that, for $K\geq C_3 L$, we have
+%%\begin{align}
+%%&\frac{1}{K}\sum_{k=1}^K|{s}_{kl}|^2-m_2<\epsilon,
+%%\quad\frac{1}{K}\sum_{k=1}^K|{s}_{kl}|^4-m_4<\epsilon \nonumber\\
+%%&\frac{1}{K}\sum_{k=1}^K{s}_{kl}<\epsilon,\quad\frac{1}{K}\sum_{k=1}^K|{s}_{ki}|^2s_{k{\ell}}\overline{s_{ka}}<\epsilon\quad i\neq {\ell}, {\ell}\neq a\nonumber\\
+%%&\frac{1}{K}\sum_{k=1}^K|{s}_{ki}|^2|s_{k{\ell}}|^2-m_2^2<\epsilon,\quad i\neq {\ell}\nonumber
+%%\end{align}
+%%with a probability of at least $1-\e{-c_3K}$, which follows from concentrations of measure using Chebyshev's inequality. Let $E_0$ be the event where all above inequalities 
+%%hold. We will show that there is another event $E_1$ of high probability such that both Eqs.(\ref{eqn:concentration_ineq_A}) and (\ref{eqn:concentration_ineq_B}) hold on $E_0\cap E_1$. 
+%
+%\textcolor{blue}{
+	%Using triangle inequality on the LHS of (\ref{eqn:concentration_ineq_A}), we have
+	%\begin{align}
+	%&\big\|2(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\})-R_2(\bm{S}-\mathbb{E}\{\bm{S}\})\big\|\nonumber\\
+	%%&\quad=\Big\|\frac{1}{K}\sum_{k=1}^K(2|\bm{s}_k\herm \bm{z}|^2-R_2)\bm{s}_k\bm{s}_k\herm-2m_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\nonumber\\
+	%%&\quad\quad+R_2  m_2\bm{I}-2\kappa\ddiag(\z\z\herm)\Big\|\nonumber\\
+	%&\quad\leq2\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\}\big\|+R_2\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|,\nonumber
+	%%&\quad\leq2\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\big\|+R_2\delta
+	%\end{align}
+	%where $R_2\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|\leq\delta/8$ 
+	%can be bounded via Lemma~\ref{lemma:concentration_covariance} 
+	%by choosing $C_3(\delta/8R_2)$.
+	%To bound $\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(z)\}\big\|\leq\delta/16$, note that 
+	%\begin{equation}
+	%\bm{A}(\bm{z})=\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{q}|^2\bm{s}_k\bm{s}_k\herm = \tilde{A}\tilde{A}\herm\nonumber
+	%\end{equation}
+	%\begin{equation}
+	%\tilde{\bm{A}}(\bm{z})=\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{q}|^2\bm{s}_k\bm{s}_k\herm\cdot \bm{1}\big[|\bm{s}_k\herm\bm{q}|^2\leq2N\ln(L)\big]\nonumber
+	%\end{equation}
+	%with a scalar $N$ to be defined below. Let $\delta_0>0$ and define the following events
+	%\begin{align}
+	%E_a & =\Big\{\|\tilde{\bm{A}}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\|\leq \delta_0 \Big\} \nonumber\\
+	%E_b & = \Big\{\tilde{\bm{A}}(\bm{z})=\bm{A}(\bm{z})\Big\}\nonumber\\
+	%E_c & =\Big\{|\bm{s}_k\herm\bm{q}|\leq \sqrt{2N\log(L)},\,k\in\{1,\ldots,K\} \Big\} \nonumber\\
+	%E_d & =  \Big\{\|{\bm{A}}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\|\leq \delta_0 \Big\}\nonumber
+	%\end{align}
+	%Under these definitions, $E_a\cap E_b\subset E_d$ and $E_c\subset E_b$. Thus,
+	%\begin{align}
+	%\mathbb{P}(E_d^{\mathsf{c}})&\leq \mathbb{P}(E_d^{\mathsf{c}} \cup E_b^{\mathsf{c}} )\leq \mathbb{P}\left((E_d^{\mathsf{c}} \cap E_b)\cup E_b^{\mathsf{c}} \right)\nonumber\\ &\leq\mathbb{P}(E_a^{\mathsf{c}}\cap E_b)+\mathbb{P}( E_b^{\mathsf{c}} )\leq\mathbb{P}(E_a^{\mathsf{c}}\cap E_b )+\mathbb{P}( E_c^{\mathsf{c}} ). \nonumber
+	%\end{align} 
+	%As the signal vectors $\bm{s}_k$ are subgaussian with $\|\bm{s}_k\|_{\varphi_2}\leq B$, Hoeffding's inequality and an union bound yield
+	%\begin{equation}
+	%\mathbb{P}(|\bm{s}_k\herm\bm{q}|\leq\sqrt{2N\log(L)})\leq 2L^{-N} \Rightarrow \mathbb{P}(E_c^{\mathsf{c}})\leq 2KL^{-N}.\nonumber
+	%\end{equation}
+	%Now, let $\bm{h}_k=|\bm{s}_k\herm\bm{q}|\bm{s}_k\cdot\mathbf{1}[|\bm{s}_k\herm\bm{q}|\leq \sqrt{2N\log(L)}]$. These vectors are independent subgaussian with norm $\|\bm{h}_k\|_{\varphi_2}\leq 2N\log(L)\|\bm{s}_k\|_{\varphi_2}$. By invoking \cite[Lemma 5.9]{Vershynin2012nonasymptoticmatrices}, we have
+	%\begin{align}
+	%\mathbb{P}(E_a^{\mathsf{c}}\cap E_b )&= \mathbb{P}\big(\|\tilde{\bm{A}}(\bm{z})-\mathbb{E}\{\tilde{\bm{A}}(\bm{z})\}\|\geq \delta_0\big)\nonumber\\
+	% &= \mathbb{P}\bigg(\Big\|\frac{1}{K}\sum_{k=1}^K\bm{h}_k\bm{h}_k\herm-\mathbb{E}\Big\{\frac{1}{K}\sum_{k=1}^K\bm{h}_k\bm{h}_k\herm\Big\}\Big\|\geq \delta_0\bigg)\nonumber\\
+	% &\leq 2\e{-c_4K}.\nonumber
+	%\end{align}
+	%%The event $E_a^{\mathsf{c}}\cap E_b=\{\}$
+	%provided that the number of samples is $K\geq C_4 L $. Thus, 
+	%\begin{align}
+	%\mathbb{P}(E_d)\geq 1-2\e{-c_4K}-2KL^{-N}
+	%\end{align}
+	%holds when $K\geq C_4 L $. The inequality follows by setting $N=5$ and $K\geq C_4L$.
+	%%We also know that $\bm{A}(\bm{z})$ is Hermitian, thus we will now show that for any $\bm{u} \in\mathbb{C}^L$ satisfying $\|\bm{u}\|=1$, we have
+	%%\begin{align}
+	%%\Big|\bm{u}\herm\big(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\big)\bm{u}\Big|\leq\frac{\delta}{16}.\nonumber
+	%%\end{align}
+	%%%This expression to bound is equivalent to
+	%%%\begin{align}
+	%%%&\bigg|\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{u}|^2-m_2^2\big(\|\bm{z}\|^2\|\bm{u}\|^2+|\bm{z}\herm\bm{u}|^2\big)\nonumber\\
+	%%%&\qquad-\kappa\sum_{l=1}^L|z_l|^2|u_l|^2\bigg|\leq\frac{\delta}{16}.\nonumber
+	%%%\end{align}
+	%%%The first term inside the absolute value is equivalent to
+	%%%\begin{align}
+	%%%&=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^L\sum_{b=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^Ls_{ka}\overline{s_{kb}}s_{ki}\overline{s_{k{\ell}}}\overline{z_{a}}z_{b}\overline{u_i}u_{{\ell}}.\nonumber
+	%%%\end{align}
+	%%By rewriting the quadratic form in terms of sums of products of the elements of $\bm{s}_k$, $\bm{z}$ and $\bm{u}$, and rearranging the indexes for the cases $a=b=i={\ell}$, $a=b\neq i={\ell}$, $a={\ell}\neq b=i$, and all other combinations (grouped in the set $\mathcal{I}_{o}$), we obtain
+	%%\begin{align}
+	%%&\big|\bm{u}\herm\big(\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\big)\bm{u}\big|\nonumber\\
+	%%&=\bigg|\sum_{a=1}^L\Big(\frac{1}{K}\sum_{k=1}^K|s_{ka}|^4-m_4\Big)|z_a|^2|u_a|^2\nonumber\\
+	%%&\quad+\sum_{a=1}^L\sum_{i\neq a}^L \Big(\frac{1}{K}\sum_{k=1}^K|s_{ka}|^2|s_{ki}|^2-m_2^2\Big)|z_{a}|^2|u_{i}|^2\nonumber\\
+	%%&\quad+\sum_{a=1}^L\sum_{b\neq a}^L \Big(\frac{1}{K}\sum_{k=1}^K|s_{ka}|^2|s_{kb}|^2-m_2^2\Big)z_{a}\overline{z_bu_a}u_b\nonumber\\
+	%%&\quad+\sum_{\mathcal{I}_{o}} \Big(\frac{1}{K}\sum_{k=1}^Ks_{ka}\overline{s_{kb}}s_{ki}\overline{s_{k{\ell}}}\Big)\overline{z_{a}}z_{b}\overline{u_i}u_{{\ell}}\bigg|\nonumber\\
+	%%&\quad\leq C_4(L)\epsilon = \frac{\delta}{16}\nonumber
+	%%\end{align}
+	%%with a careful selection of $\epsilon$, $C_4(L)$, $C_3$ and $c_3$. 
+	%The bound for Eq.(\ref{eqn:concentration_ineq_B}) also follows \cite[Lemma 5.9]{Vershynin2012nonasymptoticmatrices} as $\bm{B}(\bm{z})=\bm{h}\bm{h}\T$, with corresponding constants $C_5, c_5$. Selecting $C_1(\delta)\geq\max\{C_3(\delta/8R_2),C_4(\delta/16),C_5(\delta/4)\}$ finishes the proof.}
+
+%, but because the matrix $\bm{B}(\bm{q})$ is not Hermitian, we have to bound 
+%\begin{align}
+%\big|\bm{u}\herm\big(\bm{B}(\bm{q})-\mathbb{E}\{\bm{B}(\bm{z})\}\big)\bm{v}\big|\leq\frac{\delta}{4}
+%\end{align}
+%where both $\bm{u}$ and $\bm{v}$ are unit length vectors.
+%{\textbf{In progress. Signal vectors $\xk$ not circular symmetric, so unitary invariance used in WF paper does not apply directly, but there's a version of rotation invariance for subgaussian variables, leading to Hoeffding-type inequalities \cite[Proposition 5.10]{Vershynin2012nonasymptoticmatrices}. Trying to progress through this route.}
+	
+	
+	%\subsection{Proof of Lemma~\ref{lemma:concentration_gradient}}\label{appdx:concentration_gradient}
+	%Following the proof of Lemma 7.7 in \cite{Candes2015a_phaseretrievalWF}, it is sufficient to prove that 
+	%\begin{align}
+	%&\big\|\nabla f(\bm{w})-\mathbb{E}\{\nabla f(\bm{w})\}\big\|=\nonumber\\
+	%&\qquad\max_{\bm{u}\in\mathbb{C}^M,\|\bm{u}\|=1}\bm{u}\herm\big(\nabla f(\bm{w})-\mathbb{E}\{\nabla f(\bm{w})\}\big)
+	%\end{align}
+	%is bounded. Let $\bm{p}=\e{-{\ell}\phi(\bm{w})}\bm{w}-\z$ and $\bm{q}=\e{-{\ell}\phi(\bm{w})}\bm{u}$. Hence, $\|\bm{p}\|=\dist(\bm{w},\z)$ and $\bm{u}\herm\bm{Y}\bm{w}=\bm{q}\herm\bm{Y}(\bm{p}+\z)$ for any matrix $\bm{Y}$. The first term is
+	%\begin{align}
+	%&\bm{u}\herm\nabla f(\bm{w})\nonumber\\
+	%&\quad=\bm{q}\herm\big(\bm{A}(\bm{p}+\z)-\bm{A}(\z)\big)(\bm{p}+\z)\nonumber\\
+	%&\quad=\frac{1}{K}\sum_{k=1}^K\Big(\bm{q}\herm\big(2\xk\herm\bm{p}\bm{p}\herm\xk+\xk\herm\z\z\herm\xk\big)\xk\xk\herm(\bm{p}+\z)\nonumber\\
+	%&\quad\quad+\bm{q}\herm\big(2\xk\herm\bm{p}\z\herm\xk+2\xk\z\herm\bm{p}\herm\xk\big)\xk\xk\herm(\bm{p}+\z)\Big)\nonumber\\
+	%&\quad=\frac{1}{K}\sum_{k=1}^K\bm{q}\herm\Big(|\xk\herm\bm{p}|^2\xk\xk\herm\Big)\bm{p}+\bm{q}\herm\Big(|\xk\herm\z|^2\xk\xk\herm\Big)\bm{p}\nonumber\\
+	%&\qquad+2\bm{q}\herm\Big(|\xk\herm\bm{p}|^2\xk\xk\herm\Big)\z\nonumber\\
+	%&\qquad+\bm{q}\herm\Big((\xk\herm\bm{p})^2\xk\xk\T\Big)\overline{\z}+\bm{q}\herm\Big((\xk\herm\z)^2\xk\xk\T\Big)\overline{\bm{p}}. \label{eqn:con_grad1}
+	%\end{align}
+	%
+	%Analogously, the second term is equal to
+	%\begin{align}
+	%&\bm{u}\herm\mathbb{E}\{\nabla f(\bm{w})\}\nonumber\\
+	%&\quad=  m_2^2\bm{q}\herm\big(2\|\bm{w}\|^2\bm{I}-\|\z\|^2\bm{I}-\z\z\herm\big)(\bm{p}+\z)\nonumber\\
+	%&\quad\quad +\kappa\bm{q}\herm\ddiag((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm)(\bm{p}+\z)\nonumber\\
+	%&\quad=  m_2^2\bm{q}\herm\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bm{p}+  m_2^2\bm{q}\herm\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bm{p}\nonumber\\
+	%&\quad\quad+2  m_2^2\bm{q}\herm\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\z\nonumber\\
+	%&\quad\quad+  m_2^2\bm{q}(2\bm{p}\bm{p}\T)\overline{\z}+  m_2^2\bm{q}(2\z\z\T)\overline{\bm{p}}\nonumber\\
+	%&\quad\quad +\kappa\bm{q}\herm\ddiag(\bm{p}\bm{p}\herm+\z\bm{p}\herm+\bm{p}\z\herm)(\bm{p}+\z). \label{eqn:con_grad2}
+	%\end{align}
+	%Using Eqs.(\ref{eqn:con_grad1}) and~(\ref{eqn:con_grad2}) and the triangular inequality, we have
+	%\begin{align}
+	%&\big\|\nabla f(\bm{w})-\mathbb{E}\{\nabla f(\bm{w})\}\big\|\nonumber\\
+	%&\quad\leq\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K |\xk\herm\bm{p}|^2\xk\xk\herm-  m_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg)\bm{p}\bigg|\nonumber\\
+	%&\qquad+\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K|\xk\herm\z|^2\xk\xk\herm-  m_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bigg)\bm{p}\bigg|\nonumber\\
+	%&\qquad+2\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K|\xk\herm\bm{p}|^2\xk\xk\herm-  m_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg)\z\bigg|\nonumber\\
+	%&\qquad+\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K(\xk\herm\bm{p})^2\xk\xk\T-2  m_2^2\bm{p}\bm{p}\T\bigg)\overline{\z}\bigg|\nonumber\\
+	%&\qquad+\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K(\xk\herm\z)^2\xk\xk\T-2  m_2^2\z\z\T\bigg)\overline{\bm{p}}\bigg|\nonumber\\
+	%&\qquad +\big|\kappa\bm{q}\herm\ddiag(\bm{p}\bm{p}\herm+\z\bm{p}\herm+\bm{p}\z\herm)(\bm{p}+\z)\big|\nonumber\\
+	%&\quad\leq\bigg\|\frac{1}{K}\sum_{k=1}^K |\xk\herm\bm{p}|^2\xk\xk\herm-  m_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg\|\|\bm{p}\|\nonumber\\
+	%&\qquad+\bigg\|\frac{1}{K}\sum_{k=1}^K|\xk\herm\z|^2\xk\xk\herm-  m_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bigg\|\|\bm{p}\|\nonumber\\
+	%&\qquad+2\bigg\|\frac{1}{K}\sum_{k=1}^K|\xk\herm\bm{p}|^2\xk\xk\herm-  m_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg\|\|\z\|\nonumber\\
+	%&\qquad+\bigg\|\frac{1}{K}\sum_{k=1}^K(\xk\herm\bm{p})^2\xk\xk\T-2  m_2^2\bm{p}\bm{p}\T\bigg\|\|\z\|\nonumber\\
+	%&\qquad+\bigg\|\frac{1}{K}\sum_{k=1}^K(\xk\herm\z)^2\xk\xk\T-2  m_2^2\z\z\T\bigg\|\|\bm{p}\|\nonumber\\
+	%&\qquad +\big|\kappa\big|\big|\bm{q}\herm\ddiag(\bm{p}\bm{p}\herm+\z\bm{p}\herm+\bm{p}\z\herm)(\bm{p}+\z)\big|\label{eqn:con_grad3}
+	%%&\quad\leq \frac{3}{4}\delta\|\bm{p}\|\big(\|\bm{p}\|+\|\z\|\big)
+	%\end{align}
+	%
+	%Lemma~\ref{lemma:concentration_hessian} provides upper bounds for the first 5 terms, so we focus on bounding the last term. Note that 
+	%\begin{align}
+	%&\big|\bm{q}\herm\ddiag\big((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm\big)(\bm{p}+\z)\big|\nonumber\\
+	%&\quad=\big|\Tr\big(\bm{q}\herm\ddiag\big((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm\big)(\bm{p}+\z)\big)\nonumber\\
+	%%&\quad=\Tr\Big(\bm{q}\herm\ddiag\big((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm\big)(\bm{p}+\z)\Big)\nonumber\\
+	%%&\quad= \sum_{i=1}^M\overline{q}_i\big(|p_i+z_i|^2-|z_i|^2\big)(p_i+z_i)\nonumber\\
+	%%&\quad\leq \max_{1\leq {\ell}\leq M}\big(|p_{\ell}+z_{\ell}|^2-|z_{\ell}|^2\big)\sum_{i=1}^M\overline{q}_i(p_i+z_i)
+	%&\quad=\big| \sum_{i=1}^M\overline{q}_i\big((p_i+z_i)(\overline{p}_i+\overline{z}_i)-z_i\overline{z}_i\big)(p_i+z_i)\big|\nonumber\\
+	%&\quad\leq \max_{1\leq {\ell}\leq M} \Big||p_{\ell}+z_{\ell}|^2-|z_{\ell}|^2\Big|\bigg|\sum_{i=1}^M\overline{q}_i(p_i+z_i)\bigg|\nonumber\\
+	%&\quad\leq \max_{1\leq {\ell}\leq M} \Big(|p_{\ell}|^2\Big)\Big|\bm{q}\herm(\bm{p}+\z)\Big|\nonumber\\
+	%&\quad\leq \|\bm{p}\|^2\|\bm{p}+\z\|\nonumber\\
+	%&\quad\leq \|\bm{p}\|\big(\|\bm{p}\|+\|\z\|\big).
+	%\end{align} 
+	%{\textbf{Only part missing here is to bound this term in relation to $\delta$. Other possibility would be to define bound of Lemma as $(\delta+a)\dist(\bm{w},\z)$, with $a$ constant, but not sure about the impact of that change in rest of the convergence criterions.}
+		
+		
+		
+		
+		
+		
+		%
+		%\subsection{Transmitted signal model} \label{appdx:distribution}
+		%Consider $L$ independent sources transmitting random symbols $s_l[k]$, with each source following a (possibly different) equiprobable regular QAM constellations of size $C_l=4^{c_l}$. Without normalization, the real and imaginary parts of these symbols belong to the set
+		%\begin{align}
+		%%\{-\sqrt{C_l}+1,-\sqrt{C_l}+3,\ldots,-1,1,\ldots,\sqrt{C_l}-3,\sqrt{C_l}-1 \},
+		%\big\{\pm 1,\pm 3,\ldots,\pm(\sqrt{C_l}-3),\pm(\sqrt{C_l}-1) \big\},
+		%\end{align}
+		%and the symbols can be described as
+		%%We drop the time index in this section, as the variables are independent of themselves and others in different time instants, according to the problem formulation. 
+		%%Without loss of generality, we will set $E_l=1$.
+		%%Note that any transmitted symbol under these constellations can be written as 
+		%\begin{align}
+		%s_l[k]&=\sum_{i=1}^{c_l} 2^{i-1}r_{i,k} +{\ell} \Bigg(\sum_{i=1}^{c_l} 2^{i-1}r_{i,k}'\Bigg), \label{eqn:symbols}
+		%\end{align}
+		%where $r_{i,k}, r_{i,k}'$ are independent Rademacher random variables, i.e., $\mathbb{P}(r_i=1)= \mathbb{P}(r_i=-1)=0.5$ (also known as symmetric Bernoulli). To describe a constellation with average energy $E_l$, we just multiply the symbols by a factor
+		%\begin{align}
+		%\nu=\sqrt{\frac{3E_l}{2(C_l-1)}}
+		%\end{align}
+		%as the average energy of the symbols described as in Eq.(\ref{eqn:symbols}) is $2(C_l-1)/3$. Due to this fact, we will avoid normalization in the following derivations for simplicity.
+		%
+		%\subsection{Expectations and moments} \label{appdx:expectations}
+		%%For a random Rayleigh channel $h_l$, we have
+		%%\begin{subequations}
+		%%\label{eqn:channel_moments}
+		%%\begin{align}
+		%%\mathbb{E}\{h_{l}\}&=0\\
+		%%\mathbb{E}\{h_{l}^2\}&=0\\
+		%%\mathbb{E}\{|h_{l}|^2\}&=1\\
+		%%\mathbb{E}\{h_{l}^4\}&=0\\
+		%%\mathbb{E}\{|h_{l}|^4\}&=2(1)^2=2
+		%%\end{align}
+		%%\end{subequations}
+		%
+		%%The random noise vector $\bm{w}$ has i.i.d. elements, therefore any element satisfies
+		%%\begin{subequations}
+		%%\label{eqn:noise_moments}
+		%%\begin{align}
+		%%\mathbb{E}\{w_m\}&=0\\
+		%%\mathbb{E}\{w_m^2\}&=0\\
+		%%\mathbb{E}\{|w_m|^2\}&=\sigma_w^2\\
+		%%\mathbb{E}\{w_m^4\}&=0\\
+		%%\mathbb{E}\{|w_m|^4\}&=2(\sigma_w^2)^2=2\sigma_w^4
+		%%\end{align}
+		%%\end{subequations}
+		%
+		%The elements of the transmitted signal vector $\bm{s}_k$ are independent, and using regular QAM constellations, satisfy for all $l\in\{1,\ldots,L\}$ and all $k\in\{1,\ldots,K\}$:
+		%\begin{subequations}
+		%\label{eqn:signal_moments}
+		%\begin{align}
+		%\mathbb{E}\{s_{l}\}&= 0\\
+		%\mathbb{E}\{s_{l}^2\}&=0\\
+		%\mathbb{E}\{|s_{l}|^2\}&=m_{2,l}=\frac{2}{3}(C_l-1)\\
+		%\mathbb{E}\{s_{l}s_{i}s_{\ell}\}&=\mathbb{E}\{s_{l}s_{i}\overline{s}_{\ell}\}=0\,\,\,\forall\, l,i,{\ell}\\
+		%\mathbb{E}\{s_{l}^4\}&=\frac{4}{15}(1-C_l^2)\\
+		%\mathbb{E}\{|s_{l}|^4\}&=m_{4,l}=\frac{4}{45}(7C_l^2-20C_l+13)
+		%\end{align}
+		%\end{subequations}
+		%where the  third- and fourth-order moments not shown are zero. 
+		%%Note that, with this notation,
+		%%\begin{align}
+		%%R_2=\frac{m_4}{m_2}\quad\Rightarrow\quad R_2m_2=m_4.
+		%%\end{align}
+		%Additionally, 
+		%\begin{subequations}
+		%\label{eqn:kurtosis_bounds}
+		%\begin{align}
+		%m_{4,l}-  m_{2,l}^2&=\frac{4}{45}(7C_l^2-20C_l+13)-\frac{4}{9}(C_l-1)^2\nonumber\\
+		%&=\frac{1}{45}(8C_l^2-40C_l+32)>0\quad\forall C_l\in\mathbb{N}\\
+		%\kappa_l=m_{4,l}-2 m_{2,l}^2&=\frac{4}{45}(7C_l^2-20C_l+13)-\frac{8}{9}(C_l-1)^2\nonumber\\
+		%&=\frac{12}{45}(-C_l^2+1)<0\quad\forall C_l>1
+		%\end{align}
+		%\end{subequations}
+		%where $\kappa$ corresponds to the kurtosis. In particular, the kurtosis of regular QAM modulations satisfy 
+		%\begin{align}
+		%C_l=4:&\quad\kappa_l=-m_{2,l}^2\,\,,\\
+		%C_l=4^{c_l}, c_l\geq2: & \quad\kappa_l=\bigg(\frac{1}{5}\frac{(7C_l-13)}{C_l-1}-2\bigg)m_{2,l}^2\nonumber\\
+		%&\quad\Rightarrow\kappa_l\in[-0.68m_{2,l}^2,-0.6m_{2,l}^2].
+		%\end{align}
+		%%We now introduce the variables $r_{m,l}=h_{m,l}s_{l}$, which are independent for different values of the source index $l$. Thus, their moments are
+		%%\begin{subequations}
+		%%\label{eqn:rl_moments}
+		%%\begin{align}
+		%%\mathbb{E}\{r_{m,l}\}&=\mathbb{E}\{h_{m,l}\}\mathbb{E}\{s_l\}=0\\
+		%%\mathbb{E}\{r_{m,l}r_{n,l}\}&=\mathbb{E}\{h_{m,l}h_{n,l}\}\mathbb{E}\{s_l^2\}=0\\
+		%%\mathbb{E}\{r_{m,l}^2\}&=\mathbb{E}\{h_{m,l}^2\}\mathbb{E}\{s_l^2\}=0\\
+		%%\mathbb{E}\{r_{m,l}\overline{r}_{n,l}\}&=\mathbb{E}\{h_{m,l}\overline{h}_{n,l}\}\mathbb{E}\{|s_l|^2\}\nonumber\\
+		%%&=0\\%h_{m,l}\overline{h}_{n,l}E_l\\
+		%%\mathbb{E}\{|r_{m,l}|^2\}&=\mathbb{E}\{|h_{m,l}|^2\}\mathbb{E}\{|s_l|^2\}=E_l\\%|h_l|^2E_l\\
+		%%\mathbb{E}\{r_{m,l}r_{n,l}r_{p,l}\}&=\mathbb{E}\{r_{m,l}r_{n,l}\overline{r}_{p,l}\}=0\\
+		%%\mathbb{E}\{r_{m,l}^3\}&=\mathbb{E}\{|r_{m,l}|^2r_{m,l}\}=0\\
+		%%\mathbb{E}\{r_{m,l}{r}_{n,l}r_{p,l}{r}_{q,l}\}&=h_{m,l}{h}_{n,l}h_{p,{\ell}}{h}_{q,{\ell}}G_l\\
+		%%\mathbb{E}\{r_{m,l}\overline{r}_{n,l}r_{p,{\ell}}\overline{r}_{q,{\ell}}\}&=0\\%h_{m,l}\overline{h}_{n,l}h_{p,{\ell}}\overline{h}_{q,{\ell}}E_lE_{\ell},\,\, l\neq {\ell}\\
+		%%\mathbb{E}\{|r_{m,l}|^2|r_{n,{\ell}}|^2\}&=E_lE{\ell},\,\, l\neq {\ell}\\%|h_{m,l}|^2|h_{n,{\ell}}|^2E_lE_{\ell}\\
+		%%\mathbb{E}\{r_{m,l}\overline{r}_{n,l}r_{p,l}\overline{r}_{q,l}\}&=0\\%h_{m,l}\overline{h}_{n,l}h_{p,l}\overline{h}_{q,l}F_l\\
+		%%\mathbb{E}\{|r_{m,l}|^2|r_{n,l}|^2\}&=F_l\\%|h_{m,l}|^2|h_{n,l}|^2F_l\\
+		%%\mathbb{E}\{|r_{m,l}|^4\}&=2F_l%|h_l|^4F_l
+		%%\end{align}
+		%%\end{subequations}
+		%%where the not shown general third- and fourth-order moments are zero. Define $b_m=\sum_{l=1}^Lh_{m,l}s_l$. Note that $b_m$ and $b_n$ are not independent because both include symbols from all the sources. Therefore, 
+		%%\begin{subequations}
+		%%\label{eqn:b_moments}
+		%%\begin{align}
+		%%\mathbb{E}\{b_m\}&=\sum_{l=1}^L \mathbb{E}\{r_{m,l}\}=0\\
+		%%%\mathbb{E}\{b_m^2\}&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_{m,l}\Big)^2\bigg\}\nonumber\\
+		%%%&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^Lr_{m,l}r_{m,{\ell}}\bigg\}\nonumber\\
+		%%%&=\sum_{l=1}^L\mathbb{E}\big\{r_{m,l}^2\big\}+\sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\{r_{m,l}\}\mathbb{E}\big\{r_{m,{\ell}}\}=0\\
+		%%\mathbb{E}\{b_mb_n\}
+		%%%&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_{m,l}\Big)\Big(\sum_{l=1}^Lr_{n,l}\Big)\bigg\}\nonumber\\
+		%%&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^Lr_{m,l}r_{n,{\ell}}\bigg\}\nonumber\\
+		%%&=\sum_{l=1}^L\mathbb{E}\big\{r_{m,l}r_{n,l}\big\}+\sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\big\{r_{m,l}\}\mathbb{E}\big\{r_{n,{\ell}}\}\nonumber\\
+		%%&=0\\
+		%%%\mathbb{E}\{|b_m|^2\}&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_l\Big)\Big(\sum_{l=1}^L\overline{r}_l\Big)\bigg\}=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^Lr_l\overline{r}_{\ell}\bigg\}\nonumber\\
+		%%%&=\sum_{l=1}^L\mathbb{E}\big\{|r_l|^2\big\}+\sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\{r_l\}\mathbb{E}\{\overline{r}_{\ell}\}\nonumber\\
+		%%%&=\sum_{l=1}^L|h_l|^2E_l\\
+		%%\mathbb{E}\{b_m\overline{b}_n\}
+		%%%&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_{m,l}\Big)\Big(\sum_{l=1}^L\overline{r}_{n,l}\Big)\bigg\}\nonumber\\
+		%%&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^Lr_{m,l}\overline{r}_{n,{\ell}}\bigg\}\nonumber\\
+		%%&=\sum_{l=1}^L\mathbb{E}\big\{r_{m,l}\overline{r}_{n,l}\big\}+\sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\{r_{m,l}\}\mathbb{E}\{\overline{r}_{n,{\ell}}\}\nonumber\\
+		%%&=\sum_{l=1}^L\mathbb{E}\{h_{m,l}\overline{h}_{n,l}\}E_l =0\\% \Gamma_{mn}\\
+		%%\mathbb{E}\{|b_m|^2\}&= \sum_{i=1}^LE_l=\Gamma\\%_{mm}
+		%%\mathbb{E}\{b_mb_nb_p\}&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^Lr_{m,l}r_{n,i}r_{p,{\ell}}\bigg\}\nonumber\\
+		%%&=\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^L\mathbb{E}\big\{h_{m,l}h_{n,i}h_{p,{\ell}}\big\}\mathbb{E}\big\{s_{l}s_{i}s_{{\ell}}\big\}=0
+		%%\end{align}
+		%%\begin{align}
+		%%&\mathbb{E}\{b_mb_n\overline{b}_p\}\nonumber\\
+		%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^Lr_{m,l}r_{n,i}\overline{r}_{p,{\ell}}\bigg\}\nonumber\\
+		%%&\quad=\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^L\mathbb{E}\big\{h_{m,l}h_{n,i}\overline{h}_{p,{\ell}}\big\}\mathbb{E}\big\{s_{l}s_{i}\overline{s}_{{\ell}}\big\}=0\\
+		%%&\mathbb{E}\{b_mb_nb_pb_q\}\nonumber\\
+		%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^L\sum_{k=1}^Lr_{m,l}r_{n,i}r_{p,{\ell}}r_{q,k}
+		%%\bigg\}\nonumber\\
+		%%&\quad=\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^L\sum_{k=1}^L\mathbb{E}\big\{h_{m,l}h_{n,i}h_{p,{\ell}}h_{q,k}\big\}\mathbb{E}\big\{s_{l}s_{i}s_{{\ell}}s_k\big\}\nonumber\\
+		%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{h_{m,l}h_{n,l}h_{p,l}h_{q,l}\}\mathbb{E}\big\{s_{l}^4\big\}=0\nonumber\\
+		%%%&\quad=\sum_{l=1}^Lh_{m,l}h_{n,l}h_{p,l}h_{q,l}G_l=\Lambda_{mnpq}\\
+		%%&\mathbb{E}\{b_m\overline{b}_nb_p\overline{b}_q\}\nonumber\\
+		%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^L\sum_{k=1}^Lr_{m,l}\overline{r}_{n,i}r_{p,{\ell}}\overline{r}_{q,k}\bigg\}\nonumber\\
+		%%&\quad=\sum_{l=1}^L\sum_{i=1}^L\sum_{{\ell}=1}^L\sum_{k=1}^L\mathbb{E}\big\{h_{m,l}\overline{h}_{n,i}h_{p,{\ell}}\overline{h}_{q,k}\big\}\mathbb{E}\big\{s_{l}\overline{s}_{i}s_{{\ell}}\overline{s}_k\big\}\nonumber\\
+		%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,l}\overline{h}_{q,l}\big\}\mathbb{E}\big\{|s_{l}|^4\big\}\nonumber\\
+		%%&\qquad+\sum_{l=1}^L\sum_{{\ell}\neq l}  \mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,{\ell}}\overline{h}_{q,{\ell}}\big\}\mathbb{E}\big\{|s_{l}|^2|s_{\ell}|^2\big\}\nonumber\\
+		%%&\qquad+\sum_{l=1}^L\sum_{i\neq l}  \mathbb{E}\big\{h_{m,l}\overline{h}_{n,i}h_{p,i}\overline{h}_{q,l}\big\}\mathbb{E}\big\{|s_{l}|^2|s_i|^2\big\}\nonumber\\
+		%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,l}\overline{h}_{q,l}\big\}F_l\nonumber\\
+		%%&\qquad+\sum_{l=1}^L\sum_{{\ell}\neq l}  \mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,{\ell}}\overline{h}_{q,{\ell}}+h_{m,l}\overline{h}_{n,{\ell}}h_{p,{\ell}}\overline{h}_{q,l}\big\}E_lE_{\ell}\nonumber\\
+		%%&\qquad=0%\kappa_{mnpq}
+		%%\\
+		%%%\end{align}
+		%%%\begin{align}
+		%%%&\quad=\mathbb{E}\bigg\{\Big(\sum_{l=1}^L|r_{m,l}|^2+\sum_{l=1}^L\sum_{{\ell}\neq l}r_{m,l}\overline{r}_{m,{\ell}}\Big)^2
+		%%%\bigg\}\nonumber\\
+		%%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^L|r_{m,l}|^2|r_{m,{\ell}}|^2\bigg\}\nonumber\\
+		%%%&\qquad+2\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^L\sum_{k\neq {\ell}}|r_{m,l}|^2r_{m,{\ell}}\overline{r}_{m,k}\bigg\}\nonumber\\
+		%%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}\neq l}\sum_{i=1}^L\sum_{k\neq i}r_{m,l}\overline{r}_{m,{\ell}}r_{m,i}\overline{r}_{m,k}\bigg\}\nonumber\\
+		%%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{|r_{m,l}|^4\big\} + \sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{|r_{m,{\ell}}|^2\big\}\nonumber\\
+		%%%&\qquad+2\sum_{l=1}^L\sum_{{\ell}=1}^L\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{r_{m,{\ell}}\overline{r}_{m,k}\big\}{\bm{1}[{\ell}\neq k]}\nonumber\\
+		%%%&\qquad+\sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\big\{r_{m,l}\overline{r}_{m,k}\big\}\mathbb{E}\big\{r_{m,i}\overline{r}_{m,{\ell}}\big\}{\bm{1}[l=k\neq {\ell}=i]}\nonumber\\
+		%%&\mathbb{E}\{|b_m|^2|b_n|^2\}%\nonumber\\&\quad
+		%%=\sum_{l=1}^LF_l+2\sum_{l=1}^L\sum_{{\ell}\neq l}E_lE_{\ell}=\Lambda\\%\nonumber\\
+		%%%&\quad=\sum_{l=1}^L|h_{m,l}|^2|h_{n,l}|^2F_l+2\sum_{l=1}^L\sum_{{\ell}\neq l}|h_{m,l}|^2|h_{n,{\ell}}|^2E_lE_{\ell}\nonumber\\
+		%%%&\quad=\kappa_{mn}\\
+		%%%&\quad=\kappa_{mn}=\kappa_{nm}\\
+		%%&\mathbb{E}\{|b_m|^4\}=2\sum_{l=1}^LF_l+2\sum_{l=1}^L\sum_{{\ell}\neq l}E_lE_{\ell}=\Omega%\nonumber\\
+		%%%&\quad=\sum_{l=1}^L|h_{m,l}|^4F_l+2\sum_{l=1}^L\sum_{{\ell}\neq l}|h_{m,l}|^2|h_{m,{\ell}}|^2E_lE_{\ell}\nonumber\\
+		%%%&\quad
+		%%%&\quad=\kappa_{mm}
+		%%%\nonumber\\
+		%%%=&\sum_{l=1}^LF_l+2\sum_{l=1}^L\sum_{{\ell}=1}^LE_lE_{\ell}-2\sum_{l=1}^LE_l^2
+		%%%&\quad=\mathbb{E}\bigg\{\Big(\sum_{l=1}^L|r_{m,l}|^2+\sum_{l=1}^L\sum_{{\ell}\neq l}r_{m,l}\overline{r}_{m,{\ell}}\Big)^2\bigg\}\nonumber\\
+		%%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^L|r_{m,l}|^2|r_{n,{\ell}}|^2\bigg\}\nonumber\\
+		%%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^L\sum_{k\neq {\ell}}|r_{m,l}|^2r_{n,{\ell}}\overline{r}_{n,k}\bigg\}\nonumber\\
+		%%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}=1}^L\sum_{k\neq {\ell}}|r_{n,l}|^2r_{m,{\ell}}\overline{r}_{m,k}\bigg\}\nonumber\\
+		%%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{{\ell}\neq l}\sum_{i=1}^L\sum_{k\neq i}r_{m,l}\overline{r}_{m,{\ell}}r_{n,i}\overline{r}_{n,k}\bigg\}\nonumber\\
+		%%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{|r_{m,l}|^2|r_{n,l}|^2\big\} + \sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{|r_{n,{\ell}}|^2\big\}\nonumber\\
+		%%%&\qquad+\sum_{l=1}^L\sum_{{\ell}=1}^L\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{r_{n,{\ell}}\overline{r}_{n,k}\big\}{\bm{1}[{\ell}\neq k]}\nonumber\\
+		%%%&\qquad+\sum_{l=1}^L\sum_{{\ell}=1}^L\mathbb{E}\big\{|r_{n,l}|^2\big\}\mathbb{E}\big\{r_{m,{\ell}}\overline{r}_{m,k}\big\}{\bm{1}[{\ell}\neq k]}\nonumber\\
+		%%%&\qquad+\sum_{l=1}^L\sum_{{\ell}\neq l}\mathbb{E}\big\{r_{m,l}\overline{r}_{m,k}\big\}\mathbb{E}\big\{r_{n,i}\overline{r}_{n,{\ell}}\big\}{\bm{1}[l=k\neq {\ell}=i]}\nonumber\\
+		%%\end{align}
+		%%\end{subequations}
+		%%Finally, consider the signal vector $\bm{x}=\bm{H}\bm{s}+\bm{w}$, so each of its elements is the random variable $x_m=b_m+w_m$, therefore
+		%%\begin{subequations}
+		%%\label{eqn:x_moments}
+		%%\begin{align}
+		%%\mathbb{E}\{x_m\}&=\mathbb{E}\{b_m+w_m\}=0\\
+		%%\mathbb{E}\{x_mx_n\}&=\mathbb{E}\big\{(b_m+w_m)(b_n+w_n)\big\}\nonumber\\
+		%%&=\mathbb{E}\big\{b_m b_n+b_m{w}_n+{b}_nw_m+w_mw_n\big\}\nonumber\\
+		%%&=0\\
+		%%\mathbb{E}\{x_m^2\}&=\mathbb{E}\big\{b_m^2+2b_mw_m+w_m^2\big\}=0\\
+		%%%\mathbb{E}\{|x_m|^2\}&=\mathbb{E}\big\{(b_m+w_m)\overline{(b_m+w_m)}\big\}\nonumber\\
+		%%%&=\mathbb{E}\big\{|b_m|^2+b_m\overline{w}_m+\overline{b}_mw_m+|w_m|^2\big\}\nonumber\\
+		%%%&=\sum_{l=1}^L|h_l|^2E_l+\sigma_w^2=\kappa_{2,mm}+\sigma_w^2\\
+		%%\mathbb{E}\{x_m\overline{x}_n\}&=\mathbb{E}\big\{(b_m+w_m)\overline{(b_n+w_n)}\big\}\nonumber\\
+		%%&=\mathbb{E}\big\{b_m\overline{b}_n+b_m\overline{w}_n+\overline{b}_nw_m+w_m\overline{w}_n\big\}\nonumber\\
+		%%&=(\Gamma+\sigma_w^2)\bm{1}[m= n]\\
+		%%\mathbb{E}\{x_mx_nx_px_q\}&=\mathbb{E}\big\{b_mb_nb_pb_q\big\}=0\\%\Lambda_{mnpq}\\
+		%%\mathbb{E}\{x_m\overline{x}_nx_p\overline{x}_q\}&=\mathbb{E}\big\{b_m\overline{b}_nb_p\overline{b}_q\big\}+\mathbb{E}\big\{b_m\overline{b}_nw_p\overline{w}_q\big\}\nonumber\\
+		%%&\,\,+\mathbb{E}\big\{b_m\overline{w}_nw_p\overline{b}_q\big\}+\mathbb{E}\big\{w_m\overline{b}_nb_p\overline{w}_q\big\}\nonumber\\
+		%%&\,\,+\mathbb{E}\big\{w_m\overline{w}_nb_p\overline{b}_q\big\}+\mathbb{E}\big\{w_m\overline{w}_nw_p\overline{w}_q\big\}\nonumber\\
+		%%&=0\\
+		%%%&=\kappa_{mnpq}+\Gamma_{mn}\sigma_w^2\bm{1}[p=q]+\Gamma_{mq}\sigma_w^2\bm{1}[n=p]\nonumber\\
+		%%%&\,\,+\Gamma_{pn}\sigma_w^2\bm{1}[m=q]+\Gamma_{pq}\sigma_w^2\bm{1}[m=n]\nonumber\\
+		%%%&\,\,+\sigma_w^4\bm{1}[m=n \neq p=q \vee m=q\neq n=p]\nonumber\\
+		%%%&\,\,+2\sigma_w^4\bm{1}[m=n=p=q]\\
+		%%\mathbb{E}\{|x_m|^2|x_n|^2\}&=\Lambda+2\Gamma\sigma_w^2+\sigma_w^4=  m_2\\
+		%%\mathbb{E}\{|x_m|^4\}&=\Omega+4\Gamma\sigma_w^2+2\sigma_w^4=m_4
+		%%\end{align}
+		%%\end{subequations}
+		%
+		%\subsection{Sub-gaussianity} \label{appdx:sub_gaussianity}
+		%%The symbols from the $l$-th source follow a discrete distribution according to the source's QAM constellation, therefore their magnitudes are bounded by the largest magnitude of the constellation,
+		%%\begin{equation}
+		%%|s_{l}(k)|\leq \max_{i\in\{1,\ldots,C_l\}}|s^{(i)}|=\sqrt{2}\big(\sqrt{C_l}-1\big),
+		%%\end{equation}
+		%%with probability 1, and in consequence, the symbols are sub-gaussian \cite{Vershynin2012nonasymptoticmatrices}, and results for sub-gaussian independent vectors apply for our problem. Additionally, we have
+		%%\begin{equation}
+		%%\|\bm{s}_k\|\leq \sqrt{2\sum_{l=1}^L \big(\sqrt{C_l}-1\big)^2} = B,\quad\forall\,k\in\{1,\ldots,K\}.
+		%%\end{equation}
+		%
+		%Describing the symbols from the $l$-th source as in Eq.(\ref{eqn:symbols}) shows that both real and imaginary parts are weighted sums of Rademacher variables. Hence, both real and imaginary parts are bounded variables, and thus are (formally) sub-gaussian variables. In general, discrete distributions have sub-gaussian norms that are very large, and thus do not constitute useful sub-gaussian distributions \cite[Section 3.4]{Vershynin2018hdprobability}. A notable exception are Bernoulli random variables, and by extension, Rademacher random variables. Given that the real and imaginary parts of the symbols can be described as weighted sums of Rademacher variables, results from sub-gaussian distributions apply nicely to QAM constellations.
+		%Here, we will derive results to be used later in the complex-valued case: a concentration of measure on the norm of the symbols $|s_l[k]|$, a concentration of measure on the norm of the transmitted signal vector $\|\bm{s}_k\|$, and higher powers of these terms.
+		%
+		%The magnitude squared of the symbols are bounded above and below by
+		%\begin{equation}
+		%4\leq|s_{l}[k]|^2\leq 2\big(\sqrt{C_l}-1\big)^2\quad\forall l\in\{1,\ldots,L\},
+		%\end{equation}
+		%and using the double-sided Hoeffding’s inequality for general bounded random variables \cite{Vershynin2018hdprobability}, we obtain 
+		%\begin{align}
+		%&\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K|s_l[k]|^2-m_{2,l}\Bigg|\geq \delta\Bigg\} \nonumber\\
+		%&\quad\leq 2\exp\Bigg\{\frac{-2\delta^2K^2}{4\big(C_l-2\sqrt{C_l}-1\big)^2}\Bigg\},\quad\forall \delta\geq 0.
+		%\end{align}
+		%Analogously, with the squared norm of the signal vector $\bm{s}_k$ bounded by
+		%\begin{equation}
+		%4L\leq\|\bm{s}_k\|^2\leq 2\sum_{l=1}^L\big(\sqrt{C_l}-1\big)^2,
+		%\end{equation}
+		%we have
+		%\begin{align}
+		%&\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K\|\bm{s}_k\|^2-\sum_{l=1}^Lm_{2,l}\Bigg|\geq \delta\Bigg\} \nonumber\\
+		%&\quad\leq 2\exp\Bigg\{\frac{-2\delta^2K^2}{4\sum_{l=1}^L\big(C_l-2\sqrt{C_l}-1\big)^2}\Bigg\},\quad\forall \delta\geq 0.
+		%\end{align}
+		%When assuming that 
+		%
+		%%Moreover, the magnitude squared is subexponential, as is the sum of squared subgaussian variables. Therefore,
+		%%\begin{align}
+		%%\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K|s_l(k)|^2-E_l\Bigg|\geq t\Bigg\} \leq 2\exp\Bigg\{\frac{-t^2K^2}{4\big(C_l-2\sqrt{C_l}\big)^2}\Bigg\},\quad\forall t\geq0.
+		%%\end{align}
+		%
+		%
+		%
+		%
+		%%
+		%%As the real and imaginary parts of the transmitted signals are weighted sums of Rademacher variables, the two-sided Hoeffding's inequality states that
+		%%\begin{align}
+		%%\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K\re\{s_l[k]\}\Bigg|\geq t\Bigg\} &\leq 2\exp\Bigg\{\frac{-t^2K^2}{2(\sqrt{C_l}-1)^2}\Bigg\},\quad\forall t\geq0\\
+		%%\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K\im\{s_l[k]\}\Bigg|\geq t\Bigg\} &\leq 2\exp\Bigg\{\frac{-t^2K^2}{2(\sqrt{C_l}-1)^2}\Bigg\},\quad\forall t\geq0
+		%%\end{align}
+		%%
+		%%the absolute values 
+		%
+		%
+		%%sub-gaussian, their squares are sub-exponentials, and thus the norm of the symbols
+		%%\begin{align}
+		%%|s_l[k]|^2 = |\re\{s_l[k]\}|^2+|\im\{s_l[k]\}|^2
+		%%\end{align}
+		%%is also sub-exponential. 
+		%%
+		%%
+		%%, and results for sub-gaussian independent vectors apply for our problem. Additionally, we have
+		%%\begin{equation}
+		%%\|\bm{s}_k\|\leq \sqrt{2\sum_{l=1}^L \big(\sqrt{C_l}-1\big)^2} = B,\quad\forall\,k\in\{1,\ldots,K\}.
+		%%\end{equation}
+		%
+		%%With bounded, fixed channels, we obtain
+		%%\begin{equation}
+		%%|h_{m,l}s_{l}(k)|\leq \max_{i\in\{1,\ldots,C_l\}}|s^{(i)}||h_{m,l}|\leq\sqrt{2t}(\sqrt{C_l}-1),
+		%%\end{equation}
+		%%with probability at least $1-\e{-t}$. The AWGN $w_m(k)$ is sub-gaussian as well. 
+		%%Following \cite[Lemma 5.9]{Vershynin2012nonasymptoticmatrices}, $x_m(k)$ is the sum of independent centered sub-gaussian ramdom variables, and is thus subgaussian.
+		%%
+		%%Note that the elements of a single vector $\xk$ are correlated, as they all depend on the transmitted symbols at time $k$. Nevertheless, it is sufficient to find the distribution of a single element and then use known results for matrices with independent rows/columns instead of independent entries overall \cite{Vershynin2012nonasymptoticmatrices}.
+		
+		%\subsection{Proof of Lemma~\ref{lemma:expectation_hessian}}\label{appdx:expectations_hessian}
+		%Thanks to Lemma~\ref{lemma:concentration_covariance}, we only need to derive the expectation of the matrices $\bm{A}(\bm{q})$ and $\bm{B}(\bm{q})$ from Eq.(\ref{eqn:hessianMatrices}). Note that
+		%\begin{align}
+		%\bm{A}(\z)&=\frac{1}{K}\sum_{k=1}^K\|\bm{s}_k\herm\z|^2\bm{s}_k\bm{s}_k\herm\nonumber\\
+		%&=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M(\overline{s}_{ka}z_as_{kb}\overline{z}_b)\bm{s}_k\bm{s}_k\herm\nonumber\\
+		%\bm{B}(\z)&=\frac{1}{K}\sum_{k=1}^K(\bm{s}_k\herm\z)^2\bm{s}_k\bm{s}_k\T\nonumber\\
+		%&=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M(\overline{s}_{ka}z_a\overline{s}_{kb}{z}_b)\bm{s}_k\bm{s}_k\T\nonumber
+		%\end{align}
+		%Any particular element of these matrices is given by
+		%\begin{align}
+		%[\bm{A}(\z)]_{i{\ell}}&=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M\overline{s}_{ka}{s}_{kb}s_{ki}\overline{s}_{k{\ell}}z_a\overline{z}_b\\
+		%[\bm{B}(\z)]_{i{\ell}}&=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M\overline{s}_{ka}\overline{s}_{kb}s_{ki}{s}_{k{\ell}}z_a{z}_b
+		%\end{align}
+		%Taking expectation, and having all $\bm{s}_k$ i.i.d.,
+		%\begin{align}
+		%\mathbb{E}\{[\bm{A}(\z)]_{i{\ell}}\}&=\sum_{a=1}^M\sum_{b=1}^M\mathbb{E}\{s_{kb}\overline{s}_{ka}s_{ki}\overline{s}_{k{\ell}}\}z_a\overline{z}_b
+		%%\nonumber\\&\quad-R_2\mathbb{E}\{s_{ki}\overline{s}_{k{\ell}}\}
+		%\end{align}
+		%\begin{itemize}
+		%	\item Diagonal terms ($i={\ell}$): $\mathbb{E}\{\overline{s}_{ka}s_{kb}|s_{ki}|^2\}= 0$ unless $a=b$, and $\mathbb{E}\{|s_{ki}|^2\}=  m_2$, therefore
+		%	\begin{align}
+			%	&\mathbb{E}\{[\bm{A}(\z)]_{ii}\}\nonumber\\
+			%	&\quad=\sum_{a=1}^M\mathbb{E}\{|s_{ka}|^2|s_{ki}|^2\}|z_a|^2\nonumber\\
+			%	&\quad=\mathbb{E}\{|s_{ki}|^4\}|z_i|^2+\sum_{a\neq i}^M\mathbb{E}\{|s_{ka}|^2|s_{ki}|^2\}|z_a|^2\nonumber\\
+			%	&\quad=m_4|z_i|^2+  m_2^2\sum_{a\neq i}^M|z_a|^2\nonumber\\
+			%	&\quad=  m_2^2(|z_i|^2+\|\z\|^2)+\kappa|z_i|^2
+			%	\end{align}
+		%	\item Off-diagonal terms ($i\neq {\ell}$): $\mathbb{E}\{\overline{s}_{ka}{s}_{kb}s_{ki}\overline{s}_{k{\ell}}\}=0$ unless $a=i,b={\ell}$, and $\mathbb{E}\{s_{ki}\overline{s}_{k{\ell}}\}=0$, hence
+		%	\begin{align}
+			%	\mathbb{E}\{[\bm{A}(\z)]_{i{\ell}}\}&=\mathbb{E}\{|s_{ki}|^2|s_{k{\ell}}|^2\}z_i\overline{z}_{\ell}=  m_2^2z_i\overline{z}_{\ell}
+			%	\end{align}
+		%\end{itemize}
+		%Using the same approach for the expectation of $[\bm{B}(\z)]_{i{\ell}}$, we have
+		%\begin{align}
+		%\mathbb{E}\{[\bm{B}(\z)]_{i{\ell}}\}&=\sum_{a=1}^M\sum_{b=1}^M\mathbb{E}\{\overline{s}_{ka}\overline{s}_{kb}s_{ki}{s}_{k{\ell}}\}z_a{z}_b
+		%\end{align}
+		%\begin{itemize}
+		%	\item Diagonal terms ($i={\ell}$): $\mathbb{E}\{\overline{s}_{ka}\overline{s}_{kb}s_{ki}^2\}=0$ unless $a=b=i$, therefore
+		%	\begin{align}
+			%	\mathbb{E}\{[\bm{B}(\z)]_{ii}\}&=m_4z_i^2
+			%	\end{align}
+		%	\item Off-diagonal terms ($i\neq {\ell}$): $\mathbb{E}\{\overline{s}_{ka}\overline{s}_{kb}s_{ki}s_{k{\ell}}\}=0$ unless $a=i,b={\ell}$ or $a={\ell},b=i$, hence
+		%	\begin{align}
+			%	\mathbb{E}\{[\bm{B}(\z)]_{i{\ell}}\}&=2  m_2^2z_iz_{\ell}
+			%	\end{align}
+		%\end{itemize}
+		%Rearranging terms, we obtain
+		%\begin{align}
+		%\mathbb{E}\{\bm{A}(\z)\}&=  m_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)+\kappa\ddiag(\z\z\herm)\\
+		%\mathbb{E}\{\bm{B}(\z)\}&=2  m_2^2\z\z\T+\kappa\ddiag(\z\z\T).
+		%\end{align}
+		%Therefore, the expectation of the Hessian is
+		%\begin{align}
+		%\mathbb{E}\{\nabla^2 f(\bm{z})\}&=  (2  m_2^2\|\bm{z}\|^2-R_2  m_2)\bm{I}+ 2  m_2^2\begin{bmatrix}
+			%\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+			%\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T
+			%\end{bmatrix}\nonumber\\
+			%&\quad+\kappa\begin{bmatrix}
+			%2\ddiag(\bm{z}\bm{z}\herm)&\ddiag(\bm{z}\bm{z}\T)\\
+			%\ddiag(\overline{\bm{z}}\bm{z}\herm)&2\ddiag(\overline{\bm{z}}\bm{z}\T)
+			%\end{bmatrix}.
+			%\end{align}
+			
+			%\subsection{Proof of Lemma~\ref{lemma:expectation_gradient}}\label{appdx:expectations_gradient}
+			%From Eq.(\ref{eqn:wfgradient}) and using Eq.(\ref{eqn:hessianA}), we have
+			%\begin{align}
+			%\nabla f(\bm{w})&=\frac{1}{K}\sum_{k=1}^K\Big(|\xk\herm\bm{w}|^2-R_2\Big)\xk\xk\herm\bm{w}\nonumber\\
+			%&=\frac{1}{K}\sum_{k=1}^K\Big(|\xk\herm\bm{w}|^2-|\xk\herm\z|^2\Big)\xk\xk\herm\bm{w}\nonumber\\
+			%&=\bm{A}(\bm{w})\bm{w}-\bm{A}(\z)\bm{w}
+			%\end{align}
+			%Therefore, and using Eq.(75), we have
+			%\begin{align}
+			%&\mathbb{E}\{\nabla f(\bm{w})\}\nonumber\\ &\quad=\mathbb{E}\big\{\bm{A}(\bm{w})\big\}\bm{w}-\mathbb{E}\big\{\bm{A}(\z)\big\}\bm{w}\nonumber\\
+			%&\quad=  m_2^2\big(\|\bm{w}\|^2\bm{I}+\bm{w}\bm{w}\herm\big)\bm{w}+\kappa\ddiag(\bm{w}\bm{w}\herm)\bm{w}\nonumber\\
+			%&\qquad-  m_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bm{w}-\kappa\ddiag(\z\z\herm)\bm{w}\nonumber\\
+			%&\quad=  m_2^2\big(2\|\bm{w}\|^2\bm{I}-\|\z\|^2\bm{I}-\z\z\herm\big)\bm{w}\nonumber\\
+			%&\qquad+\kappa\ddiag(\bm{w}\bm{w}\herm-\z\z\herm)\bm{w}.
+			%\end{align}
+			
+			
+			
+			
+			%\subsection{Other proofs}
+			%\label{appdx:sec}
+%			\newpage
+			\section{Proof of Lemma~\ref{wfcma:lem:lcc_msr}}\label{wfcma:appdx:lcc_msr}
+			Let $\bm{q}\in E(\epsilon)$, $\bm{D}(\bm{q})$ as defined in Section~\ref{appdx:wfcma_msr}, and $\bm{h}=\bm{D}(\bm{q})\herm\bm{q}-\bm{z}$. Hence, $\|\bm{h}\|\leq\epsilon$, $\bm{h}_{\ell}=\e{-i\phi(\bm{q}_{\ell})}\bm{q}_{\ell}-\bm{z}_{\ell}$, and
+			% the corresponding $\bm{h}_{\ell}$ satisfy $\|\bm{h}_{\ell}\|\leq\epsilon$ and 
+			$\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$, as $\bm{h}_{\ell}$ and $\bm{z}_{\ell}$ are geometrically aligned for all ${\ell}\in\{1,\ldots,J\}$.
+			To prove Lemma~\ref{wfcma:lem:lcc_msr}, we prove that 
+			\begin{align}
+				%	&\mathrm{Re}\Big( \big\langle\nabla f(\bm{q}), \bm{q} - \e{j\phi(\bm{q})}\z\big\rangle\Big)\nonumber\\
+				&\sum_{{\ell}=1}^J\mathrm{Re}\Big( \big\langle\nabla_{\ell} g(\bm{q})-
+				\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)\nonumber\\
+				&\quad=\sum_{{\ell}=1}^J\mathrm{Re}\Big( \big\langle\nabla f(\bm{q}_{\ell})-\nabla f(\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell}), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)
+				\nonumber\\&\qquad
+				+\gamma_0\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\mathrm{Re}\Big( \big\langle\bm{S}\bm{q}_{i}\bm{q}_{i}\herm\bm{S}\bm{q}_{\ell} -\e{j\phi(\bm{q}_{\ell})} \bm{S}\bm{z}_{i}\bm{z}_{i}\herm\bm{S}\bm{z}_{\ell}, \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)\nonumber\\
+				%&\quad=\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2\nonumber\\
+				%&\qquad+\frac{9}{10}|\bm{s}_k\herm\bm{h}|^4+
+				%\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+				%\nonumber\\
+				&\quad\geq  \sum_{{\ell}=1}^J\Big(\frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}\Big)\|\bm{h}_{\ell}\|^2+ \frac{1}{20 K}\sum_{{\ell}=1}^J\sum_{k=1}^K \big|\bm{s}_k\herm\bm{h}_{\ell}\big|^4+\gamma_0^2\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2\label{eqn:llc_msr}
+			\end{align}
+			for all $\bm{h}$ satisfying $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$ and $\|\bm{h}\|\leq\epsilon$. In the following, we set $\gamma_0=1$, and for simplicity, we now assume that $\|\bm{h}_{\ell}\|\leq\epsilon/\sqrt{J}$ for all ${\ell}\in\{1,\ldots,J\}$. 
+			In Lemma 2 we establish that the inner product of the CMA portion of the gradient, i.e., the terms with $\nabla f$, are bounded below by the two first terms of the right-hand side of Eq.(\ref{eqn:llc_msr}).
+			%:
+			%From the proof of Lemma 2, we know for all $\bm{h}_{\ell}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$ and $\|\bm{h}_{\ell}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon$, that
+			Therefore, we focus on the regularizing term, which is 
+			\begin{align}
+				&\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\mathrm{Re}\Big( \big\langle\bm{S}\bm{q}_{i}\bm{q}_{i}\herm\bm{S}\bm{q}_{\ell} -\e{j\phi(\bm{q}_{\ell})} \bm{S}\bm{z}_{i}\bm{z}_{i}\herm\bm{S}\bm{z}_{\ell}, \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)\nonumber\\
+				&\quad=\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\bigg(\big|\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|^2+\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2 +\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+				+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big)
+				\nonumber\\&\quad\qquad\qquad
+				+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big) 
+				+\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big)
+				+\re\Big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big) \bigg)
+				\nonumber\\
+				&\quad=\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J \bigg(\big|\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|^2+\big|\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|^2+2\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2 +3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+				\nonumber\\&\quad\qquad\qquad
+				+3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)
+				+2\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big)
+				+2\re\Big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big) \bigg)\nonumber\\
+				&\quad\leq\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J \bigg(
+				2\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2 +3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+				+3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)\bigg)
+				-\Big(\frac{m_2^2}{K}+\delta\Big)\|\bm{h}\|^2,\nonumber
+			\end{align}
+			where the second equality comes from realizing that the terms of pairs $(i,{\ell})$ and $({\ell},i)$ are related through complex conjugation, and the last inequality comes from Corollary~\ref{cor:hessian_r_quad_form}. 
+			Substituting in Eq.(\ref{eqn:llc_msr}), and invoking Lemma 2, we have that
+			\begin{align}
+				&\sum_{{\ell}=1}^J\mathrm{Re}\Big( \big\langle\nabla_{\ell} g(\bm{q})-\nabla_{\ell} g(\bm{D}(\bm{q})\bm{z}), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)
+%				\nonumber\\&\qquad
+%				+\gamma_0\sum_{{\ell}=1}^J\mathrm{Re}\Big( \big\langle\nabla f(\bm{q}_{\ell})-\nabla f(\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell}), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)
+				\nonumber\\&\;
+				\geq\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+				+|\bm{s}_k\herm\bm{h}|^4+
+				\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+				\nonumber\\&\quad
+				+\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J \bigg(
+				2\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2 +3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+				+3\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)\bigg)
+				-\Big(\frac{m_2^2}{K}+\delta\Big)\|\bm{h}\|^2
+				\nonumber\\&\;
+				\geq  \sum_{{\ell}=1}^J\Big(\frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}\Big)\|\bm{h}_{\ell}\|^2+ \frac{1}{20 K}\sum_{{\ell}=1}^J\sum_{k=1}^K \big|\bm{s}_k\herm\bm{h}_{\ell}\big|^4+\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2.
+			\end{align}
+			
+			
+			
+			%&\sum_{{\ell}=1}^J\mathrm{Re}\Big( \big\langle\nabla f(\bm{q}_{\ell})-\nabla f(\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell}), \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)+\gamma_0\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\mathrm{Re}\Big( \big\langle\bm{S}\bm{q}_{i}\bm{q}_{i}\herm\bm{S}\bm{q}_{\ell} -\e{j\phi(\bm{q}_{\ell})} \bm{S}\bm{z}_{i}\bm{z}_{i}\herm\bm{S}\bm{z}_{\ell}, \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)\nonumber\\
+			%&\geq \frac{1}{2}\bm{h}\herm\mathbb{E}\big\{\nabla^2 r(\bm{z})\big\}\bm{h}-\delta\|\bm{h}\|^2\nonumber\\
+			%&\quad\geq  \sum_{{\ell}=1}^J\Big(\frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}\Big)\|\bm{h}_{\ell}\|^2+ \frac{1}{20 K}\sum_{{\ell}=1}^J\sum_{k=1}^K \big|\bm{s}_k\herm\bm{h}_{\ell}\big|^4+\gamma_0^2r_1\sum_{{\ell}=1}^J\|\bm{h}_{\ell}\|^2+\gamma_0^2R_2\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+			%
+			
+			Equivalently, we prove that for all $\bm{h}_{\ell}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$ and $\|\bm{h}_{\ell}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon/\sqrt{J}$, 
+			\begin{align}
+				&\frac{1}{K}\sum_{{\ell}=1}^J\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+				+\frac{19\xi^2}{20}|\bm{s}_k\herm\bm{h}|^4+
+				\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+				\nonumber\\&\qquad\quad
+				+\sum_{{\ell}=1}^J\sum_{i<{\ell}}^J \bigg(
+				%	(2-2R_2)\xi^2\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2 +
+				3\xi\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big) 
+				+3\xi\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)\bigg)-J\Big(\frac{m_2^2}{K}+\delta\Big)\nonumber\\
+				&\quad\geq  J\Big(\frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}\Big).\label{eqn:equivalent_msr_llc}
+			\end{align}
+			
+			Invoking Lemma~1 and Corollary~10, we have that
+			\begin{align}
+				\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big)&\geq-\big|\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\big|\big|\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|\geq-(m_2+\delta)^2,\nonumber\\
+				\re\big(\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big)&\geq-\big|\bm{h}_{\ell}\herm\bm{S}\bm{h}_i\big|\big|\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|\geq-(m_2+\delta)^2,
+				%	\nonumber\\ \big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2&\geq(m_2-\delta)^2,
+			\end{align}
+			and replacing in Eq.(\ref{eqn:equivalent_msr_llc}), we obtain
+			\begin{align}
+				&\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+				+\frac{19\xi^2}{20}|\bm{s}_k\herm\bm{h}|^4+
+				\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+				\nonumber\\&\qquad\quad
+				%	+\frac{J-1}{2}\xi\Big((2-2R_2)\xi(m_2-\delta)^2-6(m_2+\delta)^2\Big)
+				-3(J-1)\xi(m_2+\delta)^2
+				-\frac{m_2^2}{K}-\delta\nonumber\\
+				&\quad\geq  \Big(\frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{19}\Big)
+			\end{align}
+			
+			Now, following the procedure in Lemma 2, to bound the sum in the LHS, we obtain that Lemma~\ref{wfcma:lem:lcc_msr} holds under the following condition:
+			\begin{align}
+				&\frac{135 m_2^2+90\kappa}{76}\re(\bm{h}\herm\bm{z})^2+\frac{45}{76}(m_2^2-\delta)-\frac{19B^2L}{20}\xi^2(  m_2+\delta)
+				\nonumber\\&\qquad\quad
+				+\big( m_2^2-R_2m_2-(1+R_2)\delta+(m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2\big)\cdot\bm{1}[Q\neq 4]
+				\nonumber\\&\qquad\quad
+				%	+\frac{J-1}{2}\xi\Big((2-2R_2)\xi(m_2-\delta)^2-6(m_2+\delta)^2\Big)
+				-3(J-1)\xi(m_2+\delta)^2
+				-\frac{m_2^2}{K}-\delta
+				\nonumber\\
+				&\;\geq  \frac{1}{\alpha}+\frac{11m_2^2-2R_2m_2+5\delta}{19} +   \frac{21m_2^2+14\kappa}{38}\re(\bm{h}\herm\bm{z})^2.\label{eqn:lcc_alpha_msr}
+			\end{align}
+			
+			With $J\geq2$, $\epsilon=(10JB\sqrt{LJ})^{-1}$ and $\delta\leq0.001$, Eq.(\ref{eqn:lcc_alpha_msr}) holds for 
+			\begin{align}
+				\begin{array}{lcc}
+					\alpha\geq 4&\text{for}&Q=4,\\
+					\alpha\geq 227&\text{for}&Q\neq4.\\
+				\end{array}	\nonumber
+			\end{align} 
+			
+			
+			
+			
+			
+			%\begin{align}
+			%	&\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\mathrm{Re}\Big( \big\langle\bm{S}\bm{q}_{i}\bm{q}_{i}\herm\bm{S}\bm{q}_{\ell} -\e{j\phi(\bm{q}_{\ell})} \bm{S}\bm{z}_{i}\bm{z}_{i}\herm\bm{S}\bm{z}_{\ell}, \bm{q}_{\ell} - \e{j\phi(\bm{q}_{\ell})}\z_{\ell}\big\rangle\Big)\nonumber\\
+			%	&\qquad=\xi^2\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}+\xi^4\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell} +\xi^3\re\Big(\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\Big) 
+			%	%+ \xi\re\big(\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{z})\bm{z}_{\ell}\big)
+			%	\nonumber\\&\qquad\qquad
+			%	\qquad
+			%	+ 2\sum_{i\neq {\ell}}\xi^3\re\Big(\bm{h}_{\ell}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\Big)+\xi^2\re\Big(\bm{h}_{\ell}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\Big)\nonumber\\
+			%	&\qquad=
+			%\end{align}
+			
+			%Invoking Corollary~\ref{cor:c_quad_form}, we have that
+			%\begin{align}
+			%	\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}&\geq (J-1)\frac{m_2^2}{K}\|\bm{h_{\ell}}\|^2 + \Big(m_2^2+\frac{\kappa}{K}\Big)\big(\|\bm{h}_{\ell}\|^2-|\bm{h}_{\ell}\herm\bm{z}_{\ell}|^2\big) - \delta\|\bm{h}_{\ell}\|^2.
+			%\end{align}
+			%
+			%Via Lemma~5 and Corollary~10,
+			%\begin{align}
+			%	\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}
+			%	&= \sum_{i\neq {\ell}}^J\big| \bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+			%	\geq \sum_{i\neq {\ell}}^J \Big( m_2-\delta\Big)^2\big|\bm{h}_i\herm\bm{h}_{\ell}\big|^2.
+			%\end{align}
+			%
+			%
+			%\begin{align}
+			%	\re\big(\bm{h}_{\ell}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big)&= \sum_{i\neq {\ell}}^J\re\big( \bm{h}_{\ell}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big)\geq \sum_{i\neq {\ell}}^J \Big( m_2^2\big|\bm{h}_i\herm\bm{h}_{\ell}\big|^2-\delta\Big)^2.
+			%\end{align}
+			%
+			
+			
+			
+			
+			%
+			%	
+			%Invoking Corollary~12, we show that for all $\bm{h}_{\ell}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$ and $\|\bm{h}_{\ell}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon/\sqrt{J}$,
+			%\begin{align}
+			%&\frac{1}{K}\sum_{k=1}^K\Big(\frac{5}{2}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9}{10}\xi^2|\bm{s}_k\herm\bm{h}|^4+
+			%\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)\nonumber\\
+			%&\quad\geq (J-1)\bigg(\frac{2  m_2^2-R_2  m_2+\delta}{8}\bigg)+ \frac{\xi^2}{20 K}\sum_{k=1}^K\sum_{i\neq {\ell}}^J \big|\bm{s}_k\herm\bm{h}_i\big|^4,\quad \forall {\ell}\in\{1,\ldots,J\}. \label{eqn:llc_lemma_proof}
+			%\end{align}
+			%	
+			%For constant modulus signals, the last averaging term of the LHS of Eq.(\ref{eqn:llc_lemma_proof}) is zero. For non-constant modulus QAM signals, the term is bounded by Corollaries~10 and~11:
+			%\begin{align}
+			%&\frac{1}{K}\sum_{k=1}^K\Big(|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}|^2-R_2|\bm{s}_k\herm\bm{h}|^2\Big) \geq\big( m_2^2-R_2m_2+\kappa-(1+R_2)\delta\big)\cdot\bm{1}[Q\neq 4].\nonumber
+			%\end{align}
+			%
+			%Let 
+			%\begin{align}
+			%&\bm{Y}(\bm{h},\xi)=\frac{1}{K}\sum_{k=1}^K\Big(\frac{5}{2}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9\xi^2}{10}|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber% \label{eqn:ineq1}
+			%\end{align}
+			%
+			%Since $(a-b)^2\geq\frac{a^2}{2}-b^2$,
+			%Cauchy-Schwarz inequality leads to 
+			%	\begin{align}
+				%	\bm{Y}(\bm{h},\xi)&\geq\Bigg(\sqrt{\frac{5}{2K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2}-\sqrt{\frac{9\xi^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4}\Bigg)^2\nonumber\\
+				%	&\geq \frac{5}{4K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2-\frac{9\xi^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber% \label{eqn:ineq1}
+				%	\end{align}
+			% 
+			%By means of Corollary~10, with high probability we have
+			%	\begin{align}
+				%	\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\leq\max_k\|\bm{s}_k\|^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2\Big)\leq B^2L(m_2+\delta).\nonumber
+				%	\end{align}
+			%	
+			%Using this result and Corollary~12, if
+			%$\|\bm{h}\|=1$, it holds with high probability that
+			%	\begin{align}
+				%	\bm{Y}(\bm{h},\xi)&\geq\frac{5  m_2^2}{2}\re(\bm{z}\herm\bm{h})^2+\frac{5}{8}(2  m_2^2-R_2  m_2-\delta)-\frac{9B^2L}{10}\xi^2(  m_2+\delta)+\frac{5}{4}\kappa.\nonumber
+				%	\end{align}
+			%
+			%Hence, Lemma~\ref{wfcma:lem:lcc_msr} holds under the following condition:
+			%\begin{align}
+			%&\frac{5  m_2^2}{2}\re(\bm{z}\herm\bm{h})^2+\frac{5}{8}(2  m_2^2-R_2  m_2-\delta)-\frac{9B^2L}{10}\xi^2(  m_2+\delta)+\frac{5}{4}\kappa+\big( m_2^2-R_2m_2+\kappa-(1+R_2)\delta\big)\cdot\bm{1}[Q\neq 4] \nonumber\\
+			%&\quad\geq  \frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2+\kappa}{2} +   \frac{3m_2^2}{4}\re(\bm{z}\herm\bm{h})^2.\label{eqn:lcc_alpha_msr}
+			%\end{align}
+			
+			
+			
+%			\newpage
+			\section{Proof of Lemma~\ref{wfcma:lem:lsc_msr}}\label{wfcma:appdx:lsc_msr}
+			Let $\bm{q}\in E(\epsilon)$ and $\bm{D}(\bm{q})$ as defined in Section~\ref{appdx:wfcma_msr}. Let $\bm{h}=\bm{D}(\bm{q})\herm\bm{q}-\bm{z}$. Hence, $\|\bm{h}\|\leq\epsilon$, $\bm{h}_{\ell}=\e{-i\phi(\bm{q}_{\ell})}\bm{q}_{\ell}-\bm{z}_{\ell}$ and $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$. We aim to prove that
+			\begin{align}
+				&\big\|\nabla G(\bm{q})-\nabla G(\bm{D}(\bm{q})\bm{z})\big\|^2 \nonumber\\
+				&\qquad\qquad\leq \beta\bigg(\frac{2  m_2^2-R_2m_2-\delta}{19}\big\|\bm{h}\big\|^2+\frac{1}{20K}\sum_{{\ell}=1}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4+\gamma_0^2\sum_{{\ell}=1}^J\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2\bigg),\nonumber
+			\end{align}
+			
+			%Recall that $\nabla f(\e{j\theta}\bm{z}_{\ell})\approx0$ and $\nabla_{\ell} g(\hat{\bm{D}(\bm{q})}\bm{z})\approx0$ for any $\theta\in[0,2\pi]$ and $\forall {\ell}\in\{1,\ldots,J\}$. 
+			We first notice that
+			\begin{align}
+				\big\|\nabla G(\bm{q})-\nabla G(\bm{D}(\bm{q})\bm{z})\big\|^2 = \sum_{{\ell}=1}^J \big\|\nabla_{\ell} g(\bm{q})-\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big)\big\|^2,
+			\end{align}
+			where
+			\begin{align}
+				\Big\|\nabla_{\ell} g(\bm{q})-\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big)\Big\|^2=\max_{\bm{u}\in\mathbb{C}^L,\,\|\bm{u}\|=1} \Big|\bm{u}\herm\Big(\nabla_{\ell} g(\bm{q})-\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big)\Big)\Big|^2,
+			\end{align}
+			and therefore we bound each of the $J$ gradients. 
+			By means of the triangle inequality, we have that 
+			\begin{align}
+				&
+				\Big|\bm{u}\herm\Big(\nabla_{\ell} g(\bm{q})-\e{j\phi(\bm{q}_{\ell})}\nabla_{\ell} g\big(\bm{D}(\bm{q})\bm{z}\big)\Big)\Big|^2
+				\nonumber\\
+				&\;= \Bigg|\bm{u}\herm\nabla f(\bm{q}_{\ell})+2\gamma_0\bm{u}\herm\Big(\sum_{i\neq {\ell}}^J\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}\Big) 
+				\nonumber\\&\qquad\qquad
+				- \bm{u}\herm\nabla f(\e{j\phi(\bm{q}_{\ell})}\bm{z}_{\ell})-\gamma_0\e{j\phi(\bm{q}_{\ell})} \bm{u}\herm\Big(\sum_{i\neq {\ell}}^J\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2\nonumber\\
+				&\;\leq 2\Big|\bm{u}\herm\nabla f(\bm{q}_{\ell}) - \e{j\phi(\bm{q}_{\ell})}\nabla f(\bm{z}_{\ell})\Big|^2
+				+ 2\gamma_0^2\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2.\label{eqn:normfr2}
+				%&\,\,\leq\beta\bigg(\frac{2  m_2^2-R_2m_2+\delta}{4}\|\bm{h}\|^2+\frac{1}{10K}\sum_{{\ell}=1}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4\bigg).\label{eqn:lemma_7_set_1}
+			\end{align}
+			
+			Let $D=3+\bm{1}[Q\neq4]$. From the proof of Lemma 3, we know for all $\bm{h}_{\ell}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$ and $\|\bm{h}_{\ell}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon/sqrt{J}$, that
+			\begin{align}
+				%&
+				\Big|\bm{u}\herm\nabla f(\bm{q}_{\ell}) - \e{j\phi(\bm{q}_{\ell})}\nabla f(\bm{z}_{\ell})\Big|^2 
+				%\nonumber\\
+				&\leq 4D\xi^2I_1+9D\xi^4I_2+D\xi^6I_3 + 4\xi^2I_4\cdot\bm{1}[Q\neq 4]\nonumber\\
+				&\leq4\xi^2D(2 m_2^2+\kappa+\delta)^2+ \xi^2\big(m_2^2+\kappa+(1+R_2)\delta\big)^2\cdot\bm{1}[Q\neq 4] \nonumber\\
+				&\qquad+ \frac{9D\xi^4(2 m_2^2+\kappa+\delta)+DB^2L\xi^6(  m_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4,\label{eqn:bound_cma_beta}
+				%&\,\,\leq\beta\bigg(\frac{2  m_2^2-R_2m_2+\delta}{4}\|\bm{h}\|^2+\frac{1}{10K}\sum_{{\ell}=1}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4\bigg).\label{eqn:lemma_7_set_1}
+			\end{align}
+			thus we only need to bound the second term in Eq.(\ref{eqn:normfr2}). For any $\bm{u}\in\mathbb{C}^L$ such that $\|\bm{u}\|=1$, let $\bm{v}=\e{-i\phi(\bm{q}_{\ell})}\bm{u}$. Thus,
+			\begin{align}
+				&\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2
+				\nonumber\\&\qquad
+				=\Bigg|\sum_{i\neq {\ell}}^J\bm{v}\herm\bm{S}(\bm{h}_i+\bm{z}_i)(\bm{h}_i+\bm{z}_i)\herm\bm{S}(\bm{h}_{\ell}+\bm{z}_{\ell})-\bm{v}\herm\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Bigg|^2\nonumber\\
+				&\qquad =\Bigg|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}+\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}+\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}
+				%	+\bm{v}\herm\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}
+				%	\nonumber\\&\qquad\qquad\qquad
+				+\sum_{i\neq {\ell}}^J\Big( \bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}+\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}
+				\nonumber\\&\qquad\qquad\qquad
+				+\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}+\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2
+				\nonumber\\&\qquad 
+				\leq\Bigg( \big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|
+				%	+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z}_i)\bm{z}_{\ell}\big|
+				%	\nonumber\\&\qquad\qquad\qquad
+				+\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|
+				\nonumber\\&\qquad\qquad\qquad
+				+\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|
+%				\nonumber\\&\qquad\qquad\qquad
+				+\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big|+\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber.
+				%	\\
+				%	&\qquad \leq\Bigg( \big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|
+				%%	+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z}_i)\bm{z}_{\ell}\big|
+				%%	\nonumber\\&\qquad\qquad\qquad
+				%	+2\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber
+			\end{align}
+			Equivalently, for all $\bm{h}_{\ell}$ and $\bm{v}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$, $\|\bm{h}_{\ell}\|=\|\bm{v}\|=1$ and for all $\xi$ with $0\leq \xi\leq \epsilon/\sqrt{J}$,
+			\begin{align}
+				&\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2
+				\nonumber\\&\qquad
+				\leq\Bigg( \xi\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\xi^2\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\xi^3\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|
+				%	+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z}_i)\bm{z}_{\ell}\big|
+				%	\nonumber\\&\qquad\qquad\qquad
+				+\xi^2\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|
+				\nonumber\\&\qquad\qquad\qquad
+				+\xi^2\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|
+%				\nonumber\\&\qquad\qquad\qquad
+				+\xi\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big|+\xi\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber.
+				%	\\
+				%	&\qquad \leq\Bigg( \big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|
+				%%	+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z}_i)\bm{z}_{\ell}\big|
+				%%	\nonumber\\&\qquad\qquad\qquad
+				%	+2\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber
+			\end{align}
+			
+			
+			Knowing that $\big(\sum_{i=1}^n a_i\big)^2\leq n\sum_{i=1}^n a_i^2$,
+			\begin{align}
+				&\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2\nonumber\\
+				&\quad\leq 7\xi^2\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|^2+7\xi^4\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|^2+7\xi^6\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|^2+7\xi^4\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|\Big)^2\nonumber\\
+				&\qquad
+				+7\xi^4\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|\Big)^2+7\xi^2\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big|\Big)^2+7\xi^2\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|\Big)^2
+				\nonumber\\&\quad
+				= 7\xi^2I_5+7\xi^4I_6+7\xi^6I_7+7\xi^4I_8+7\xi^4I_9+7\xi^2I_{10}+7\xi^2I_{11}.\nonumber
+			\end{align}
+			
+			
+			
+			
+			
+			
+			
+			%\begin{align}
+			%&\,\,\leq\beta\Big(\frac{2  m_2^2-R_2m_2+\delta}{4}\|\bm{h}_{\ell}\|^2+\frac{1}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4\Big)+ 4\gamma_0^2\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2.\label{eqn:lemma_7_set_1}
+			%\end{align}
+			%
+			%
+			%
+			%Now, we set $\gamma_0=1$, and for simplicity, we now assume that $\|\bm{h}_{\ell}\|\leq\epsilon/\sqrt{J}$ for all ${\ell}\in\{1,\ldots,J\}$. Hence, assuming $\beta\geq580$ and $\epsilon_{\ell}=(2B\sqrt{L})^{-1}$, Lemma 3 holds and it suffices to show that 
+			%\begin{align}
+			%\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}\Big)\Bigg|^2&=\Bigg|\sum_{i\neq {\ell}}^J\bm{v}\herm\bm{S}(\bm{h}_i+\bm{z}_i)(\bm{h}_i+\bm{z}_i)\herm\bm{S}(\bm{h}_{\ell}+\bm{z}_{\ell})\Bigg|^2\nonumber\\
+			%& =\Bigg|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}+\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}+\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}+\bm{v}\herm\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\nonumber\\
+			%&\qquad\qquad
+			%+\sum_{i\neq {\ell}}^J\Big( 2\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}+2\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2\nonumber\\
+			%&\quad \leq\Bigg( \big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z}_i)\bm{z}_{\ell}\big|\nonumber\\
+			%&\qquad\qquad+
+			%2\sum_{i\neq {\ell}}^J \big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber\\
+			%&\leq
+			%\beta\Big(\frac{2  m_2^2-R_2m_2+\delta}{16}\sum_{i\neq {\ell}}^J\|\bm{h}_i\|^2+\frac{1}{40K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4\Big)\nonumber
+			%\end{align}
+			%holds for all $\bm{h}$ and $\bm{v}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$, $\|\bm{h}_{\ell}\|\leq\epsilon/\sqrt{J}$, and $\|\bm{v}\|=1$. Equivalently, we prove that for all $\bm{h}_{\ell}$ and $\bm{v}$ such that $\im(\bm{h}_{\ell}\herm\bm{z}_{\ell})=0$, $\|\bm{h}_{\ell}\|=\|\bm{v}\|=1$ and
+			%for all $\xi$ with $0\leq \xi\leq \epsilon/\sqrt{J}$, the following inequality holds
+			%%\begin{align}
+			%%&4\gamma_0^2\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2\nonumber\\
+			%%&\quad \leq 4\gamma_0^2\Bigg|\frac{1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}_{\ell}\Big(|\bm{s}_k\herm\bm{h}_i|^2+2\re(\bm{h}_i\herm\bm{s}_k\bm{s}_k\herm\bm{z}_i)+|\bm{s_k}\herm\bm{z}_i|^2\Big)+\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{z}_{\ell}\Big(|\bm{s}_k\herm\bm{h}_i|^2+2\re(\bm{h}_i\herm\bm{s}_k\bm{s}_k\herm\bm{z}_i)\Big)
+			%%\nonumber\\
+			%%&\qquad\qquad\qquad+
+			%%\frac{K-1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m\neq k}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\Big(\bm{h}_i\bm{h}_i\herm+\bm{h}_i\bm{z}_i\herm+\bm{z}_i\bm{h}_i\herm+\bm{z}_i\bm{z}_i\herm\Big)\bm{s}_m\bm{s}_m\herm\bm{h}_{\ell}
+			%%\nonumber\\&\qquad\qquad\qquad
+			%%+\frac{K-1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m\neq k}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\Big(\bm{h}_i\bm{h}_i\herm+\bm{h}_i\bm{z}_i\herm+\bm{z}_i\bm{h}_i\herm\Big)\bm{s}_m\bm{s}_m\herm\bm{z}_{\ell}\Bigg|^2\nonumber\\
+			%%&\quad \leq 4\gamma_0^2\Bigg(\frac{1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K |\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}_i|^2|\bm{s}_k\herm\bm{h}_{\ell}|+
+			%%2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{z}_i||\bm{s}_k\herm\bm{h}_i||\bm{s}_k\herm\bm{h}_{\ell}|+
+			%%|\bm{s}_k\herm\bm{z}_i|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}_{\ell}|+\nonumber\\
+			%%&\qquad\qquad\qquad+2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{z}_i||\bm{s}_k\herm\bm{h}_i||\bm{s}_k\herm\bm{z}_{\ell}|+
+			%%|\bm{s}_k\herm\bm{h}_i|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{z}_{\ell}|\Bigg)^2+\nonumber\\
+			%%&\qquad\qquad+4\gamma_0^2\Bigg(
+			%%\frac{K-1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m\neq k}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\Big(\bm{h}_i\bm{h}_i\herm+\bm{h}_i\bm{z}_i\herm+\bm{z}_i\bm{h}_i\herm+\bm{z}_i\bm{z}_i\herm\Big)\bm{s}_m\bm{s}_m\herm\bm{h}_{\ell}
+			%%\nonumber\\&\qquad\qquad\qquad
+			%%+\frac{K-1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m\neq k}^K|\bm{v}\herm\bm{s}_k||\bm{s}_k\herm\bm{h}_i||\bm{h}_i\herm\bm{s}_m||\bm{s}_m\herm\bm{z}_{\ell}|+|\bm{v}\herm\bm{s}_k||\bm{s}_k\herm\bm{h}_i|\bm{z}_i\herm\bm{s}_m||\bm{s}_m\herm\bm{z}_{\ell}|+
+			%%|\bm{v}\herm\bm{s}_k||\bm{s}_k\herm\bm{z}_i||\bm{h}_i\herm\bm{s}_m||\bm{s}_m\herm\bm{z}_{\ell}|\Bigg)^2\nonumber\\
+			%%&\,\,\leq\bigg(\frac{1}{K}\sum_{k=1}^K2|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}| +3|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2
+			%%+|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|\bigg)^2\nonumber\\
+			%%%\nonumber\\&\qquad
+			%%&\,\,\leq\beta\Big(\frac{2  m_2^2-R_2m_2+\delta}{4}\|\bm{h}\|^2+\frac{1}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\nonumber
+			%%\end{align}
+			%%
+			%%
+			%%Expanding the last term in Eq.(\ref{eqn:lemma_7_set_1}), we have
+			%\begin{align}
+			%&\Bigg( \big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\xi\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\xi^2\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|+2\sum_{i\neq {\ell}}^J \xi\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber\\
+			%&\quad\leq
+			%\beta\bigg((J-1)\frac{2  m_2^2-R_2m_2+\delta}{16}+\frac{\xi^2}{40K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4\bigg).
+			%\end{align}
+			%
+			%Knowing that $(a+b+c+d+e)^2\leq5(a^2+b^2+c^2+d^2+e^2)$,
+			%\begin{align}
+			%&\Bigg( \big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|+\xi\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|+\xi^2\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|+2\sum_{i\neq {\ell}}^J \xi\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\big|+\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\big|\Bigg)^2\nonumber\\
+			%&\quad\leq 5\big|\bm{v}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|^2+5\xi^2\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{z}_{\ell}\big|^2+5\xi^4\big|\bm{v}\herm\bm{C}_{\ell}(\bm{h})\bm{h}_{\ell}\big|^2+20\xi^2\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{h}_{\ell}\big|\Big)^2\nonumber\\
+			%&\qquad+20\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\re(\bm{h}_i\bm{z}_i\herm)\bm{S}\bm{z}_{\ell}\big|\Big)^2
+			%\nonumber\\&\quad
+			%= 5\xi^2I_5+5\xi^2I_6+5\xi^4I_7+20\xi^2I_8.\nonumber
+			%\end{align}
+			
+			We now bound the terms on the right-hand side. By means of Corollary~\ref{cor:c_quad_form} and large enough $K$,
+			\begin{align}
+				I_5&=\big|\bm{v}_{\ell}\herm\bm{C}_{\ell}(\bm{z})\bm{h}_{\ell}\big|^2\leq\Big(\big\|\bm{C}_{\ell}(\bm{z})\big\|\big\|\bm{h}_{\ell}\big\|\|\bm{v}\|\Big)^2\leq\Big(\frac{K+J-1}{K}m_2^2+\frac{\kappa}{K}+\delta\Big)^2.\nonumber
+			\end{align} 
+			Additionally, knowing that $\max_k\|\bm{s}_k\|=B\sqrt{L}\geq1$ for all $k\in\{1,\ldots,K\}$, and by means of Corollaries~10 and~11 and the Cauchy-Schwarz inequality, we have
+			\begin{align}
+				I_6&=\bigg|\sum_{i\neq {\ell}}^J\bm{v}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\bigg|^2
+				\leq\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\big|^2\big|\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|^2
+				%\nonumber\\&
+				\leq(J-1)(m_2+\delta)^4.
+				%\leq\sum_{i\neq {\ell}}^J\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{v}|^2|\bm{s}_k\herm\bm{h}_i|^2\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h_i}|^2|\bm{s}_k\herm\bm{z}_{\ell}|^2\Big)
+				%\nonumber\\
+				%&\leq (J-1)B^2L(m_2+\delta)(2m_2^2+\kappa+\delta).\nonumber
+			\end{align}
+			%\begin{align}
+			%	I_2&=\big|\sum_{i\neq {\ell}}^J\bm{v}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\bigg|^2
+			%	\leq\bigg(\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K|\bm{v}\herm\bm{s}_k|^2|\bm{s}_m\herm\bm{z}_{\ell}|^2\bigg)\bigg(\frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m=1}^K|\bm{h}_i\herm\bm{s}_k\bm{s}_m\herm\bm{h}_i|^2\bigg)\nonumber\\
+			%	&=\bigg(\frac{1}{K} \sum_{k=1}^K|\bm{v}\herm\bm{s}_k|^2|\bm{s}_k\herm\bm{z}_{\ell}|^2+\frac{1}{K^2} \sum_{k=1}^K|\bm{v}\herm\bm{s}_k|^2\sum_{m\neq k}^K|\bm{s}_m\herm\bm{z}_{\ell}|^2\bigg)\bigg(\frac{1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4+\frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^2\sum_{m\neq k}^K|\bm{s}_m\herm\bm{h}_i|^2\bigg)\nonumber\\
+			%	&\leq\bigg(2m_2^2+\delta+\frac{K-1}{K}(m_2+\delta)^2\bigg)\bigg(\frac{1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4+(J-1)\frac{K-1}{K}(m_2+\delta)^2\bigg)\nonumber\\
+			%	&\leq\frac{2m_2^2+\delta+(m_2+\delta)^2}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4 + (J-1)B^2L(m_2^2+\delta)^2\big(2m_2^2+\delta+(m_2+\delta)^2\big).\nonumber
+			%\end{align}
+			We also have that
+			\begin{align}
+				I_7&=\bigg|\sum_{i\neq {\ell}}^J\bm{v}\herm\bm{S}\bm{h}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\bigg|^2
+				\leq\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\big|^2\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+				\leq\|\bm{S}\|^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+				\nonumber\\&
+				\leq(m_2+\delta)^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2.\nonumber
+			\end{align}
+			%\begin{align}
+			%	I_7&=
+			%	\bigg|\frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m=1}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}_i\bm{h}_i\herm\bm{s}_m\bm{s}_m\herm\bm{h}_{\ell}\bigg|^2
+			%	\leq\bigg(\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K|\bm{v}\herm\bm{s}_k|^2|\bm{s}_m\herm\bm{h}_{\ell}|^2\bigg)\bigg(\frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K\sum_{m=1}^K|\bm{h}_i\herm\bm{s}_k\bm{s}_m\herm\bm{h}_i|^2\bigg)\nonumber\\
+			%	&=\bigg(\frac{1}{K} \sum_{k=1}^K|\bm{v}\herm\bm{s}_k|^2|\bm{s}_k\herm\bm{h}_{\ell}|^2+\frac{1}{K^2} \sum_{k=1}^K|\bm{v}\herm\bm{s}_k|^2\sum_{m\neq k}^K|\bm{s}_m\herm\bm{h}_{\ell}|^2\bigg)\bigg(\frac{1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4+\frac{1}{K^2}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^2\sum_{m\neq k}^K|\bm{s}_m\herm\bm{h}_i|^2\bigg)\nonumber\\
+			%	&\leq\bigg(B^2L(m_2+\delta)+\frac{K-1}{K}(m_2+\delta)^2\bigg)\bigg(\frac{1}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4+(J-1)\frac{K-1}{K}(m_2+\delta)^2\bigg)\nonumber\\
+			%	&\leq\frac{B^2L(m_2^2+\delta)\big(1+m_2^2+\delta\big)}{K}\sum_{i\neq {\ell}}^J\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_i|^4 + (J-1)B^4L^2(m_2+\delta)^3\big(1+m_2+\delta\big).\nonumber
+			%\end{align}
+			By inkoving the same tools, we also have
+			\begin{align}
+				I_8&=\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|\Big)^2
+				\leq\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\big|^2\big|\bm{z}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+				\leq\sum_{i\neq {\ell}}^J\big\|\bm{S}\big\|^4\leq(J-1)(m_2+\delta)^4,\nonumber\\
+				I_9&=\Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|\Big)^2\leq\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{z}_i\big|^2\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2\leq\|\bm{S}\|^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+				\nonumber\\&
+				\leq(m_2+\delta)^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2.\nonumber
+			\end{align}
+			Thanks to the Cauchy-Schwarz inequality and Corollary~\ref{cor:ziSzj},
+			\begin{align}
+				I_{10}& \leq \Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big|\Big)^2\leq\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{h}_i\big|^2\big|\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\big|^2\leq(J-1)(m_2+\delta)^2\delta^2.\nonumber
+			\end{align}
+			Finally, via Cauchy-Schwarz inequality and Corollary~\ref{cor:normFji},
+			\begin{align}
+				I_{11}& \leq \Big(\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{z}_i\bm{h}_i\herm\bm{S}\bm{z}_{\ell}\big|\Big)^2 \leq\sum_{i\neq {\ell}}^J\big|\bm{v}\herm\bm{S}\bm{z}_i\bm{z}_{\ell}\T\bm{S}\T\overline{\bm{h}_i}\big|^2\leq\sum_{i\neq {\ell}}^J\big\|\bm{F}_{{\ell}i}(\bm{z})\big\|^2\
+				\leq(J-1)(m_2+\delta)^2.\nonumber
+			\end{align}
+			
+			Therefore, we obtain
+			\begin{align}
+				&\Bigg|\sum_{i\neq {\ell}}^J \bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2\nonumber\\
+				&\quad\leq 7\xi^2\Big(\frac{K+J-1}{K}m_2^2+\frac{\kappa}{K}+\delta\Big)^2
+				%\nonumber\\&\qquad
+				+7\xi^4(J-1)(m_2+\delta)^4
+				\nonumber\\
+				&\qquad+7\xi^6(m_2+\delta)^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+				+ 7\xi^4(J-1)(m_2+\delta)^4\nonumber\\
+				&\qquad+7\xi^4(m_2+\delta)^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2+7\xi^2(J-1)(m_2+\delta)^2\delta^2+7\xi^2(J-1)(m_2+\delta)^2.\label{eqn:reg_term_j_bound}
+				%\nonumber\\
+				%\big(\xi^2+\big)\nonumber\\
+				%&\quad+3s|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}||\bm{v}\herm\bm{s}_k|\nonumber\\
+				%&\quad\leq\beta\bigg((J-1)\frac{2  m_2^2-R_2m_2+\delta}{16}+\frac{\xi^2}{40K} \sum_{i\neq {\ell}}^J \sum_{k=1}^K| \bm{s}_k\herm\bm{h}_i|^4\bigg).\nonumber
+			\end{align}
+			
+			By substituting Eqs.(\ref{eqn:reg_term_j_bound}) and (\ref{eqn:bound_cma_beta}) into Eq.(\ref{eqn:normfr2}), we have that
+			\begin{align}
+				&
+				\frac{1}{\beta}\Big|\bm{u}\herm\big(\nabla_{\ell} g(\bm{q})-\e{j\phi(\bm{q}_{\ell})}\nabla_{\ell} g(\bm{z})\big)\Big|^2
+				\nonumber\\&\quad
+				\leq 2\Big|\bm{u}\herm\nabla f(\bm{q}_{\ell}) - \e{j\phi(\bm{q}_{\ell})}\nabla f(\bm{z}_{\ell})\Big|^2
+				+ 2\gamma_0^2\Bigg|\sum_{i\neq {\ell}}^J\bm{u}\herm\Big(\bm{S}\bm{q}_i\bm{q}_i\herm\bm{S}\bm{q}_{\ell}-\e{j\phi(\bm{q}_{\ell})}\bm{S}\bm{z}_i\bm{z}_i\herm\bm{S}\bm{z}_{\ell}\Big)\Bigg|^2
+				\nonumber\\&\quad
+				\leq 2\bigg(4D(2 m_2^2+\kappa+\delta)^2+ \big(m_2^2+\kappa+(1+R_2)\delta\big)^2\cdot\bm{1}[Q\neq 4] 
+				\nonumber\\&\qquad\qquad
+				+ \frac{9D\xi^2(2 m_2^2+\kappa+\delta)+DB^2L\xi^4(  m_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4 \bigg)
+				\nonumber\\&\qquad
+				+14\gamma_0^2\xi^2\Bigg(
+				\Big(\frac{K+J-1}{K}m_2^2+\frac{\kappa}{K}+\delta\Big)^2
+				%\nonumber\\&\qquad
+				+2\xi^2(J-1)(m_2+\delta)^4
+				\nonumber\\&\qquad\qquad
+				+\xi^2(1+\xi^2)(m_2+\delta)^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2
+				+(J-1)(m_2+\delta)^2(1+\delta^2)
+				\Bigg)
+				\nonumber\\&\quad
+				\leq\beta\bigg(\frac{2  m_2^2-R_2m_2-\delta}{19}+\frac{\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}_{\ell}|^4+\gamma_0^2r_1+\gamma_0^2R_2\xi^2\sum_{i\neq {\ell}}^J\big|\bm{h}_i\herm\bm{S}\bm{h}_{\ell}\big|^2\bigg).\nonumber
+			\end{align}
+			
+			Hence, Lemma~\ref{wfcma:lem:lsc_msr} holds under the following condition:
+			\begin{align}
+				\beta\geq&\max\Big\{\frac{152D(2m_2^2+\kappa+\delta)^2}{2m_2^2-R_2m_2-\delta}
+				+\frac{38(m_2^2+\kappa+(1+R_2)\delta\big)^2}{2m_2^2-R_2m_2-\delta}\cdot\bm{1}[Q\neq4]
+				\nonumber\\&\qquad\qquad\quad
+				+\frac{266\gamma_0^2}{2m_2^2-R_2m_2-\delta}\bigg(\Big(\frac{K+J-1}{K}m_2^2+\frac{\kappa}{K}+\delta\Big)^2
+				\nonumber\\&\qquad\qquad\quad
+				+2\epsilon^2(J-1)(m_2+\delta)^4+(J-1)(m_2+\delta)^2(1+\delta^2)\bigg), 
+				\nonumber\\&\qquad\quad 
+				360D(2m_2^2+\kappa+\delta)+40DB^2L\epsilon^2(m_2+\delta),\,\,
+				14\gamma_0^2(1+\epsilon^2)(m_2+\delta)^2	\Big\}.\label{eqn:lsc_beta_msr}
+			\end{align}
+			
+			With $\epsilon=(10B\sqrt{JL})^{-1}$, $\gamma_0=1$ and $\delta\leq0.001$, Eq.(\ref{eqn:lsc_beta_msr}) holds for 
+			\begin{align}
+				\begin{array}{lcc}
+					\beta\geq 730+267(J-1)
+					%		(J-1)\Big( 393+ \frac{4}{B^2LJ^3}\Big)
+					&\text{for}&Q=4,\\
+					\beta\geq 1964+394(J-1)
+					%		(J-1)\Big( 393+ \frac{4}{B^2LJ^3}\Big)
+					&\text{for}&Q\neq4.\\
+				\end{array}	\nonumber
+			\end{align} 

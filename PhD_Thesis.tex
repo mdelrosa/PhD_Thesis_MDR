@@ -1,0 +1,253 @@
+\documentclass[12pt,letterpaper]{report}
+\usepackage[letterpaper,left=1.2in,right=1.2in,top=1in,bottom=1in]{geometry}
+\usepackage{setspace,epsfig,rawfonts,graphicx,graphicx,epsf,psfrag}
+\usepackage{amssymb,amsfonts,amsmath,amsthm}
+\usepackage{mathtools}
+\usepackage[noadjust]{cite}
+\usepackage{appendix}
+%\usepackage[cmex10]{amsmath}
+\usepackage{array}
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+\usepackage{eqparbox}
+%\usepackage{amsthm}
+%\usepackage[tight,footnotesize]{subfigure}
+%\usepackage[caption=false,font=footnotesize]{subfig}
+\usepackage{multirow}
+\usepackage{chngcntr}
+\usepackage{etoolbox}
+%\usepackage[chapter]{algorithm}
+%\part{title}\usepackage{algorithmic}
+\usepackage{bm}
+
+\usepackage{float,textcomp}
+\usepackage{indentfirst}
+\usepackage{times}
+\usepackage{psfrag}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+
+
+\usepackage{algorithm}
+\usepackage{color}
+\usepackage[font=small]{caption}
+\usepackage{subcaption}
+\usepackage{algpseudocode}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{lipsum}
+\usepackage{cancel} % for cancelto method
+
+\usepackage[linktocpage,bookmarksopen,bookmarksnumbered]{hyperref}
+
+%\usepackage[nottoc,numbib]{tocbibind}
+ %\usepackage[pdftex]{graphicx}
+ 
+\input{MySymbols}
+%\input macros
+\newcommand*{\MyScale}{0.85}
+
+%\newtheorem{example}{Example}[chapter]
+%\theoremstyle{definition}
+%\newtheorem{assumption}{Assumption}[chapter]
+
+\renewcommand{\bibname}{References}
+\newcommand{\mf}[1]{\mathbf{#1}}
+\newcommand{\bfb}{\mathbf{b}}
+\newcommand{\bfu}{\mathbf{u}}
+\renewcommand{\Re}{\mbox{Re}}
+\renewcommand{\Im}{\mbox{Im}}
+
+%\newcommand{\lemmaref}[1]{Lemma \ref{#1}}
+%\newcommand{\tr}{{\rm tr}}
+%\newcommand{\diff}{{\rm d}}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{property}{Property}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{definition}{Definition}
+%\numberwithin{theorem}{chapter} % important bit
+%\numberwithin{lemma}{chapter} % important bit
+%\numberwithin{proposition}{chapter} % important bit
+
+\def\ie{{\it i.e.,\ \/}}
+\def\defeq{{\stackrel{\Delta}{=}}}
+\def\mbbE{\mathbb{E}}
+\newcommand{\state}{(\mathbf{e},\mathbf{w})}
+\newcommand{\sst}{\mathcal{S}\backslash\mathcal{S}_t}
+\newcommand{\eu}{\mathcal{S}\backslash\{t\}\backslash \mathcal{U}}
+\def\scalefig#1{\epsfxsize #1\textwidth}
+\def\nn{{\nonumber}}
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\newsavebox{\tablebox}
+
+
+
+\AtBeginEnvironment{subappendices}{%
+\chapter*{Appendix}
+\addcontentsline{toc}{chapter}{Appendices}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
+}
+
+
+
+% math operators and functions
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+%\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\Diag}{Diag}
+\DeclareMathOperator*{\ddiag}{ddiag}
+%\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\grad}{\mathrm{grad}}
+\newcommand{\Hess}{\mathrm{Hess}}
+\newcommand{\dist}{\mathrm{dist}}
+\newcommand{\e}[1]{\mathrm{e}^{#1}}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+% real, imag, transpose, conj transpose
+\newcommand{\herm}{^{\mathsf{H}}}
+\newcommand{\T}{^{\mathsf{T}}}
+\newcommand{\re}{\mathrm{Re}}
+\newcommand{\im}{\mathrm{Im}}
+% sets
+%\newcommand{\C}{\mathbb{C}}
+\newcommand{\CM}{\mathbb{C}^M}
+\newcommand{\CML}{\mathbb{C}^{M\times L}}
+\newcommand{\CLJ}{\mathbb{C}^{L\times J}}
+\newcommand{\Uj}{\mathcal{U}(1)^{\times J}}
+\newcommand{\St}[2]{{\rm ST}_{\bm{B}}(#1\times #2)}
+\newcommand{\StB}[2]{{\rm ST}_{\bm{B}}(#1\times #2)}
+\newcommand{\StL}[2]{{\rm ST}_{\bm{\Lambda}}(#1\times #2)}
+% common vectors
+\newcommand{\w}{\bm{w}}
+\newcommand{\W}{\bm{W}}
+\newcommand{\z}{\bm{z}}
+\newcommand{\xk}{\bm{x}_k}
+\newcommand{\Xk}{\bm{X}_k}
+\newcommand{\bb}{\bm{b}}
+\newcommand{\uu}{\bm{u}}
+%common riemannian vectors
+\newcommand{\etaw}{\bm{\eta}_{\w}}
+\newcommand{\etawt}{\bm{\eta}_{\w_t}}
+\newcommand{\etawj}{\bm{\eta}_{\w_j}}
+\newcommand{\etawjj}{\bm{\eta}_{\w_{j_1}}}
+\newcommand{\etab}{\bm{\eta}_{\bb}}
+\newcommand{\uw}{\uu_{\w}}
+%\newcommand{\vv}{\bm{v}}
+%\newcommand{\uv}{\bm{u}_{\vv}}
+
+\newcommand{\SINR}{\mathrm{SINR}}
+\newcommand{\MAC}{\mathrm{MAC}}
+\newcommand{\BC}{\mathrm{BC}}
+
+
+
+
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bsubeq}{\begin{subequations}}
+\newcommand{\esubeq}{\end{subequations}}
+\newcommand{\barp}{\bar z}
+\newcommand{\Pb}{\mbox{P}}
+
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{observation}{Observation}
+\newtheoremstyle{mystyle}%                % Name
+{}%                                     % Space above
+{}%                                     % Space below
+{\itshape}%                             % Body font
+{}%                                     % Indent amount
+{}%                            % Theorem head font
+{.}%                                    % Punctuation after theorem head
+{ }%                                    % Space after theorem head, ' ', or \newline
+{{\bfseries \thmname{#1}\thmnumber{ #2}} (\thmnote{#3})}%                                     % Theorem head spec (can be left empty, meaning `normal')
+%\thmname{#1}\thmnumber{ #2}:\thmnote{ #3}
+
+\newtheoremstyle{mystyle2}%                % Name
+{}%                                     % Space above
+{}%                                     % Space below
+{\itshape}%                             % Body font
+{}%                                     % Indent amount
+{}%                            % Theorem head font
+{.}%                                    % Punctuation after theorem head
+{ }%                                    % Space after theorem head, ' ', or \newline
+{{\bfseries \thmname{#1}\thmnumber{ #2}}}%   
+
+\theoremstyle{mystyle}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cond}[thm]{Condition}
+\newtheorem{defn}[thm]{Definition}
+
+
+\theoremstyle{mystyle2}
+\newtheorem{thm2}{Theorem}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\newtheorem*{note}{Note}
+
+
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{definition}{Definition}
+%\newtheorem{prop}{Proposition}
+\newcommand{\zding}[1]{\textcolor{red}{/*Prof. Ding: #1*/}}
+\newcommand{\mdr}[1]{\textcolor{red}{/*Mason: #1*/}}
+
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+
+\captionsetup[figure]{font=small}
+\captionsetup[table]{font=small}
+\graphicspath{{./images/}}
+
+\begin{document}
+
+\doublespacing
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+
+\title{{\large \bf Efficient Deep Learning for Massive MIMO Channel State Estimation}%\\ Applications in Signal Recovery and User Scheduling}
+	\vspace{0.2in}\\
+	PhD Thesis (draft)}
+\author{Mason del Rosario\\
+	Department of Electrical and Computer Engineering\\
+	University of California, Davis\\
+	Davis, CA 95616, U.S.A.\vspace{0.8in}
+}
+
+\date{September, \the\year}
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+
+\newpage
+\pagenumbering{arabic}
+\input{./source_file/Abstract.tex}
+\input{./source_file/Thesis_Chap1.tex}
+\input{./source_file/Thesis_Chap2.tex}
+\input{./source_file/Thesis_Chap3.tex}
+\input{./source_file/Thesis_Chap4.tex}
+% \input{./source_file/Thesis_Chap5.tex}
+% \input{./source_file/Thesis_Chap6.tex}
+% \input{./source_file/Thesis_Chap7.tex}
+
+\cleardoublepage
+\phantomsection
+%\addcontentsline{toc}{section}{References}
+\addcontentsline{toc}{chapter}{References}
+\bibliographystyle{IEEEtran}
+\bibliography{cited_works}
+
+\singlespacing
+\appendix
+% \input{source_file/Thesis_AppendixWF.tex}
+%\input{source_file/Thesis_AppendixRMSR.tex}
+
+\end{document}

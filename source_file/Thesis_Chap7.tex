@@ -1,0 +1,23 @@
+\chapter{Conclusions}
+\label{chap:conclusion}
+
+We have explored non-convex optimization in the context of wireless communications under geometrical perspectives, using new techniques developed for seemingly unrelated problems. We have also proposed new geometrical perspectives for both grant-free access and grant-free scheduling, leveraging the underlying properties of the computational space to improve the performance of these tasks with reasonable computational complexity and minimal ad-hoc settings.
+
+% WF-CMA
+\section{CMA via Wirtinger Flow}
+First, we used known results and algorithms for phase retrieval and applied this knowledge into the blind beamforming problem. We generalized the convergence analysis of WF for our WF-CMA algorithm by incorporating new conditions of subgaussian signal sources and average modulus, demonstrating its global convergence for blind signal recovery with high probability under limited data samples. 
+We characterized the local geometry of the CM cost function in terms of smoothness and convexity, which enables parameter updates to remain within the basin of attraction for a defined stepsize. This allows to establish a more aggressive stepsize than the traditional gradient-descent CMA approaches, tackling the slow convergence of the latter with no significant increase in the computational cost.  
+
+
+% RMSR
+\section{Riemannian Multiple Signal Recovery}
+We also developed a Riemannian framework for blind source recovery problems, and to the best of our knowledge, is the first work using these techniques for CMA-based formulations.
+This is achieved by means of minimizing a CMA cost function, such that the orthogonality of different demixers is embedded in the geometry of a Riemannian manifold. We derive this geometry and obtain the geometrical definitions that allow to minimize over the manifold as the search space of the optimization problem. The results of our approach show high probability of successful recovery of all sources with a reasonable number of samples, for rather large system sizes and different modulation schemes. 
+
+
+% U-SCH
+\section{Unsupervised Riemannian User Scheduling}
+Last but not least, we focused on the uplink user scheduling problem that exploits spatial multiplexing in MIMO systems. To mitigate the intra-group interference, instead of directly scheduling users with high channel dissimilarity, we developed a general uplink user scheduling strategy that selects users from different high-similarity channel clusters, by exploiting unsupervised learning algorithms without the requirement of a significant number of labeled data. We identified a Riemannian manifold that inherently describes the similarity of channels with respect to their cross-correlation, which is invariant to both phase and magnitude differences. Using this manifold as the underlying computational space, we exploit the retrieved similarity information to assist in the scheduling of users.
+Under a variety of performance metrics to evaluate user scheduling, simulations indicate that the combination of a learning-enabled channel clustering can exploit the spatial compatibility effectively to reduce inter-group interference when compared with other benchmarks. 
+
+

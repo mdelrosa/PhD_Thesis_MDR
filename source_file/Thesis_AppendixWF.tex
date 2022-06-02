@@ -1,0 +1,320 @@
+\chapter{Technical Proofs for CMA Convergence}
+\label{appdx:wf}
+\section{Technical Lemmas and Corollaries} \label{appdx:technical}
+Here, we establish a lemma to prove Lemma~\ref{lemma:concentration_hessian}. 
+\begin{lem}[Concentration of sample covariance]
+	\label{lemma:concentration_covariance}
+	Consider independent subgaussian vectors $\bm{a}_k\in\mathbb{C}^L$. For every $\delta>0$, there exist $C(\delta),c(\delta)>0$ such that for $K\geq C(\delta)L$,
+	\begin{equation}
+		\bigg\|\frac{1}{K}\sum_{k=1}^K\bm{a}_k\bm{a}_k\herm-\mathbb{E}\{\bm{a}_k\bm{a}_k\herm\}\bigg\| \leq \delta,\nonumber%
+	\end{equation}
+	holds with probability at least $1-2\e{-c(\delta) K}$.
+\end{lem}
+\begin{proof} Subgaussian vectors $\bm{a}_k$ can be defined as the independent rows of a $K\times L$ matrix $A$. Hence, Lemma~\ref{lemma:concentration_covariance} is a consequence of \cite[Theorem 5.39]{Vershynin2012nonasymptoticmatrices}.
+\end{proof}	
+
+\begin{cor} \label{cor:abs_s}	 
+	In the setting of Lemma~\ref{lemma:concentration_covariance}, for $K\geq C(\delta)L$ and $\bm{h}\in\mathbb{C}^L$, with probability at least $1-2\e{-c(\delta) K}$,
+	\begin{equation}
+		-\delta\|\bm{h}\|^2\leq \frac{1}{K}\sum_{k=1}^K|\bm{a}_k\herm\bm{h}|^2- \bm{h}\herm\mathbb{E}\{\bm{a}_k\bm{a}_k\herm\}\bm{h}\leq\delta\|\bm{h}\|^2. \nonumber%\label{eqn:concentration_covariance}
+	\end{equation}
+\end{cor}
+
+The expectation of matrices $\bm{A}(\bm{q})$ and $\bm{B}(\bm{q})$ are:
+\begin{align}
+	\mathbb{E}\{\bm{A}(\bm{q})\}&=m_2^2(\|\bm{q}\|^2\bm{I} +\bm{q}\bm{q}\herm) + \kappa\ddiag(\bm{q}\bm{q}\herm),\nonumber\\
+	\mathbb{E}\{\bm{B}(\bm{q})\}&=2  m_2^2\bm{q}\bm{q}\T+\kappa\ddiag(\bm{q}\bm{q}\T).\nonumber
+\end{align}
+
+
+The solutions of the CMA problem of Eq.(\ref{eqn:cma_orig}) are of the form $\bm{z}=\e{i\theta}\bm{e}_{\ell_j}$, with  $\ell_j\in\{1,\ldots,L\}, \theta\in[0,2\pi]$. 
+%Hence, $\|\bm{z}\|=1$ and the eigenvalues of the matrix $\ddiag(\bm{z}\bm{z}\herm)$ are equal to 1 (with multiplicity 1) and 0 (with multiplicity $L-1$). 
+
+Two corollaries are helpful to prove Lemmas~\ref{lem:lcc} and~\ref{lem:lsc}:
+\begin{cor} \label{cor:absabs} %cor:hAzh
+	Let $K\geq C_1(\delta)L$. Then, with probability of at least $1-6\e{-c_1(\delta)K}$, for all $\bm{h}\in\mathbb{C}^L$ such that $\|\bm{h}\|=1$, we have
+	\begin{align}
+		&(m_2^2 - \delta)\|\bm{h}\|^2 + (m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2 \nonumber\\
+		&\quad\leq   \frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2 
+		\nonumber\\&\quad
+		\leq(m_2^2 +\delta)\|\bm{h}\|^2 + (m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2. \nonumber%\label{eqn:A_Bounds}
+	\end{align}
+\end{cor}
+\begin{proof}
+	Note that 
+	$
+	\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2=\bm{h}\herm\bm{A}(\bm{z})\bm{h} \nonumber
+	$
+	and from Lemma~\ref{lemma:concentration_hessian} it follows that $-\delta\bm{I}\preceq\textbf{}\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\preceq\delta\bm{I}$. For the lower bound, we obtain
+	\begin{align}
+		\bm{h}\herm\bm{A}(\bm{z})\bm{h}&
+		% \nonumber\\
+		% &\quad
+		\geq m_2^2(\|\bm{h}\|^2+|\bm{h}\herm\bm{z}|^2) - \delta\|\bm{h}\|^2\nonumber\\
+		&\quad+\kappa \bm{h}\herm\ddiag(\bm{zz}\herm)\bm{h},\nonumber % \qedhere
+	\end{align}
+	
+	and knowing that $\bm{z}=\e{\theta}\bm{e}_{\ell}$, we have
+	\begin{align}
+		&\kappa \bm{h}\herm\ddiag(\bm{zz}\herm)\bm{h}=\kappa \sum_{a=1}^L|\overline{h_a}z_a|^2=\kappa|\bm{h}\herm\bm{z}|^2.\nonumber%\geq\kappa\|\bm{h}\|^2.\nonumber (this applies only for our z and h, not for all)
+	\end{align}
+	The upper bound is obtained similarly.
+\end{proof}
+
+\begin{cor} \label{cor:re2} %cor:rehhz2
+	Let $K\geq C_1(\delta)L$. Then, with probability of at least $1-6\e{-c_1(\delta)K}$, for all $\bm{h}\in\mathbb{C}^L$ such that $\|\bm{h}\|=1$, we have
+	\begin{align}
+		&\frac{m_2^2-\delta}{2}\|\bm{h}\|^2+\frac{3m_2^2+2\kappa}{2}\re(\bm{h}\herm\bm{z})^2-\frac{m_2^2}{2}\im(\bm{h}\herm\bm{z})^2\nonumber\\
+		&\quad\leq\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2\nonumber\\
+		&\quad\leq  \frac{m_2^2+\delta}{2}\|\bm{h}\|^2+\frac{3m_2^2+2\kappa}{2}\re(\bm{h}\herm\bm{z})^2-\frac{m_2^2}{2}\im(\bm{h}\herm\bm{z})^2. \nonumber%\label{eqn:Rehssz_Bounds}
+	\end{align}
+\end{cor}
+\begin{proof}
+	Lemma~\ref{lemma:concentration_hessian} states that 	$\delta\bm{I}\preceq\bm{U}(\bm{z})-\mathbb{E}\{\bm{U}(\bm{z})\}\preceq\delta\bm{I}$.
+	For the lower bound, recall that  $2\re(c)^2=|c|^2+\re(c^2)$ for $c\in\mathbb{C}$, and 
+	\begin{align}
+		&\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2
+		=\frac{1}{4}\begin{bmatrix}
+			\bm{h}\\[0.2em]
+			\overline{\bm{h}}
+		\end{bmatrix}\herm
+		\begin{bmatrix}
+			\bm{A}(\bm{z})&\bm{B}(\bm{z})\\[0.2em]
+			\overline{\bm{B}(\bm{z})}&\overline{\bm{A}(\bm{z})}
+		\end{bmatrix}
+		\begin{bmatrix}
+			\bm{h}\\[0.2em]
+			\overline{\bm{h}}
+		\end{bmatrix}\nonumber\\
+		&\quad\geq\frac{m_2^2-\delta}{2}\|\bm{h}\|^2+\frac{3m_2^2}{2}\re(\bm{h}\herm\bm{z})^2-\frac{m_2^2}{2} \im(\bm{h}\herm\bm{z})^2\nonumber\\
+		&\quad\quad+\frac{\kappa}{2}\re\big(\bm{h}\herm\ddiag(\bm{zz}\herm)\bm{h}+\bm{h}\herm\ddiag(\bm{zz}\T)\overline{\bm{h}}\big). \nonumber%\label{eqn:cor1_lower_bound_1}
+	\end{align}
+	
+	Knowing that $\bm{z}=\e{\theta}\bm{e}_{\ell}$, the last term is equal to 
+	\begin{align}
+		&\frac{\kappa}{2}\re\big(\bm{h}\herm\ddiag(\bm{zz}\herm)\bm{h}+\bm{h}\herm\ddiag(\bm{zz}\T)\overline{\bm{h}}\big)\nonumber\\
+		&\quad=\kappa\sum_{a=1}^L\re(\overline{h_a}z_a)^2=\kappa\re(\bm{h}\herm\bm{z})^2.\nonumber%\geq\kappa\|\bm{h}\|^2.\nonumber (this applies only for our z and h, not for all)
+	\end{align}
+	
+	The upper bound is obtained similarly.
+\end{proof}
+
+
+\section{Proof of Lemma~\ref{lemma:concentration_hessian}}\label{appdx:concentration_hessian}
+
+Rewrite the Hessian as
+\begin{align}
+	\nabla^2f(\bm{z})&=\begin{bmatrix}
+		\bm{A}(\bm{z})&\bm{B}(\bm{z})\\\overline{\bm{B}(\bm{z})}&\overline{\bm{A}(\bm{z})}
+	\end{bmatrix}+\begin{bmatrix}
+		\bm{A}(\bm{z})&\bm{0}\\\bm{0}&\overline{\bm{A}(\bm{z})}\end{bmatrix}
+	-R_2\begin{bmatrix}
+		\bm{S}&\bm{0}\\\bm{0}&\overline{\bm{S}}\end{bmatrix}\nonumber\\
+	&=\bm{U}(\bm{z})+\bm{A}'(\bm{z})-R_2\bm{S}'.\nonumber
+\end{align}
+
+Observe that $\bm{U}(\bm{z})$ corresponds to the Hessian of the Phase Retrieval problem, which differs from the CMA Hessian due to the use of a desired average magnitude instead of known sampled amplitudes. Using the triangle inequality, to prove the lemma we show that
+\begin{align}
+	\big\|\bm{S}-\mathbb{E}\{\bm{S}\}\big\|&\leq \delta_S={\delta}/{(8R_2)}, \label{eqn:concentration_ineq_S}\\
+	\big\|\bm{A}(\bm{z})-\mathbb{E}\{\bm{A}(\bm{z})\}\big\|&\leq \delta_A={\delta}/{8}, \label{eqn:concentration_ineq_A}\\
+	\|\bm{U}(\bm{z})-\mathbb{E}\{\bm{U}(\bm{z})\}\|&\leq 
+	\delta_U={\delta}/{2}. \label{eqn:concentration_ineq_U}
+\end{align}
+
+Recall that the signal vectors are independent for $k\in\{1,\ldots,K\}$. Moreover, QAM constellations are bounded, thus the signal vectors are subgaussian. Hence, via Lemma~\ref{lemma:concentration_covariance},  Eq.(\ref{eqn:concentration_ineq_S}) holds with probability at least $1-2\e{-c_3(\delta_S)K}$ by choosing $K\geq C_3(\delta_S)L$.
+
+Let $\bm{a}_k= \big(\bm{s}_k\herm\bm{z}\big) \bm{s}_k$, which are independent for $k\in\{1,\ldots,K\}$. Note that $\bm{s}_k\herm\bm{z}=\sqrt{m_2}\,\e{i\varphi}\overline{s_{\ell_j}[k]}$, and therefore the vectors $\bm{a}_k$ have bounded, discrete elements over an exponentially large set, and as such they are subgaussian \cite{Vershynin2018hdprobability}. Additionally, we have
+\begin{align}
+	\bm{A}(\bm{z})= \frac{1}{K}\sum_{k=1}^K \bm{a}_k\bm{a}_k\herm.\nonumber
+\end{align}
+
+Therefore, by invoking Lemma~\ref{lemma:concentration_covariance},   Eq.(\ref{eqn:concentration_ineq_A}) holds with probability at least $1-2\e{-c_4(\delta_A)K}$ whenever $K\geq C_4(\delta_A)L$.
+
+Now define $\bm{u}_k\herm=[\bm{a}_k\herm\,\,\bm{a}_k\T ]$. Using a similar reasoning as above, $\bm{u}_k$ are also subgaussian and independent for $k\in\{1,\ldots,K\}$, and 
+\begin{align}
+	\bm{U}(\bm{z})= \frac{1}{K}\sum_{k=1}^K\bm{u}_k\bm{u}_k\herm. \nonumber
+\end{align}
+
+Lemma~\ref{lemma:concentration_covariance} then states that Eq.(\ref{eqn:concentration_ineq_U}) holds with probability at least $1-2\e{-c_5(\delta/2)K}$ by choosing $K\geq C_5(\delta_U)L$.
+
+Finally, set $C_1(\delta)\geq\max\{C_3(\delta_S),C_4(\delta_A),C_5(\delta_U)\}$. By selecting $K\geq C_1(\delta)L$, Lemma~\ref{lemma:concentration_hessian} holds with probability at least $1-6\e{-c_1(\delta)K}$, where we define  $c_1(\delta)=\min\{c_3(\delta_S),c_4(\delta_A),c_5(\delta_U)\}$.
+
+
+
+\section{Proof of Lemma~\ref{lem:lcc}}\label{appdx:llc}
+Let $\bm{q}\in E(\epsilon)$ and $\bm{h}=\e{-i\phi(\bm{q})}\bm{q}-\bm{z}$. Hence $\|\bm{h}\|\leq\epsilon$ and $\im(\bm{h}\herm\bm{z})=0$, as $\bm{h}$ and $\bm{z}$ are geometrically aligned:
+\begin{align}
+	\bm{h}\herm\z&=\e{-i\angle(\bm{q}\herm\bm{z})}\bm{q}\herm\z-\bm{z}\herm\z %\nonumber\\&
+	=|\bm{q}\herm\z|-\|\bm{z}\|^2\in\mathbb{R}.
+\end{align}
+
+%Recall that $\nabla f(\e{i\theta}\bm{z})\approx0$ for any $\theta\in[0,2\pi]$, thus 
+The proof is equivalent to proving
+\begin{align}
+	%	&\mathrm{Re}\Big( \big\langle\nabla f(\bm{q}), \bm{q} - \e{i\phi(\bm{q})}\z\big\rangle\Big)\nonumber\\
+	&\mathrm{Re}\Big( \big\langle\nabla f(\bm{q})-\nabla f(\e{i\phi(\bm{q})}\bm{z}), \bm{q} - \e{i\phi(\bm{q})}\z\big\rangle\Big)\nonumber\\
+	&\quad=\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2\nonumber\\
+	&\qquad+\frac{9}{10}|\bm{s}_k\herm\bm{h}|^4+
+	\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+	\nonumber\\
+	&\quad\geq \Big( \frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{4}\Big)\|\bm{h}\|^2\nonumber
+\end{align}
+for all $\bm{h}$ satisfying $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|\leq\epsilon$. 
+It suffices to show that for all $\bm{h}$ such that $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon$, the following inequality holds
+\begin{align}
+	&\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2\nonumber\\
+	&\qquad+\frac{9}{10}\xi^2|\bm{s}_k\herm\bm{h}|^4+
+	\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)\nonumber\\
+	&\quad \geq \frac{1}{\alpha}+\frac{2  m_2^2-R_2  m_2-\delta}{4}. \nonumber
+\end{align}
+
+Invoking Corollary~\ref{cor:re2ncm}, we show that for all $\bm{h}$ such that $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon$,
+\begin{align}
+	&\frac{1}{K}\sum_{k=1}^K\Big(\frac{5}{2}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2
+	\nonumber\\&\qquad
+	+\frac{9}{10}\xi^2|\bm{s}_k\herm\bm{h}|^4+
+	\frac{5}{4}\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)|\bm{s}_k\herm\bm{h}|^2\Big)
+	\nonumber\\&\quad
+	\geq  \frac{1}{\alpha}+\frac{2m_2^2-R_2m_2}{2} +\frac{3m_2^2+2\kappa}{4}\re(\bm{h}\herm\bm{z})^2
+	\nonumber\\&\qquad
+	+\frac{m_2^2+\kappa}{4}|\bm{h}\herm\bm{z}|^2. \label{eqn:llc_lemma_proof}
+\end{align}
+
+For constant modulus signals, the last averaging term of the LHS of Eq.(\ref{eqn:llc_lemma_proof}) is zero. For non-constant modulus QAM signals, the term is bounded by Corollaries~\ref{cor:abs_s} and~\ref{cor:absabs}:
+\begin{align}
+	&\frac{1}{K}\sum_{k=1}^K\Big(|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}|^2-R_2|\bm{s}_k\herm\bm{h}|^2\Big)\nonumber\\
+	&\qquad \geq\big( m_2^2-R_2m_2-(1+R_2)\delta+(m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2\big).\nonumber
+\end{align}
+
+Let 
+\begin{align}
+	&\bm{Y}(\bm{h},\xi)=\frac{1}{K}\sum_{k=1}^K\Big(\frac{5}{2}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2\nonumber\\
+	&\qquad+3\xi\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9\xi^2}{10}|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber% \label{eqn:ineq1}
+\end{align}
+
+Since $(a-b)^2\geq\frac{a^2}{2}-b^2$, we have that
+\begin{align}
+	&\bm{Y}(\bm{h},\xi)\nonumber\\
+	&\geq\Bigg(\sqrt{\frac{5}{2K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2}-\sqrt{\frac{9\xi^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4}\Bigg)^2\nonumber\\
+	&\geq \frac{5}{4K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2-\frac{9\xi^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber% \label{eqn:ineq1}
+\end{align}
+
+By means of Corollary~\ref{cor:abs_s}, with high probability we have
+\begin{align}
+	\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\leq\max_k\|\bm{s}_k\|^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2\Big)\leq B^2L(m_2+\delta).\nonumber
+\end{align}
+
+Using this result and the first inequality of Corollary~\ref{cor:re2}, for
+$\|\bm{h}\|=1$, it holds with high probability that
+\begin{align}
+	\bm{Y}(\bm{h},\xi)&\geq\frac{15m_2^2+10\kappa}{8}\re(\bm{h}\herm\bm{z})^2+\frac{5}{8}(m_2^2-\delta)\nonumber\\
+	&\quad\quad-\frac{9B^2L}{10}\xi^2(m_2+\delta).\nonumber
+\end{align}
+
+Hence, Lemma~\ref{lem:lcc} holds under the following condition:
+\begin{align}
+	&\frac{15 m_2^2+10\kappa}{8}\re(\bm{h}\herm\bm{z})^2+\frac{5}{8}(m_2^2-\delta)-\frac{9B^2L}{10}\xi^2(  m_2+\delta)\nonumber\\
+	&\quad+\frac{5}{4}\big( m_2^2-R_2m_2-(1+R_2)\delta+(m_2^2+\kappa)|\bm{h}\herm\bm{z}|^2\big)\cdot\bm{1}[Q\neq 4] \nonumber\\
+	&\quad\geq  \frac{1}{\alpha}+\frac{2m_2^2-R_2m_2}{2} +   \frac{3m_2^2+2\kappa}{4}\re(\bm{h}\herm\bm{z})^2
+	\nonumber\\&\qquad
+	+\frac{m_2^2+\kappa}{4}|\bm{h}\herm\bm{z}|^2.\label{eqn:lcc_alpha}
+\end{align}
+
+With $\xi\leq\epsilon=(10B\sqrt{L})^{-1}$ and $\delta\leq0.01$, Eq.(\ref{eqn:lcc_alpha}) holds for 
+\begin{align}
+	\begin{array}{lcc}
+		\alpha\geq 3&\text{for}&Q=4,\\
+		\alpha\geq 83&\text{for}&Q\neq4.\\
+	\end{array}	\nonumber
+\end{align} 
+
+
+
+\section{Proof of Lemma~\ref{lem:lsc}}\label{appdx:lsc}
+Let $\bm{q}\in E(\epsilon)$ and $\bm{h}=\e{-i\phi(\bm{q})}\bm{q}-\bm{z}$. For any $\bm{u}\in\mathbb{C}^L$ such that $\|\bm{u}\|=1$, let $\bm{v}=\e{-i\phi(\bm{q})}\bm{u}$. 
+%Recall that $f(\e{i\theta}\bm{z})\approx0$ for any $\theta\in[0,2\pi]$. 
+Therefore, it suffices to show that 
+\begin{align}
+	&\Big|\bm{u}\herm\big(\nabla f(\bm{q})-\nabla f(\e{i\phi(\bm{q})}\bm{z})\big)\Big|^2\nonumber\\
+	&\,\,=\bigg|\frac{1}{K}\sum_{k=1}^K\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\Big(|\bm{s}_k\herm\bm{h}|^2+2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})\Big)\nonumber\\
+	&\quad+\Big(|\bm{s}_k\herm\bm{h}|^2+2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})+|\bm{s}_k\herm\bm{z}|^2-R_2\Big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\bigg|^2\nonumber\\
+	&\,\,\leq\bigg(\frac{1}{K}\sum_{k=1}^K2|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}| +3|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2\nonumber\\
+	&\quad+|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|
+	%\nonumber\\&\qquad
+	+\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\bigg)^2\nonumber\\
+	&\,\,\leq\beta\Big(\frac{2  m_2^2-R_2m_2-\delta}{19}\|\bm{h}\|^2+\frac{1}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\nonumber
+\end{align}
+holds for all $\bm{h}$ and $\bm{v}$ such that $\im(\bm{h}\herm\bm{z})=0$, $\|\bm{h}\|\leq\epsilon$, and $\|\bm{v}\|=1$. Equivalently, we prove that for all $\bm{h}$ and $\bm{v}$ such that $\im(\bm{h}\herm\bm{z})=0$, $\|\bm{h}\|=\|\bm{v}\|=1$ and
+for all $\xi$ with $0\leq \xi\leq \epsilon$, the following inequality holds
+\begin{align}
+	&\bigg(\frac{1}{K}\sum_{k=1}^K2|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}| +3\xi|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2\nonumber\\
+	&\quad+\xi^2|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|
+	%\nonumber\\&\qquad
+	+\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\bigg)^2\nonumber\\
+	&\,\,\leq\beta\Big(\frac{2  m_2^2-R_2m_2+\delta}{19}+\frac{\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber
+\end{align}
+
+Note that $|\bm{s}_k\herm\bm{z}|^2=m_2=R_2$ for constant-modulus signals, and thus the last term in the LHS is zero if $Q=4$, and non-zero otherwise. Let $D=3+\bm{1}[Q\neq4]$, and knowing that $\big(\sum_{i=1}^n a_i\big)^2\leq n\sum_{i=1}^n a_i^2$,
+\begin{align}
+	&\Big|\bm{u}\herm\big(\nabla f(\bm{q})-\nabla f(\e{i\phi(\bm{q})}\bm{z})\big)\Big|^2\nonumber\\
+	&\quad\leq 4D\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|\Big)^2  
+	\nonumber\\&\qquad
+	+9D\xi^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}||\bm{s}_k\herm\bm{v}||\bm{s}_k\herm\bm{h}|^2\Big)^2
+	\nonumber\\&\qquad
+	+D\xi^4\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3|\bm{s}_k\herm\bm{v}|\Big)^2
+	\nonumber\\&\qquad
+	+\Big|\frac{1}{K}\sum_{k=1}^K\big(|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h}\Big|^2\cdot\bm{1}[Q\neq4]\nonumber\\
+	&\quad\leq 4DI_1+9D\xi^2I_2+D\xi^4I_3+I_4\cdot\bm{1}[Q\neq4].\nonumber
+\end{align}
+
+We now bound these terms on the right-hand side. By means of the Cauchy-Schwarz inequality and Corollary~\ref{cor:absabs},
+\begin{align}
+	I_1&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}|^2\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2\Big)\nonumber\\
+	&\leq(2  m_2^2+\kappa+\delta)^2,\nonumber
+\end{align}
+and
+\begin{align}
+	I_2&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{v}|^2|\bm{s}_k\herm\bm{z}|^2\Big)\nonumber\\
+	&\leq\frac{2  m_2^2+\kappa+\delta}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber
+\end{align}
+
+Invoking Corollary~\ref{cor:abs_s}, the bounded norm $\|\bm{s}_k\|\leq B\sqrt{L}$, and the Cauchy-Schwarz inequality, we obtain
+\begin{align}
+	I_3&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3\max_{k}\|\bm{s}_k\|\Big)^2
+	%\nonumber\\&
+	\leq\frac{B^2L(  m_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4.\nonumber
+\end{align}
+
+For non-constant modulus QAM signals, we can bound $I_4$ by invoking Corollaries~\ref{cor:abs_s} and~\ref{cor:absabs}:
+\begin{align}
+	I_4&=\Big|\bm{h}\herm\big(\bm{A}(\bm{z})-R_2\bm{S}\big)\bm{h}\Big|^2\nonumber\\
+	&\leq \Big|m_2^2-R_2m_2-(1+R_2)\delta\big|^2=\big(m_2^2+\kappa+(1+R_2)\delta\big)^2.\nonumber
+\end{align}
+
+Therefore, we obtain
+\begin{align}
+	&\big\|\nabla f(\bm{q})\big\|^2= \max_{\|\bm{u}\|=1}\Big|\bm{u}\herm\big(\nabla f(\bm{q})-\nabla f(\e{i\phi(\bm{q})}\bm{z})\big)\Big|^2\nonumber\\
+	&\quad\leq 4D(2 m_2^2+\kappa+\delta)^2\nonumber\\
+	&\qquad+\frac{9D\xi^2(2 m_2^2+\kappa+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\nonumber\\
+	&\qquad+\frac{DB^2L\xi^4(  m_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\nonumber\\
+	&\qquad+\big(m_2^2+\kappa+(1+R_2)\delta\big)^2\cdot\bm{1}[Q\neq 4]\nonumber\\
+	%\big(\xi^2+\big)\nonumber\\
+	%&\quad+3s|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}||\bm{v}\herm\bm{s}_k|\nonumber\\
+	&\quad\leq\beta\Big(\frac{2  m_2^2-R_2m_2-\delta}{19}+\frac{\xi^2}{20K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big).\nonumber
+\end{align}
+
+Hence, Lemma~\ref{lem:lsc} holds under the following condition:
+\begin{align}
+	\beta\geq&\max\Big\{\frac{76D(2m_2^2+\kappa+\delta)^2}{2m_2^2-R_2m_2-\delta}
+	\nonumber\\&\qquad 
+	+\frac{19(m_2^2+\kappa+(1+R_2)\delta\big)^2}{2m_2^2-R_2m_2-\delta}\cdot\bm{1}[Q\neq4], \nonumber\\
+	&\qquad 180D(2m_2^2+\kappa+\delta)+20DB^2L\epsilon^2(m_2+\delta)\Big\}.\label{eqn:lsc_beta}
+\end{align}
+
+With $\epsilon=(10B\sqrt{L})^{-1}$ and $\delta\leq0.01$, Eq.(\ref{eqn:lsc_beta}) holds for 
+\begin{align}
+	\begin{array}{lcc}
+		\beta\geq 235&\text{for}&Q=4,\\
+		\beta\geq 956&\text{for}&Q\neq4.\\
+	\end{array}	\nonumber
+\end{align} 

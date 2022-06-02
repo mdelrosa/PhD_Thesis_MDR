@@ -1,0 +1,80 @@
+%% Creator: Inkscape inkscape 0.92.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'csinet_quant.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{518.39332581bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.52457647)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0.5800983,0.24137964){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf Q(\tilde{\mathbf Z},\mathbf C)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{csinet_quant.pdf}}%
+    \put(0.10999847,0.49016877){\color[rgb]{0.77254902,0.58039216,0.20392157}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Encoder\end{tabular}}}}%
+    \put(0.07532756,0.24120447){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf H$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{csinet_quant.pdf}}%
+    \put(0.28167313,0.24120447){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf Z$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{csinet_quant.pdf}}%
+    \put(0.76275872,0.49016877){\color[rgb]{0.03529412,0.17254902,0.28235294}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Decoder\end{tabular}}}}%
+    \put(0.91187317,0.24137964){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf H}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{csinet_quant.pdf}}%
+    \put(0.70356048,0.24120447){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf Z}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{csinet_quant.pdf}}%
+    \put(0.39841596,0.24137964){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\tilde{\mathbf Z}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{csinet_quant.pdf}}%
+    \put(0.49044358,0.34052567){\color[rgb]{0.43529412,0.45490196,0.59607843}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Soft Quantize\end{tabular}}}}%
+    \put(0.50787081,0.04948105){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf Q(\tilde{\mathbf Z}, \mathbf C) = \mathbf C\phi(\tilde{\mathbf Z})$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{csinet_quant.pdf}}%
+    \put(0.49629666,0.48749632){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbb R^r$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{csinet_quant.pdf}}%
+    \put(0.4905095,0.40247439){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbb R^{d\times r/d}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{csinet_quant.pdf}}%
+    \put(0.49044358,0.34052567){\color[rgb]{0.43529412,0.45490196,0.59607843}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Soft Quantize\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{csinet_quant.pdf}}%
+  \end{picture}%
+\endgroup%

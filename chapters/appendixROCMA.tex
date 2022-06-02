@@ -1,0 +1,210 @@
+\chapter{Alternative Proofs for Riemannian Orthogonal CMA}\label{rocma:appdx}
+%
+%\subsubsection*{Formal Construction of gradient/Hessian in Quotient Manifold}
+%Consider $\mathcal{M}=\mathrm{St}(L,J)/\mathcal{U}(1)^{\times J}$ a Riemannian quotient manifold of $\mathrm{St}(L,J)$, itself a Riemannian submanifold of $\mathbb{C}^{L\times J}$ equipped with the usual real trace inner product. Let the cost function (with Euclidean space domain)
+%\begin{align}
+%	\overline{\overline{g}}(\bm{Y})=\frac{1}{2K}\sum_{k=1}^K\big\|(\bm{Y}\herm\bm{Z}_k\bm{Y})\circ\bm{I}-R_2\bm{I}\big\|_F^2
+%\end{align}
+%which is smooth on $\mathbb{C}^{L\times J}$, and therefore its restriction $\overline{g}=	\overline{\overline{g}}\big|_{\mathrm{St}}$ on the Stiefel manifold is also smooth. 
+%Since $\overline{g}$ is invariant under the group action of $\mathcal{U}(1)^{\times J}$, we further find that $g$ is smooth on $\mathcal{M}$, with $g\big([\bm{Y}]\big)=\overline{g}(\bm{Y})$. The Euclidean derivatives of $\overline{\overline{g}}$ are
+%\begin{align}
+%	\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})&=\frac{1}{K}\sum_{k=1}^K\bm{Z}_k\bm{Y}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big), \label{eqn:wf_egrad_Y2}\\
+%	\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{E}]&=\frac{1}{K}\sum_{k=1}^K\bm{Z}_k\bm{Y}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{E}+\bm{E}\herm\bm{Z}_k\bm{Y})\big)
+%	\nonumber\\	&\qquad\qquad
+%	+\bm{Z}_k\bm{E}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big). \label{eqn:wf_ehess_Y2}	
+%\end{align}
+%
+%The horizontal spaces are given by $\mathcal{H}_{\bm{Y}} = \{ \bm{G}\in \mathrm{T}_{\bm{Y}}\mathcal{M}: \re\big(\Tr(\bm{G}\herm\bm{T})\big)=0\quad\forall\bm{T}\in\mathfrak{t}(J)\}$, and the
+%corresponding orthogonal projectors are
+%\begin{align}
+%	\mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}(\bm{E})
+%	&=\bm{E}-\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\bm{E}\big)-\bm{Y}\big(\bm{I}\circ\mathrm{skew}(\bm{Y}\herm\bm{E})\big).
+%\end{align}
+%
+%To obtain the lifted gradient, we can work with either $\mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}$ or $\mathrm{Proj}_{\bm{Y}}^{\mathrm{T}}$ [Boumal2020, Section 9.13]. Choosing the latter for a reduced expression, 
+%we deduce that the lifted gradient of $g$ is:
+%\begin{align}
+%	&\mathrm{lift}_{\bm{Y}}\big(\grad g \big([\bm{Y}]\big)\big) = \mathrm{Proj}_{\bm{Y}}^{\mathrm{T}}\Big(\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\big)\nonumber\\
+%	&\quad= \nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})-\bm{Y}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)\nonumber\\
+%	&\quad= \frac{1}{K}\sum_{k=1}^K\bm{Z}_k\bm{Y}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big)-\bm{Y}\mathrm{herm}\Big(\bm{Y}\herm\bm{Z}_k\bm{Y}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big)\Big).
+%\end{align}
+%
+%From this, an obvious smooth extension to all of $\mathbb{C}^{L\times J}$ is simply given by
+%\begin{align}
+%	\overline{\overline{r}}(\bm{Y}) &= \nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})-\bm{Y}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)\nonumber\\ &=\frac{1}{K}\sum_{k=1}^K\bm{Z}_k\bm{Y}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big)-\bm{Y}\mathrm{herm}\Big(\bm{Y}\herm\bm{Z}_k\bm{Y}\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big)\Big),
+%\end{align}
+%with directional derivatives
+%\begin{align}
+%	\mathrm{D}\overline{\overline{r}}(\bm{Y})[\bm{U}] &= \mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{U}]
+%	-\bm{U}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)-\bm{Y}\mathrm{herm}\Big(\mathrm{D}\big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\big)[\bm{U}]\Big)\nonumber.
+%\end{align}
+
+Here, we use an alternative approach to prove that the mean Riemannian Hessian of the CMA cost function (\ref{rocma:eqn:cma_msr_cost}) is strictly positive definite in a neighborhood of an optimum. Equivalently, we prove that the quadratic form of the Riemannian Hessian is strictly positive at an optimum, and thanks to its continuity, we conclude that the Riemannian Hessian is strictly positive definite in a neighborhood of such optimum. By using concentration of measure inequalities (such as the ones used for theoretical convergence guarantees of WFCMA), we expect to translate this result to the finite-sample Riemannian Hessian of ROCMA in future work.
+
+In the following, we assume the conditions of Theorem~\ref{rocma:thm:ROCMA_hess_posdef} hold. 
+Recall that the Riemannian Hessian can be lifted to the ambient manifold as follows:
+\begin{align}
+	&\mathrm{lift}_{\bm{Y}}\big(\Hess g \big([\bm{Y}]\big)[\bm{\xi}]\big)= \mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\Big(\mathrm{D}\overline{\overline{r}}(\bm{Y})[\bm{E}]\Big)\nonumber\\
+	&\qquad= \mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\bigg(\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{E}]
+	-\bm{U}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)-\bm{Y}\mathrm{herm}\Big(\mathrm{D}\big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\big)[\bm{E}]\Big)\bigg)\nonumber\\
+	&\qquad= \mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\bigg(\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{E}]
+	-\bm{E}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)\bigg)\nonumber
+	%	\\
+	%	&\qquad=\mathrm{D}\overline{\overline{r}}(\bm{Y})[\bm{U}]-\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\mathrm{D}\overline{\overline{r}}(\bm{Y})[\bm{U}]\big)-\bm{Y}\big(\bm{I}\circ\mathrm{skew}\big(\bm{Y}\herm\mathrm{D}\overline{\overline{r}}(\bm{Y})[\bm{U}]\big)\big)
+	%	\nonumber\\
+	%	&\qquad=\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{U}]-\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{U}]\big)-\bm{Y}\ddiag\big(\mathrm{skew}\big(\bm{Y}\herm\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{U}]\big)\nonumber\\
+	%	&\qquad\quad-\bm{U}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)+\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\bm{U}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)\big)\nonumber\\
+	%	&\qquad\qquad+\bm{Y}\ddiag\big(\mathrm{skew}\big(\bm{Y}\herm\bm{U}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)\big)\nonumber\\
+	%	&\qquad\quad-\bm{Y}\mathrm{herm}\Big(\mathrm{D}\big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\big)[\bm{U}]\Big)+\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\bm{Y}\mathrm{herm}\Big(\mathrm{D}\big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\big)[\bm{U}]\Big)\big)\nonumber\\
+	%	&\qquad\qquad+\bm{Y}\ddiag\big(\mathrm{skew}\big(\bm{Y}\herm\bm{Y}\mathrm{herm}\Big(\mathrm{D}\big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\big)[\bm{U}]\Big)\big)\big).\nonumber
+\end{align}
+where the last term in the RHS of the first equality vanishes through the projection, as it belongs to normal space. 
+
+Let 
+\begin{align}
+	\bm{A}_k&=\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{Y})-R_2\bm{I}\big),\nonumber\\
+	\bm{B}_k&=
+	\big(\bm{I}\circ(\bm{Y}\herm\bm{Z}_k\bm{E}+\bm{E}\herm\bm{Z}_k\bm{Y})\big)\nonumber
+\end{align}
+which are real, diagonal matrices. Hence,
+\begin{align}
+	&\mathrm{lift}_{\bm{Y}}\big(\Hess g \big([\bm{Y}]\big)[\bm{\xi}]\big)= \mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\bigg(\mathrm{D}\big(\nabla_{\bm{Y}}\overline{\overline{g}}(\bm{Y})\big)[\bm{E}]\bigg)
+	-\mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\bigg(\bm{E}\mathrm{herm}\Big(\bm{Y}\herm\nabla_{\bm{Y}} \overline{\overline{g}}(\bm{Y})\Big)\bigg)\nonumber\\
+	&\qquad=\mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\bigg(\frac{1}{K}\sum_{k=1}^K\bm{Z}_k\bm{Y}\bm{B}+\bm{Z}_k\bm{E}\bm{A}\bigg)
+	-\mathrm{Proj}_{\bm{Y}}^{\mathrm{H}}\bigg(\bm{E}\mathrm{herm}\Big(\frac{1}{K}\sum_{k=1}^K\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\Big)\bigg)\nonumber\\
+	&\qquad=\frac{1}{K}\sum_{k=1}^K\bigg(\bm{Z}_k\bm{Y}\bm{B}+\bm{Z}_k\bm{E}\bm{A}-\bm{Y}\mathrm{herm}(\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{Y}\herm\bm{Z}_k\bm{E}\bm{A})\nonumber\\
+	&\qquad\qquad\qquad
+	-\bm{Y}\big(\bm{I}\circ\mathrm{skew}(\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{Y}\herm\bm{Z}_k\bm{E}\bm{A})\bigg)\nonumber\\
+	&\qquad\qquad-\frac{1}{K}\sum_{k=1}^K\bigg(\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}-\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big)
+	\nonumber\\&\qquad\qquad\qquad
+	-\bm{Y}\big(\bm{I}\circ\mathrm{skew}\big(\bm{Y}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big)\bigg).
+\end{align}
+
+To verify whether the Hessian is positive definite, we compute its quadratic form with $\bm{E}$ a unit vector in horizontal space, i.e. $\bm{E}\herm\bm{Y}$ is skew-Hermitian with zero diagonal, and $
+\|\bm{E}\|_{\bm{Y}}=\Tr(\bm{E}\herm\bm{E})=\|\bm{E}\|_F^2=1
+$. Using the real trace inner product 
+$\langle \bm{U}, \bm{V}\rangle_{\bm{Y}} = \re\Tr(\bm{U}\herm\bm{V})$ for $\bm{U},\bm{V}\in\mathrm{H}_{\bm{Y}}\overline{\mathcal{M}}$, we have
+\begin{align}
+	&\Big\langle \bm{\xi},\Hess g \big([\bm{Y}]\big)[\bm{\xi}]\Big\rangle_{[\bm{Y}]} = \Big\langle \bm{E},\mathrm{lift}_{\bm{Y}}\big(\Hess g \big([\bm{Y}]\big)[\bm{\xi}]\big)\Big\rangle_{\bm{Y}}
+	\nonumber\\
+	&\qquad=
+	\frac{1}{K}\sum_{k=1}^K\re\Tr\Bigg(\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}-\bm{E}\herm\bm{Y}\mathrm{herm}(\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{Y}\herm\bm{Z}_k\bm{E}\bm{A})\nonumber\\
+	&\qquad\qquad\qquad-\bm{E}\herm\bm{Y}\big(\bm{I}\circ\mathrm{skew}(\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{Y}\herm\bm{Z}_k\bm{E}\bm{A})\nonumber\\
+	&\qquad
+	-\bigg(\bm{E}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}-\bm{E}\herm\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big)\nonumber\\
+	&\qquad\qquad\qquad-\bm{E}\herm\bm{Y}\big(\bm{I}\circ\mathrm{skew}\big(\bm{Y}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big)\bigg)\Bigg)
+	\nonumber\\
+	&\qquad=
+	\frac{1}{K}\sum_{k=1}^K\re\Tr\Bigg(\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}-\bm{E}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}
+	\nonumber\\
+	&\qquad\qquad\qquad-\bm{E}\herm\bm{Y}\mathrm{herm}(\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{Y}\herm\bm{Z}_k\bm{E}\bm{A})+\bm{E}\herm\bm{Y}\mathrm{herm}\big(\bm{Y}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big)\nonumber\\
+	&\qquad
+	-\bm{E}\herm\bm{Y}\big(\bm{I}\circ\mathrm{skew}(\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{Y}\herm\bm{Z}_k\bm{E}\bm{A})+\bm{E}\herm\bm{Y}\big(\bm{I}\circ\mathrm{skew}\big(\bm{Y}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big)\Bigg)
+	\nonumber\\
+	&\qquad=
+	\frac{1}{K}\sum_{k=1}^K\re\Tr\Big(\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}-\bm{E}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\Big),\label{eqn:lifted_hess_quadratic_form}
+\end{align}
+where:
+\begin{itemize}
+	\item the terms of the form $\re\Tr(\bm{E}\herm\bm{Y}\mathrm{herm}(\cdot))$ vanish because $\bm{E}\herm\bm{Y}$ is skew-Hermitian, which are orthogonal to Hermitian matrices; and
+	\item the terms of the form $\re\Tr\big(\bm{E}\herm\bm{Y}(\bm{I}\circ\cdot)\big)$ vanish because $\bm{E}\herm\bm{Y}$ has zero diagonal, and its product with a diagonal matrix has zero diagonal as well.
+\end{itemize}
+
+We now take expectation in Eq.(\ref{eqn:lifted_hess_quadratic_form}). Recall that the optimum demixers in combined parameter space are $\widehat{\bm{Q}}=\bm{P}\bm{D}$, with $\bm{P}\in\mathbb{R}^{L\times J}$ a tall permutation matrix and $\bm{D}\in\mathbb{C}^{J\times J}$ a diagonal unitary matrix, and thus $\widehat{\bm{Q}}\herm\widehat{\bm{Q}}=\bm{I}$. Using the right singular vectors of the channel matrix $\bm{H}$, collected in matrix $\bm{V}$, we have that $\bm{Y}=\bm{V}\bm{Q}$, and we also have that $\bm{Z}_k=\bm{V}\herm\bm{s}_k\bm{s}_k\herm\bm{V}$. Let $\bm{C}=\bm{V}\bm{E}$, and thus $\|\bm{C}\|_F^2=\|\bm{E}\|_F^2=1$. Moreover, we have that
+\begin{align}
+	\bm{E}\herm\widehat{\bm{Y}}=\bm{C}\herm\widehat{\bm{Q}} = \bm{C}\herm\bm{P}\bm{D}
+\end{align}
+also is skew-Hermitian with zero diagonal, i.e., $(\bm{C}\herm\bm{P})\circ\bm{I}=\bm{0}$. Note that if $\bm{P}$ follows the permutation $\nu:\ell\to\nu(\ell)\in\{1,\cdots,L\}$, then
+\begin{align}
+	\bm{P}=\big[\bm{e}_{\nu(1)}\;\cdots\;\bm{e}_{\nu(L)}\big]\bm{I}_{L,J}
+\end{align} 
+where $\bm{I}_{L,J}$ contains the first $J$ columns of the identity matrix of size $L$. Hence, the diagonal elements of $\bm{C}\herm\bm{P}$ (equal to zero) correspond to
+\begin{align}
+	\big[\bm{C}\herm\bm{P}\big]_{\ell \ell}=\Big[\bm{C}\herm
+	\big[\bm{e}_{\nu(1)}\;\cdots\;\bm{e}_{\nu(L)}\big]
+	\bm{I}_{L,J}\Big]_{\ell\ell}=\big[\overline{\bm{C}}\big]_{\nu(\ell),\ell}=\overline{c}_{\nu(\ell),\ell}=0.
+\end{align}
+
+Without loss of generality, we let $\bm{P}=\bm{I}_{L,J}$, i.e. $\nu(\ell)=\ell$, and thus $c_{\ell\ell}=0$ for all $\ell$.
+Then, we have that
+\begin{align}
+	&\mathbb{E}\Big\{\big\langle \bm{\xi},\Hess g \big([\bm{Y}]\big)[\bm{\xi}]\big\rangle_{[\bm{Y}]}\Big\} = \re\Tr\mathbb{E}\Big\{\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}+\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}-\bm{E}\herm\bm{E}\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\Big\}\nonumber\\
+	&\qquad= \re\Tr\mathbb{E}\big\{\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}\big\}+\re\Tr\mathbb{E}\big\{\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}\big\}-\re\Tr\Big(\bm{E}\herm\bm{E}\mathbb{E}\big\{\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big\}\Big).\label{rocma_appdx:eqn:mean_lifted_hessian}
+\end{align}
+
+Now we develop each expectation in the RHS of Eq.(\ref{rocma_appdx:eqn:mean_lifted_hessian}). The first term is
+\begin{align}
+	\re\Tr\mathbb{E}\big\{\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}\big\}&=\re\Tr\mathbb{E}\big\{\bm{C}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{C}\herm\bm{S}_k\bm{Q}+\bm{Q}\herm\bm{S}_k\bm{C})\big\}\nonumber\\
+	&=\sum_{\ell=1}^J\re\mathbb{E}\Big\{\big[\bm{C}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{C}\herm\bm{S}_k\bm{Q}+\bm{Q}\herm\bm{S}_k\bm{C})\big]_{\ell\ell}\Big\}\nonumber
+\end{align}
+where, because of the product with a diagonal matrix, each element is
+\begin{align}
+	&\big[\bm{C}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{C}\herm\bm{S}_k\bm{Q}+\bm{Q}\herm\bm{S}_k\bm{C})\big)\big]_{\ell\ell}\nonumber\\
+	&\qquad\qquad\qquad=\big[\bm{C}\herm\bm{S}_k\bm{Q}\big]_{\ell\ell}\cdot\big[\bm{C}\herm\bm{S}_k\bm{Q}+\bm{Q}\herm\bm{S}_k\bm{C}\big]_{\ell\ell}\nonumber\\
+	&\qquad\qquad\qquad=\big(\bm{c}_{\ell}\herm\bm{S}_k\bm{q}_{\ell}\big)\big(\bm{c}_{\ell}\herm\bm{S}_k\bm{q}_{\ell}+\bm{q}_{\ell}\herm\bm{S}_k\bm{c}_{\ell}\big)
+	%	\nonumber\\&\quad
+	=\big(\bm{c}_{\ell}\herm\bm{S}_k\bm{q}_{\ell}\big)^2+\big|\bm{c}_{\ell}\herm\bm{S}_k\bm{q}_{\ell}\big|^2%=2\re^2\big(\bm{c}_{\ell}\herm\bm{s}_k\bm{s}_k\herm\bm{q}_{\ell}\big)
+	\nonumber\\
+	&\qquad\qquad\qquad=\Big(\sum_{a=1}^L\overline{c}_{\ell,a}s_{k,a}\overline{s}_{k,\ell}\Big)^2+\Big(\sum_{a=1}^L\overline{c}_{\ell,a}s_{k,a}\overline{s}_{k,\ell}\Big)\overline{\Big(\sum_{a=1}^L\overline{c}_{\ell,a}s_{k,a}\overline{s}_{k,\ell}\Big)}
+	\nonumber\\
+	&\qquad\qquad\qquad=\sum_{a=1}^L\sum_{b=1}^L\overline{c}_{\ell,a}\overline{c}_{\ell,a}s_{k,a}s_{k,b}\overline{s}_{k,\ell}^2+\sum_{a=1}^L\sum_{b=1}^L\overline{c}_{\ell,a}{c}_{\ell,b}s_{k,a}\overline{s}_{k,b}|{s}_{k,\ell}|^2
+	\nonumber\\
+	&\qquad\qquad\qquad=\overline{c}_{\ell,\ell}^2|{s}_{k,\ell}|^4+\sum_{a=1}^L|c_{\ell,a}|^2|s_{k,a}|^2|{s}_{k,\ell}|^2
+	\nonumber
+\end{align}
+and hence, 
+\begin{align}
+	\re\Tr\mathbb{E}\big\{\bm{E}\herm\bm{Z}_k\bm{Y}\bm{B}\big\}&= m_4\overline{c}_{\ell,\ell}^2+(m_4-m_2^2)|c_{\ell,\ell}|^2+m_2^2\|\bm{c}_{\ell}\|^2=m_2^2\|\bm{c}_{\ell}\|^2.\label{rocma_appdx:eqn:lifted_hessian_mean_1}
+\end{align}
+
+
+The second term develops as follows:
+\begin{align}
+	\re\Tr\mathbb{E}\big\{\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}\big\}&=\re\Tr\mathbb{E}\big\{\bm{C}\herm\bm{S}_k\bm{C}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})-R_2\bm{I}\big)\big\}\nonumber\\
+	&=\sum_{\ell=1}^J\re\mathbb{E}\Big\{\big[\bm{C}\herm\bm{S}_k\bm{C}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})-R_2\bm{I}\big)\big]_{\ell\ell}\Big\}\nonumber
+\end{align}
+where, because of the product with a diagonal matrix,
+\begin{align}
+	\big[\bm{C}\herm\bm{S}_k\bm{C}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})-R_2\bm{I}\big)\big]_{\ell\ell}&=\big[\bm{C}\herm\bm{S}_k\bm{C}\big]_{\ell\ell}\cdot\big[\bm{Q}\herm\bm{S}_k\bm{Q}-R_2\bm{I}\big]_{\ell\ell}\nonumber\\
+	&=\big(\bm{c}_{\ell}\herm\bm{S}_k\bm{c}_{\ell}\big)\big(\bm{q}_{\ell}\herm\bm{S}_k\bm{q}_{\ell}-R_2\big)
+	%	\nonumber\\&\quad
+	=\big|\bm{c}_{\ell}\herm\bm{S}_k\bm{c}_{\ell}\big|^2\big(|{s}_{k,\ell}|^2-R_2\big)%=2\re^2\big(\bm{c}_{\ell}\herm\bm{s}_k\bm{s}_k\herm\bm{q}_{\ell}\big)
+	\nonumber\\
+	&=\sum_{a=1}^L\sum_{b=1}^L\overline{c}_{\ell,a}{c}_{\ell,b}s_{k,a}\overline{s}_{k,b}|{s}_{k,\ell}|^2-R_2\sum_{a=1}^L\sum_{b=1}^L\overline{c}_{\ell,a}{c}_{\ell,b}s_{k,a}\overline{s}_{k,b}
+	\nonumber\\
+	&=\sum_{a=1}^L|{c}_{\ell,a}|^2|s_{k,a}|^2|{s}_{k,\ell}|^2-R_2\sum_{a=1}^L|{c}_{\ell,a}|^2|s_{k,a}|^2
+	\nonumber
+\end{align}
+yielding
+\begin{align}
+	 \re\Tr\mathbb{E}\big\{\bm{E}\herm\bm{Z}_k\bm{E}\bm{A}\big\}&= (m_4-m_2^2)|c_{\ell,\ell}|^2+m_2^2\|\bm{c}_{\ell}\|^2-R_2m_2\|\bm{c}_{\ell}\|^2=m_2^2\|\bm{c}_{\ell}\|^2-R_2m_2\|\bm{c}_{\ell}\|^2.\label{rocma_appdx:eqn:lifted_hessian_mean_2}
+\end{align}
+
+For the last term, we have
+\begin{align}
+	\mathbb{E}\big\{\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big\}&=\mathbb{E}\Big\{\bm{Q}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})-R_2\bm{I}\big)\Big\}\nonumber\\
+	&=\mathbb{E}\Big\{\bm{Q}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})\big)-R_2\bm{Q}\herm\bm{S}_k\bm{Q}\Big\}\nonumber\\
+	&=\mathbb{E}\Big\{\bm{Q}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})\big)\Big\}-R_2m_2\bm{I}.\nonumber
+\end{align}
+Now, let $\bm{M}=\bm{Q}\herm\bm{S}_k\bm{Q}\big(\bm{I}\circ(\bm{Q}\herm\bm{S}_k\bm{Q})\big)$. Then, thanks to the product with a diagonal matrix,
+\begin{align}
+	[\bm{M}]_{ij}&=\bm{q}_i\herm\bm{S}_k\bm{q}_j\cdot(\bm{q}_j\herm\bm{S}_k\bm{q}_j)=\overline{s}_{k,i}s_{k,j}|s_{k,j}|^2
+	\Rightarrow \mathbb{E}\big\{[\bm{M}]_{ij}\big\}=m_4\delta_{ij}\nonumber
+\end{align}
+and
+\begin{align}
+	\mathbb{E}\big\{\bm{Y}\herm\bm{Z}_k\bm{Y}\bm{A}\big\}
+	&=m_4\bm{I}-R_2m_2\bm{I}=\bm{0}.\label{rocma_appdx:eqn:lifted_hessian_mean_3}
+\end{align}
+
+Replacing Eqs.(\ref{rocma_appdx:eqn:lifted_hessian_mean_1}),~(\ref{rocma_appdx:eqn:lifted_hessian_mean_2}) and~(\ref{rocma_appdx:eqn:lifted_hessian_mean_3}) in Eq.(\ref{rocma_appdx:eqn:mean_lifted_hessian}), we have
+\begin{align}
+	\mathbb{E}\Big\{\big\langle \bm{\xi},\Hess g \big([\bm{Y}]\big)[\bm{\xi}]\big\rangle_{[\bm{Y}]}\Big\}
+	&= \sum_{\ell=1}^J\re\Big(m_2^2\|\bm{c}_{\ell}\|^2 +m_2^2\|\bm{c}_{\ell}\|^2-R_2m_2\|\bm{c}_{\ell}\|^2 -0\Big)\nonumber\\
+	&= (2m_2^2-m_4)\sum_{\ell=1}^J\|\bm{c}_{\ell}\|^2\nonumber\\
+	&=(2m_2^2-m_4)\|\bm{C}\|_F^2\nonumber\\
+	&=(2m_2^2-m_4)>0\nonumber
+\end{align}
+which is strictly larger than zero for all regular QAM modulations.
+
+

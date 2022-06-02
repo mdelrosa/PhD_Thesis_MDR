@@ -1,0 +1,115 @@
+\chapter{Introduction}
+\label{chap:intro}
+
+
+Recent advances in next generation networking technologies are poised to ubiquitously connect the full spectrum of sensors, devices, and computers to facilitate future development of smart cities and smart agriculture, among other applications \cite{AlFuqaha2015IoTsurvey}.
+These exciting developments, known collectively as Internet of Things (IoT), promise significant benefits in a plethora of fields including health care, farming, environmental science, infrastructure, energy efficiency, transportation, safety and sustainability. Such applications envision the deployment of a massive number of wireless devices, with billions being connected globally \cite{Qualcomm15, Andrews14}, and demand ever higher spectrum efficiency over the limited bandwidth resources.
+
+A typical IoT application involves sporadic communications between a significant number of transceivers, triggered by external events, in order to save energy. 
+This prompts the need for low-latency communications and the ability to support these links with performance-constrained transceivers, in particular in terms of bandwidth efficiency. 
+Multiple-input-multiple-output (MIMO) technologies have been playing a central role in achieving high
+network throughput and spectrum efficiency \cite{LTE12} for both uplink and downlink links.
+In uplink multiple access channel (MAC), classical multi-user detection (MUD) receivers such as the maximum-likelihood, decorrelator, MMSE receivers and variants support simultaneous recovery of multiple signals sharing the same physical resource
+\cite{Verdu1986a,Vandenameele00, Hanzo03,Verdu1986b, Xu02,Verdu89, Xie90, Madhow94,Heath05}. Similarly, broadcast (BC) enables shared spectrum and high efficiency in downlink \cite{mu-mimo2012}.
+
+The rapid growth of data applications worldwide continues to fuel the tremendous growth rate of wireless communication networks in areas such as transportation, environmental monitoring, robotics, and smart cities. 
+In the Internet-of-Things (IoT) era, tens of billion wireless communication devices will be connected around the globe \cite{Qualcomm15, Andrews14}. 
+The massive deployment of wireless devices and the accompanied data traffic eruption shall pose important technological challenges, such as ubiquitous connectivity and ultra-high spectral utilization.
+
+
+%, we introduce the research topics addressed by this work. We first present two key challenges in modern communications: grant-free access and grant-free scheduling.
+%For both, we introduce the problem, their importance, and the state of the art and current research trends. We also address the limitations and drawbacks of these methods, which in turn provide the context and motivation for this research in non-convex optimization.
+
+
+%characterize massive wireless systems, in particular, with IoT limitations.
+%- sporadic communications of rather small amounts of data
+%- large number of transceivers
+%- devices with low energy storage and limited computing capabilities
+%
+%Problem: How to service massive wireless systems in an efficient manner? 
+%
+%two solution perspectives:
+%1) improve wireless access: avoid pilot usage, save bandwidth. Uplink only
+%
+%2) improve scheduling of users: reduce co-channel interference, uplink and downlink, 
+
+
+In this dissertation, we focus on the problem of servicing devices efficiently in such large scale networks, tackling their inherent challenges. We consider centralized networks where one base station (BS) with multiple antennas provides services to a large number of single-antenna devices. Here, we recognize two scenarios depending on the activity level of the devices. 
+
+In the case of low-activity devices, they attempt to communicate with the BS sporadically, without a set timing, and thus the BS does not know which devices are active at any given time. In this scenario, the BS attempts \textit{access control} to detect and recover the unknown transmitted signals.
+Conversely, when we consider very active devices, network coordination is a must, and the BS is aware of all the active devices with grant-based access. Here, the BS performs \textit{user scheduling} to service the active devices with its limited resources.
+
+%two approaches to tackle those challenges in large scale networks: providing service when the base station (BS) does not know which users are active, which we refer to as \textit{access control}; and providing service when the BS knows all the active users, which we refer as \textit{user scheduling}.
+
+\section{Access Control}
+
+First and foremost, in order to transmit information to users (downlink), the BS would ``ping'' the users to know which users are able to receive a message. Hence, in this operation mode the BS is always aware of the active users, and there is no need for access control. In other words, the problem of access control is only relevant in uplink operation, i.e., an unknown number of users transmitting signals simultaneously to the BS. 
+
+Generally, access control in wireless networks is based on either random access (e.g., WiFi) or centralized access (e.g., cellular). 
+Contention based random access schemes, such as the CSMA-CA protocol adopted in IEEE 802.11a/g/n/ac, possess the advantage of simplicity but suffer from lower spectrum efficiency due to access collision when the number of active devices is large.
+Centralized access can achieve high spectrum efficiency but requires elaborate network-user interaction and higher energy consumption. 
+As a typical IoT application involves sporadic communications of small amounts of data between a significant number of transceivers, triggered by external events, such systems are better served by low-latency and grant-free communications. 
+
+In grant-free access, multiple unscheduled signal transmissions could collide at receivers \cite{Azari2017grantfreediversity}. Traditional solutions use training or pilot sequences that allow the recovery of multiple signals at the BS with minimal interference, by either exploiting spread-spectrum or joint multi-user detection \cite{Ciuonzo2015decisionfusion,Shirazinia2016decisionfusion}. However, these approaches require accurate CSI to mitigate co-channel interference, and thereby require significant pilot overhead for synchronization and channel estimation. Such extra overhead can be significantly expensive in terms of energy consumption and bandwidth resources when data packets are short, as in IoT applications. Furthermore, as the number of devices increases, so does the pilot sequence length, exacerbating the pilot overhead problem. 
+Clearly, for IoT applications involving large number of devices in grant-free applications, the burden on both spectrum and power \cite{Masoudi2018grantfreescalability} strongly motivates the investigation and deployment of blind signal receivers, which do not require known pilot or pilots for channel probing and rather exploit high-order statistics and known characteristics of source signals.
+
+In the first part of this dissertation, we focus on the technical challenge of enabling grant-free access in massive wireless networks via blind signal recovery. Usually posed as (non-convex) optimization problems, we leverage recent advances in non-convex optimization from a geometrical perspective and provide convergence guarantees for blind source recovery in a finite-sample regime. Furthermore, we extend this approach to guarantee multiple signal recovery without regularization by means of redefining the search space as a Riemannian manifold. Our findings show that these problems enjoy a benign geometry and are mathematically well-conditioned, and as such are an attractive option to enable grant-free access in large-scale deployments. 
+
+\section{User Scheduling}
+
+In a different scenario, now the BS is aware of the active users and knows their channel state information (CSI). Hence, the BS will exploit CSI with MIMO techniques to improve spectrum efficiency.
+However, their performance depend critically on which users are allocated into resource-sharing user groups (RSGs). 
+%In particular, high spectrum efficiency requires low mutual interference among co-channnel users scheduled for BC downlink or MAC uplink. 
+The ultimate goal of \emph{user scheduling} is to assign users into RSGs such that more users can share resources 
+with little mutual interference
+\cite{Goldsmith2003}
+without sacrificing performance in terms of e.g., sum-rate, capacity, outage probability, among others.  
+In other words, user scheduling aims to identify co-channel users with minimal or controlled co-channel interference (CCI). 
+
+In MIMO systems, CCI depends directly on spatial channel diversity among users \cite{Eduardo17, Maciel10}, i.e., on CSI similarities. In other words, the co-channel user CSI vectors must exhibit sufficient linear independence \cite{Hong03, Shiu00}. 
+To effectively mitigate CCI within MIMO user groups, one needs to assess for each possible co-channel MIMO user group their spatial diversity based on updated user CSIs. 
+Given a large number of serviced devices $N$ and increasingly large number of base-station antennas $M$, the number of user scheduling options is of combinatorial order and grows exponentially. 
+Thus, to optimally schedule users in resource-sharing groups, one needs to examine the CSIs of each possible user grouping among potentially very large number of users in e.g., the thousands. 
+
+
+To this end, we develop a new dual-step approach based on unsupervised learning for user scheduling. We \emph{first} leverage unsupervised learning to identify users with highly \emph{similar} CSIs.  
+To properly identify spatial CSIs that lead to large co-channel interference (CCI),  we map user CSIs to a %the
+complex Grassmannian manifold during learning. 
+On this manifold, distances between CSIs relate directly to their spatial correlation, i.e. spatial diversity. 
+We can apply \emph{any solid} clustering algorithm over this geometry to cluster users that can generate high mutual interference. 
+Our \textit{second step} schedule co-channel diversity users in MAC or BC systems by barring user groups with highly similar CSIs from Grassmannian manifold clustering. 
+Applicable to any well established performance metrics such as maximum sum-rate or maximum signal-to-interference-and-noise ratio (SINR), our proposed MIMO user scheduling can improve spatial diversity and effectively mitigate co-channel interference.
+
+
+
+
+
+
+
+
+%Thanks to the spatial diversity provided by multiple receive antennas at the BS, we can allow multiple co-channel users in simultaneous uplink transmission or downlink reception \cite{Goldsmith2003}.
+
+
+
+
+
+
+
+
+
+\section{Notations} 
+In the following, vectors and matrices will be denoted with small and capital boldface letters, such as $\bm{z}$ and $\bm{Z}$ respectively. 
+Sets are denoted with calligraphic capital letters. 
+% Complex conjugation is denoted with $\overline{z}$. 
+For a complex scalar $a$, we use $\re(a)$, $\im(a)$, $\overline{a}$, $|a|$ and  $\angle(a)$ to denote its real part, imaginary part, complex conjugate, magnitude and angle, respectively. 
+The transpose, element-wise complex conjugation and conjugate transpose are denoted by $(\cdot)\T$, $\overline{(\cdot)}$ and $(\cdot)\herm$, respectively. 
+%$(\bm{Z})_{i,j}$ denotes the element in the $i$-th row and $j$-th column of matrix $\bm{Z}$.
+The Hermitian and skew-Hermitian parts of a matrix $\bm{Z}$ are denoted as $\mathrm{herm}(\bm{Z})=0.5(\bm{Z}+\bm{Z}\herm)$ and $\mathrm{skew}(\bm{Z})=0.5(\bm{Z}-\bm{Z}\herm)$.
+The Euclidean norm of vectors and spectral norm of matrices is denoted by $\|\cdot\|$, and the Frobenius norm of matrices is denoted by $\|\cdot\|_F$. 
+$\diag(\bm{z})$ represents a diagonal matrix that uses elements of vector $\bm{z}$ on its diagonal.The Kronecker product and the Hadamard (element-wise) product are denoted as $\otimes$ and $\circ$, respectively.
+$\bm{0}_k$ and $\bm{I}_k$ represent the zero vector and the identity matrix of size $k$, respectively.
+% $\diag(z_1,\ldots,z_k)$ represents a diagonal matrix that uses elements $z_1,\ldots,z_k$ on its diagonal.
+We use $\bm{A}\preceq\bm{B}$ and $\bm{C}\succeq\bm{D}$ to denote that $\bm{B}-\bm{A}$ and $\bm{C}-\bm{D}$ are positive semidefinite matrices, respectively.
+$|\cal{S}|$ denotes the size or cardinality of a set $\cal{S}$. $\mathcal{O}(\cdot)$ denotes the order of complexity of an algorithm or problem.
+The abbreviation "i.i.d." stands for independent and identical distributed random variables, and $\mathbb{E}\{\cdot\}$ denotes expectation. 
+Finally, $\bm{1}[\mathit{expr}]$ is the indicator function, that is equal to 1 if $\mathit{expr}$ is true, and 0 otherwise.

@@ -1,0 +1,1019 @@
+\chapter{Technical Proofs for Wirtinger Flow}
+\label{appdx:wf}
+
+\section{Transmitted signal model} \label{appdx:distribution}
+Consider $L$ independent sources transmitting random symbols $s_l[k]$, with each source following a (possibly different) equiprobable regular QAM constellations of size $C_l=4^{c_l}$. Without normalization, the real and imaginary parts of these symbols belong to the set
+\begin{align}
+%\{-\sqrt{C_l}+1,-\sqrt{C_l}+3,\ldots,-1,1,\ldots,\sqrt{C_l}-3,\sqrt{C_l}-1 \},
+\big\{\pm 1,\pm 3,\ldots,\pm(\sqrt{C_l}-3),\pm(\sqrt{C_l}-1) \big\},
+\end{align}
+and the symbols can be described as
+%We drop the time index in this section, as the variables are independent of themselves and others in different time instants, according to the problem formulation. 
+%Without loss of generality, we will set $E_l=1$.
+%Note that any transmitted symbol under these constellations can be written as 
+\begin{align}
+s_l[k]&=\sum_{i=1}^{c_l} 2^{i-1}r_{i,k} +j \Bigg(\sum_{i=1}^{c_l} 2^{i-1}r_{i,k}'\Bigg), \label{eqn:symbols}
+\end{align}
+where $r_{i,k}, r_{i,k}'$ are independent Rademacher random variables (also known as symmetric Bernoulli), i.e., $\mathbb{P}(r_i=1)= \mathbb{P}(r_i=-1)=0.5$. To describe a constellation with average energy $E_l$, we just multiply the symbols by a factor
+\begin{align}
+\nu=\sqrt{\frac{3E_l}{2(C_l-1)}}
+\end{align}
+as the average energy of the symbols described as in Eq.(\ref{eqn:symbols}) is $2(C_l-1)/3$. Due to this fact, we will avoid normalization in the following derivations for simplicity.
+%, we will avoid the normalization in the following section, but
+
+
+
+%Also, consider $ML$ fixed but unknown parameters $h_{m,l}$ that represent a MIMO channel. Each of these parameters is constant throughout a data capture process in a transmission, although they are drawn from a probability distribution (i.e. Rayleigh fading, Rician fading, etc.). 
+%Throughout the document, we use the fact that $|h_{ml}|\leq \sqrt{t}$ with probability at least $1-\e{-t}$.
+
+%\subsection{Characteristic function} \label{appdx:characteristic_function}
+%{\textbf{Need to rewrite for fixed channel. Also verify that $\bm{x}_k$ are subgaussians or not in presence of noise.}
+%	
+%The characteristic functions of $w$ is readily computed as 
+%\begin{align}
+%%\varphi_{h_l}(z)&=\mathbb{E}\Big[\exp\big(j\mathrm{Re}\{\overline{z}h_l\}\big)\Big]=\e{-\frac{1}{4}|z|^2}\\
+%\varphi_{w}(z)&=\mathbb{E}\Big[\exp\big(j\mathrm{Re}\{\overline{z}w\}\big)\Big]=\e{-\frac{1}{4}\sigma_w^2|z|^2}
+%\end{align}
+%
+%Now, define $r_l=h_ls_l$,  therefore the characteristic function of $r_l$ is
+%\begin{align}
+%\varphi_{r_l}(z)&=\mathbb{E}\Big[\exp\big(j\mathrm{Re}\{\overline{z}r_l\}\big)\Big]=\mathbb{E}\bigg[\mathbb{E}\Big[\exp\big(j\mathrm{Re}\{\overline{z}h_ls_l\}\big)\Big|s_l\Big]\bigg]\nonumber\\
+%&=\mathbb{E}\bigg[\varphi_{h_l}(z\overline{s_l})\bigg]=\frac{1}{C_l}\sum_{i=1}^{C_l}\varphi_{h_l}(z\overline{s_{l,i}})\nonumber\\
+%&=\frac{1}{C_l}\sum_{i=1}^{C_l}\e{-\frac{1}{4}|z|^2|s_{l,i}|^2},
+%\end{align}
+%and the characteristic function of $r_l$ is the uniformly weighted sum of the characteristic functions of $C$ circularly symmetric complex normal variables with variance $|s_{l,i}|^2$. 
+%%In the particular case of QPSK, $|s_{l,i}|^2=E_s$ and 
+%%\begin{align}
+%%\phi_{r_l,\textrm{QPSK}}(z)=&\frac{1}{C}\sum_{i=1}^C\exp\Big(-\frac{1}{4}E_s|z|^2\Big)=\exp\Big(-\frac{1}{4}E_s|z|^2\Big)
+%%\end{align}
+%%and therefore $r_{l,\textrm{QPSK}}\sim\mathcal{CN}(0,E_s)$.
+%
+%Consider the variable $x=\sum_{l=1}^L r_l+w$. Then, its characteristic function is 
+%\begin{align}
+%\varphi_{x}(z)&=\mathbb{E}\Big[\exp\big(j\mathrm{Re}\{\overline{z}x\}\big)\Big]=\prod_{l=1}^L\varphi_{r_l}(z)\varphi_w(z)\nonumber\\
+%&=\prod_{l=1}^L\bigg(\frac{1}{C_l}\sum_{i=1}^C\e{-\frac{1}{4}|z|^2|s_{l,i}|^2}\bigg)\e{-\frac{1}{4}\sigma_w^2|z|^2}.
+%\end{align}
+
+%In the case of QPSK, we have
+%\begin{align}
+%\phi_{x,\mathrm{QPSK}}(z)
+%&=\frac{1}{C^L}\Bigg(C\exp\Big(-\frac{1}{4}E_s|z|^2\Big)\Bigg)^L\exp\Big(-\frac{1}{4}\sigma_w^2|z|^2\Big)\nonumber\\
+%&=\exp\Big(-\frac{1}{4}LE_s|z|^2\Big)\exp\Big(-\frac{1}{4}\sigma_w^2|z|^2\Big)\nonumber\\
+%&=\exp\Big(-\frac{1}{4}|z|^2(LE_s+\sigma_w^2)\Big),
+%\end{align}
+%and therefore $x_{\textrm{QPSK}}\sim\mathcal{CN}(0,LE_s+\sigma_w^2)$.
+
+%Finally, each vector $\bm{x}_k$ has $M$ elements that follow the distribution of the variable $x$ above. Therefore,
+%\begin{align}
+%\varphi_{\bm{x}_k}(\bm{z})&=\displaystyle{\prod_{m=1}^{M}}\varphi_x(z_m)=\e{-\frac{1}{4}\sigma_w^2\|\z\|^2}.\prod_{m=1}^{M}\prod_{l=1}^L\varphi_{r_l}(z_m)
+%\end{align}
+
+\subsection{Expectations and moments} \label{appdx:expectations}
+%For a random Rayleigh channel $h_l$, we have
+%\begin{subequations}
+%\label{eqn:channel_moments}
+%\begin{align}
+%\mathbb{E}\{h_{l}\}&=0\\
+%\mathbb{E}\{h_{l}^2\}&=0\\
+%\mathbb{E}\{|h_{l}|^2\}&=1\\
+%\mathbb{E}\{h_{l}^4\}&=0\\
+%\mathbb{E}\{|h_{l}|^4\}&=2(1)^2=2
+%\end{align}
+%\end{subequations}
+
+%The random noise vector $\bm{w}$ has iid. elements, therefore any element satisfies
+%\begin{subequations}
+%\label{eqn:noise_moments}
+%\begin{align}
+%\mathbb{E}\{w_m\}&=0\\
+%\mathbb{E}\{w_m^2\}&=0\\
+%\mathbb{E}\{|w_m|^2\}&=\sigma_w^2\\
+%\mathbb{E}\{w_m^4\}&=0\\
+%\mathbb{E}\{|w_m|^4\}&=2(\sigma_w^2)^2=2\sigma_w^4
+%\end{align}
+%\end{subequations}
+
+The elements of the transmitted signal vector $\bm{s}_k$ are independent, and using regular QAM constellations, satisfy for all $l\in\{1,\ldots,L\}$ and all $k\in\{1,\ldots,K\}$ \cite{}:
+\begin{subequations}
+	\label{eqn:signal_moments}
+	\begin{align}
+	\mathbb{E}\{s_{l}\}&= 0\\
+	\mathbb{E}\{s_{l}^2\}&=0\\
+	\mathbb{E}\{|s_{l}|^2\}&=\kappa_{2,l}=\frac{2}{3}(C_l-1)\\
+	\mathbb{E}\{s_{l}s_{i}s_j\}&=\mathbb{E}\{s_{l}s_{i}\overline{s}_j\}=0\,\,\,\forall\, l,i,j\\
+	\mathbb{E}\{s_{l}^4\}&=\Gamma_{4,l}=\frac{4}{15}(1-C_l^2)\\
+	\mathbb{E}\{|s_{l}|^4\}&=\kappa_{4,l}=\frac{4}{45}(7C_l^2-20C_l+13)
+	\end{align}
+\end{subequations}
+where the  third- and fourth-order moments not shown are zero. 
+%Note that, with this notation,
+%\begin{align}
+%R_2=\frac{\kappa_4}{\kappa_2}\quad\Rightarrow\quad R_2\kappa_2=\kappa_4.
+%\end{align}
+Additionally, 
+\begin{subequations}
+	\label{eqn:kurtosis_bounds}
+	\begin{align}
+	\kappa_4-\kappa_2^2&=\frac{4}{45}(7C_l^2-20C_l+13)-\frac{4}{9}(C_l-1)^2\nonumber\\
+	&=\frac{1}{45}(8C_l^2-40C_l+32)>0\quad\forall C_l\in\mathbb{N}\\
+	\kappa_4-2\kappa_2^2&=\frac{4}{45}(7C_l^2-20C_l+13)-\frac{8}{9}(C_l-1)^2\nonumber\\
+	&=\frac{12}{45}(-C_l^2+1)<0\quad\forall C_l>1
+	\end{align}
+\end{subequations}
+where the second equation corresponds to the kurtosis. In particular, the kurtosis of regular QAM modulations satisfy 
+\begin{align}
+C_l=4:&\quad\kappa_4-2{\kappa_2^2}=-\kappa_2^2,\\
+C_l=4^{c_l}, c_l\geq2: & \quad{\kappa_4}-2{\kappa_2^2}=\bigg(\frac{1}{5}\frac{(7C_l-13)}{C_l-1}-2\bigg)\kappa_2^2\in[-0.68\kappa_2^2, -0.6\kappa_2^2].
+\end{align}
+%We now introduce the variables $r_{m,l}=h_{m,l}s_{l}$, which are independent for different values of the source index $l$. Thus, their moments are
+%\begin{subequations}
+%\label{eqn:rl_moments}
+%\begin{align}
+%\mathbb{E}\{r_{m,l}\}&=\mathbb{E}\{h_{m,l}\}\mathbb{E}\{s_l\}=0\\
+%\mathbb{E}\{r_{m,l}r_{n,l}\}&=\mathbb{E}\{h_{m,l}h_{n,l}\}\mathbb{E}\{s_l^2\}=0\\
+%\mathbb{E}\{r_{m,l}^2\}&=\mathbb{E}\{h_{m,l}^2\}\mathbb{E}\{s_l^2\}=0\\
+%\mathbb{E}\{r_{m,l}\overline{r}_{n,l}\}&=\mathbb{E}\{h_{m,l}\overline{h}_{n,l}\}\mathbb{E}\{|s_l|^2\}\nonumber\\
+%&=0\\%h_{m,l}\overline{h}_{n,l}E_l\\
+%\mathbb{E}\{|r_{m,l}|^2\}&=\mathbb{E}\{|h_{m,l}|^2\}\mathbb{E}\{|s_l|^2\}=E_l\\%|h_l|^2E_l\\
+%\mathbb{E}\{r_{m,l}r_{n,l}r_{p,l}\}&=\mathbb{E}\{r_{m,l}r_{n,l}\overline{r}_{p,l}\}=0\\
+%\mathbb{E}\{r_{m,l}^3\}&=\mathbb{E}\{|r_{m,l}|^2r_{m,l}\}=0\\
+%\mathbb{E}\{r_{m,l}{r}_{n,l}r_{p,l}{r}_{q,l}\}&=h_{m,l}{h}_{n,l}h_{p,j}{h}_{q,j}G_l\\
+%\mathbb{E}\{r_{m,l}\overline{r}_{n,l}r_{p,j}\overline{r}_{q,j}\}&=0\\%h_{m,l}\overline{h}_{n,l}h_{p,j}\overline{h}_{q,j}E_lE_j,\,\, l\neq j\\
+%\mathbb{E}\{|r_{m,l}|^2|r_{n,j}|^2\}&=E_lEj,\,\, l\neq j\\%|h_{m,l}|^2|h_{n,j}|^2E_lE_j\\
+%\mathbb{E}\{r_{m,l}\overline{r}_{n,l}r_{p,l}\overline{r}_{q,l}\}&=0\\%h_{m,l}\overline{h}_{n,l}h_{p,l}\overline{h}_{q,l}F_l\\
+%\mathbb{E}\{|r_{m,l}|^2|r_{n,l}|^2\}&=F_l\\%|h_{m,l}|^2|h_{n,l}|^2F_l\\
+%\mathbb{E}\{|r_{m,l}|^4\}&=2F_l%|h_l|^4F_l
+%\end{align}
+%\end{subequations}
+%where the not shown general third- and fourth-order moments are zero. Define $b_m=\sum_{l=1}^Lh_{m,l}s_l$. Note that $b_m$ and $b_n$ are not independent because both include symbols from all the sources. Therefore, 
+%\begin{subequations}
+%\label{eqn:b_moments}
+%\begin{align}
+%\mathbb{E}\{b_m\}&=\sum_{l=1}^L \mathbb{E}\{r_{m,l}\}=0\\
+%%\mathbb{E}\{b_m^2\}&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_{m,l}\Big)^2\bigg\}\nonumber\\
+%%&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^Lr_{m,l}r_{m,j}\bigg\}\nonumber\\
+%%&=\sum_{l=1}^L\mathbb{E}\big\{r_{m,l}^2\big\}+\sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\{r_{m,l}\}\mathbb{E}\big\{r_{m,j}\}=0\\
+%\mathbb{E}\{b_mb_n\}
+%%&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_{m,l}\Big)\Big(\sum_{l=1}^Lr_{n,l}\Big)\bigg\}\nonumber\\
+%&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^Lr_{m,l}r_{n,j}\bigg\}\nonumber\\
+%&=\sum_{l=1}^L\mathbb{E}\big\{r_{m,l}r_{n,l}\big\}+\sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\big\{r_{m,l}\}\mathbb{E}\big\{r_{n,j}\}\nonumber\\
+%&=0\\
+%%\mathbb{E}\{|b_m|^2\}&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_l\Big)\Big(\sum_{l=1}^L\overline{r}_l\Big)\bigg\}=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^Lr_l\overline{r}_j\bigg\}\nonumber\\
+%%&=\sum_{l=1}^L\mathbb{E}\big\{|r_l|^2\big\}+\sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\{r_l\}\mathbb{E}\{\overline{r}_j\}\nonumber\\
+%%&=\sum_{l=1}^L|h_l|^2E_l\\
+%\mathbb{E}\{b_m\overline{b}_n\}
+%%&=\mathbb{E}\bigg\{\Big(\sum_{l=1}^Lr_{m,l}\Big)\Big(\sum_{l=1}^L\overline{r}_{n,l}\Big)\bigg\}\nonumber\\
+%&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^Lr_{m,l}\overline{r}_{n,j}\bigg\}\nonumber\\
+%&=\sum_{l=1}^L\mathbb{E}\big\{r_{m,l}\overline{r}_{n,l}\big\}+\sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\{r_{m,l}\}\mathbb{E}\{\overline{r}_{n,j}\}\nonumber\\
+%&=\sum_{l=1}^L\mathbb{E}\{h_{m,l}\overline{h}_{n,l}\}E_l =0\\% \Gamma_{mn}\\
+%\mathbb{E}\{|b_m|^2\}&= \sum_{i=1}^LE_l=\Gamma\\%_{mm}
+%\mathbb{E}\{b_mb_nb_p\}&=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^Lr_{m,l}r_{n,i}r_{p,j}\bigg\}\nonumber\\
+%&=\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^L\mathbb{E}\big\{h_{m,l}h_{n,i}h_{p,j}\big\}\mathbb{E}\big\{s_{l}s_{i}s_{j}\big\}=0
+%\end{align}
+%\begin{align}
+%&\mathbb{E}\{b_mb_n\overline{b}_p\}\nonumber\\
+%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^Lr_{m,l}r_{n,i}\overline{r}_{p,j}\bigg\}\nonumber\\
+%&\quad=\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^L\mathbb{E}\big\{h_{m,l}h_{n,i}\overline{h}_{p,j}\big\}\mathbb{E}\big\{s_{l}s_{i}\overline{s}_{j}\big\}=0\\
+%&\mathbb{E}\{b_mb_nb_pb_q\}\nonumber\\
+%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^L\sum_{k=1}^Lr_{m,l}r_{n,i}r_{p,j}r_{q,k}
+%\bigg\}\nonumber\\
+%&\quad=\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^L\sum_{k=1}^L\mathbb{E}\big\{h_{m,l}h_{n,i}h_{p,j}h_{q,k}\big\}\mathbb{E}\big\{s_{l}s_{i}s_{j}s_k\big\}\nonumber\\
+%&\quad=\sum_{l=1}^L\mathbb{E}\big\{h_{m,l}h_{n,l}h_{p,l}h_{q,l}\}\mathbb{E}\big\{s_{l}^4\big\}=0\nonumber\\
+%%&\quad=\sum_{l=1}^Lh_{m,l}h_{n,l}h_{p,l}h_{q,l}G_l=\Lambda_{mnpq}\\
+%&\mathbb{E}\{b_m\overline{b}_nb_p\overline{b}_q\}\nonumber\\
+%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^L\sum_{k=1}^Lr_{m,l}\overline{r}_{n,i}r_{p,j}\overline{r}_{q,k}\bigg\}\nonumber\\
+%&\quad=\sum_{l=1}^L\sum_{i=1}^L\sum_{j=1}^L\sum_{k=1}^L\mathbb{E}\big\{h_{m,l}\overline{h}_{n,i}h_{p,j}\overline{h}_{q,k}\big\}\mathbb{E}\big\{s_{l}\overline{s}_{i}s_{j}\overline{s}_k\big\}\nonumber\\
+%&\quad=\sum_{l=1}^L\mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,l}\overline{h}_{q,l}\big\}\mathbb{E}\big\{|s_{l}|^4\big\}\nonumber\\
+%&\qquad+\sum_{l=1}^L\sum_{j\neq l}  \mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,j}\overline{h}_{q,j}\big\}\mathbb{E}\big\{|s_{l}|^2|s_j|^2\big\}\nonumber\\
+%&\qquad+\sum_{l=1}^L\sum_{i\neq l}  \mathbb{E}\big\{h_{m,l}\overline{h}_{n,i}h_{p,i}\overline{h}_{q,l}\big\}\mathbb{E}\big\{|s_{l}|^2|s_i|^2\big\}\nonumber\\
+%&\quad=\sum_{l=1}^L\mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,l}\overline{h}_{q,l}\big\}F_l\nonumber\\
+%&\qquad+\sum_{l=1}^L\sum_{j\neq l}  \mathbb{E}\big\{h_{m,l}\overline{h}_{n,l}h_{p,j}\overline{h}_{q,j}+h_{m,l}\overline{h}_{n,j}h_{p,j}\overline{h}_{q,l}\big\}E_lE_j\nonumber\\
+%&\qquad=0%\kappa_{mnpq}
+%\\
+%%\end{align}
+%%\begin{align}
+%%&\quad=\mathbb{E}\bigg\{\Big(\sum_{l=1}^L|r_{m,l}|^2+\sum_{l=1}^L\sum_{j\neq l}r_{m,l}\overline{r}_{m,j}\Big)^2
+%%\bigg\}\nonumber\\
+%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^L|r_{m,l}|^2|r_{m,j}|^2\bigg\}\nonumber\\
+%%&\qquad+2\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^L\sum_{k\neq j}|r_{m,l}|^2r_{m,j}\overline{r}_{m,k}\bigg\}\nonumber\\
+%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j\neq l}\sum_{i=1}^L\sum_{k\neq i}r_{m,l}\overline{r}_{m,j}r_{m,i}\overline{r}_{m,k}\bigg\}\nonumber\\
+%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{|r_{m,l}|^4\big\} + \sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{|r_{m,j}|^2\big\}\nonumber\\
+%%&\qquad+2\sum_{l=1}^L\sum_{j=1}^L\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{r_{m,j}\overline{r}_{m,k}\big\}{\bm{1}[j\neq k]}\nonumber\\
+%%&\qquad+\sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\big\{r_{m,l}\overline{r}_{m,k}\big\}\mathbb{E}\big\{r_{m,i}\overline{r}_{m,j}\big\}{\bm{1}[l=k\neq j=i]}\nonumber\\
+%&\mathbb{E}\{|b_m|^2|b_n|^2\}%\nonumber\\&\quad
+%=\sum_{l=1}^LF_l+2\sum_{l=1}^L\sum_{j\neq l}E_lE_j=\Lambda\\%\nonumber\\
+%%&\quad=\sum_{l=1}^L|h_{m,l}|^2|h_{n,l}|^2F_l+2\sum_{l=1}^L\sum_{j\neq l}|h_{m,l}|^2|h_{n,j}|^2E_lE_j\nonumber\\
+%%&\quad=\kappa_{mn}\\
+%%&\quad=\kappa_{mn}=\kappa_{nm}\\
+%&\mathbb{E}\{|b_m|^4\}=2\sum_{l=1}^LF_l+2\sum_{l=1}^L\sum_{j\neq l}E_lE_j=\Omega%\nonumber\\
+%%&\quad=\sum_{l=1}^L|h_{m,l}|^4F_l+2\sum_{l=1}^L\sum_{j\neq l}|h_{m,l}|^2|h_{m,j}|^2E_lE_j\nonumber\\
+%%&\quad
+%%&\quad=\kappa_{mm}
+%%\nonumber\\
+%%=&\sum_{l=1}^LF_l+2\sum_{l=1}^L\sum_{j=1}^LE_lE_j-2\sum_{l=1}^LE_l^2
+%%&\quad=\mathbb{E}\bigg\{\Big(\sum_{l=1}^L|r_{m,l}|^2+\sum_{l=1}^L\sum_{j\neq l}r_{m,l}\overline{r}_{m,j}\Big)^2\bigg\}\nonumber\\
+%%&\quad=\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^L|r_{m,l}|^2|r_{n,j}|^2\bigg\}\nonumber\\
+%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^L\sum_{k\neq j}|r_{m,l}|^2r_{n,j}\overline{r}_{n,k}\bigg\}\nonumber\\
+%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j=1}^L\sum_{k\neq j}|r_{n,l}|^2r_{m,j}\overline{r}_{m,k}\bigg\}\nonumber\\
+%%&\qquad+\mathbb{E}\bigg\{\sum_{l=1}^L\sum_{j\neq l}\sum_{i=1}^L\sum_{k\neq i}r_{m,l}\overline{r}_{m,j}r_{n,i}\overline{r}_{n,k}\bigg\}\nonumber\\
+%%&\quad=\sum_{l=1}^L\mathbb{E}\big\{|r_{m,l}|^2|r_{n,l}|^2\big\} + \sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{|r_{n,j}|^2\big\}\nonumber\\
+%%&\qquad+\sum_{l=1}^L\sum_{j=1}^L\mathbb{E}\big\{|r_{m,l}|^2\big\}\mathbb{E}\big\{r_{n,j}\overline{r}_{n,k}\big\}{\bm{1}[j\neq k]}\nonumber\\
+%%&\qquad+\sum_{l=1}^L\sum_{j=1}^L\mathbb{E}\big\{|r_{n,l}|^2\big\}\mathbb{E}\big\{r_{m,j}\overline{r}_{m,k}\big\}{\bm{1}[j\neq k]}\nonumber\\
+%%&\qquad+\sum_{l=1}^L\sum_{j\neq l}\mathbb{E}\big\{r_{m,l}\overline{r}_{m,k}\big\}\mathbb{E}\big\{r_{n,i}\overline{r}_{n,j}\big\}{\bm{1}[l=k\neq j=i]}\nonumber\\
+%\end{align}
+%\end{subequations}
+%Finally, consider the signal vector $\bm{x}=\bm{H}\bm{s}+\bm{w}$, so each of its elements is the random variable $x_m=b_m+w_m$, therefore
+%\begin{subequations}
+%\label{eqn:x_moments}
+%\begin{align}
+%\mathbb{E}\{x_m\}&=\mathbb{E}\{b_m+w_m\}=0\\
+%\mathbb{E}\{x_mx_n\}&=\mathbb{E}\big\{(b_m+w_m)(b_n+w_n)\big\}\nonumber\\
+%&=\mathbb{E}\big\{b_m b_n+b_m{w}_n+{b}_nw_m+w_mw_n\big\}\nonumber\\
+%&=0\\
+%\mathbb{E}\{x_m^2\}&=\mathbb{E}\big\{b_m^2+2b_mw_m+w_m^2\big\}=0\\
+%%\mathbb{E}\{|x_m|^2\}&=\mathbb{E}\big\{(b_m+w_m)\overline{(b_m+w_m)}\big\}\nonumber\\
+%%&=\mathbb{E}\big\{|b_m|^2+b_m\overline{w}_m+\overline{b}_mw_m+|w_m|^2\big\}\nonumber\\
+%%&=\sum_{l=1}^L|h_l|^2E_l+\sigma_w^2=\kappa_{2,mm}+\sigma_w^2\\
+%\mathbb{E}\{x_m\overline{x}_n\}&=\mathbb{E}\big\{(b_m+w_m)\overline{(b_n+w_n)}\big\}\nonumber\\
+%&=\mathbb{E}\big\{b_m\overline{b}_n+b_m\overline{w}_n+\overline{b}_nw_m+w_m\overline{w}_n\big\}\nonumber\\
+%&=(\Gamma+\sigma_w^2)\bm{1}[m= n]\\
+%\mathbb{E}\{x_mx_nx_px_q\}&=\mathbb{E}\big\{b_mb_nb_pb_q\big\}=0\\%\Lambda_{mnpq}\\
+%\mathbb{E}\{x_m\overline{x}_nx_p\overline{x}_q\}&=\mathbb{E}\big\{b_m\overline{b}_nb_p\overline{b}_q\big\}+\mathbb{E}\big\{b_m\overline{b}_nw_p\overline{w}_q\big\}\nonumber\\
+%&\,\,+\mathbb{E}\big\{b_m\overline{w}_nw_p\overline{b}_q\big\}+\mathbb{E}\big\{w_m\overline{b}_nb_p\overline{w}_q\big\}\nonumber\\
+%&\,\,+\mathbb{E}\big\{w_m\overline{w}_nb_p\overline{b}_q\big\}+\mathbb{E}\big\{w_m\overline{w}_nw_p\overline{w}_q\big\}\nonumber\\
+%&=0\\
+%%&=\kappa_{mnpq}+\Gamma_{mn}\sigma_w^2\bm{1}[p=q]+\Gamma_{mq}\sigma_w^2\bm{1}[n=p]\nonumber\\
+%%&\,\,+\Gamma_{pn}\sigma_w^2\bm{1}[m=q]+\Gamma_{pq}\sigma_w^2\bm{1}[m=n]\nonumber\\
+%%&\,\,+\sigma_w^4\bm{1}[m=n \neq p=q \vee m=q\neq n=p]\nonumber\\
+%%&\,\,+2\sigma_w^4\bm{1}[m=n=p=q]\\
+%\mathbb{E}\{|x_m|^2|x_n|^2\}&=\Lambda+2\Gamma\sigma_w^2+\sigma_w^4=\kappa_2\\
+%\mathbb{E}\{|x_m|^4\}&=\Omega+4\Gamma\sigma_w^2+2\sigma_w^4=\kappa_4
+%\end{align}
+%\end{subequations}
+
+\subsection{Sub-gaussianity} \label{appdx:sub_caussianity}
+Describing the symbols from the $l$-th source as in Eq.(\ref{eqn:symbols}) shows that both real and imaginary parts are weighted sums of Rademacher variables. Hence, both real and imaginary parts are bounded variables, and thus are (formally) sub-gaussian variables. In general, discrete distributions have sub-gaussian norms that are very large, and thus do not constitute useful sub-gaussian distributions \cite[Section 3.4]{Vershynin2018hdprobability}. A notable exception are Bernoulli random variables, and by extension, Rademacher random variables. Given that the real and imaginary parts of the symbols can be described as weighted sums of Rademacher variables, results from sub-gaussian distributions apply nicely to QAM constellations.
+Here, we will derive results to be used later in the complex-valued case: a concentration of measure on the norm of the symbols $|s_l[k]|$, a concentration of measure on the norm of the transmitted signal vector $\|\bm{s}_k\|$, and higher powers of these terms.
+
+The magnitude squared of the symbols are bounded above and below by
+\begin{equation}
+4\leq|s_{l}[k]|^2\leq 2\big(\sqrt{C_l}-1\big)^2\quad\forall l\in\{1,\ldots,L\},
+\end{equation}
+and using the double-sided Hoeffding’s inequality for general bounded random variables \cite{Vershynin2018hdprobability}, we obtain 
+\begin{align}
+\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K|s_l[k]|^2-\kappa_{2,l}\Bigg|\geq \delta\Bigg\} \leq 2\exp\Bigg\{\frac{-2\delta^2K^2}{4\big(C_l-2\sqrt{C_l}-1\big)^2}\Bigg\},\quad\forall \delta\geq 0.
+\end{align}
+Analogously, with the squared norm of the signal vector $\bm{s}_k$ bounded by
+\begin{equation}
+4L\leq\|\bm{s}_k\|^2\leq 2\sum_{l=1}^L\big(\sqrt{C_l}-1\big)^2,
+\end{equation}
+we have
+\begin{align}
+\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K\|\bm{s}_k\|^2-\sum_{l=1}^L\kappa_{2,l}\Bigg|\geq \delta\Bigg\} \leq 2\exp\Bigg\{\frac{-2\delta^2K^2}{4\sum_{l=1}^L\big(C_l-2\sqrt{C_l}-1\big)^2}\Bigg\},\quad\forall \delta\geq 0,
+\end{align}
+i.e., 
+
+%Moreover, the magnitude squared is subexponential, as is the sum of squared subgaussian variables. Therefore,
+%\begin{align}
+%\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K|s_l(k)|^2-E_l\Bigg|\geq t\Bigg\} \leq 2\exp\Bigg\{\frac{-t^2K^2}{4\big(C_l-2\sqrt{C_l}\big)^2}\Bigg\},\quad\forall t\geq0.
+%\end{align}
+
+
+
+
+%
+%As the real and imaginary parts of the transmitted signals are weighted sums of Rademacher variables, the two-sided Hoeffding's inequality states that
+%\begin{align}
+%\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K\re\{s_l[k]\}\Bigg|\geq t\Bigg\} &\leq 2\exp\Bigg\{\frac{-t^2K^2}{2(\sqrt{C_l}-1)^2}\Bigg\},\quad\forall t\geq0\\
+%\mathbb{P}\Bigg\{\Bigg|\frac{1}{K}\sum_{k=1}^K\im\{s_l[k]\}\Bigg|\geq t\Bigg\} &\leq 2\exp\Bigg\{\frac{-t^2K^2}{2(\sqrt{C_l}-1)^2}\Bigg\},\quad\forall t\geq0
+%\end{align}
+%
+%the absolute values 
+
+
+ sub-gaussian, their squares are sub-exponentials, and thus the norm of the symbols
+\begin{align}
+|s_l[k]|^2 = |\re\{s_l[k]\}|^2+|\im\{s_l[k]\}|^2
+\end{align}
+is also sub-exponential. 
+
+
+, and results for sub-gaussian independent vectors apply for our problem. Additionally, we have
+\begin{equation}
+\|\bm{s}_k\|\leq \sqrt{2\sum_{l=1}^L \big(\sqrt{C_l}-1\big)^2} = B,\quad\forall\,k\in\{1,\ldots,K\}.
+\end{equation}
+
+
+%With bounded, fixed channels, we obtain
+%\begin{equation}
+%|h_{m,l}s_{l}(k)|\leq \max_{i\in\{1,\ldots,C_l\}}|s^{(i)}||h_{m,l}|\leq\sqrt{2t}(\sqrt{C_l}-1),
+%\end{equation}
+%with probability at least $1-\e{-t}$. The AWGN $w_m(k)$ is sub-gaussian as well. 
+%Following \cite[Lemma 5.9]{Vershynin2012nonasymptoticmatrices}, $x_m(k)$ is the sum of independent centered sub-gaussian ramdom variables, and is thus subgaussian.
+%
+%Note that the elements of a single vector $\bm{x}_k$ are correlated, as they all depend on the transmitted symbols at time $k$. Nevertheless, it is sufficient to find the distribution of a single element and then use known results for matrices with independent rows/columns instead of independent entries overall \cite{Vershynin2012nonasymptoticmatrices}.
+
+
+\section{Proof of Lemma~\ref{lemma:expectation_hessian}}\label{appdx:expectations_hessian}
+We only need to derive the expectation of the matrices $\bm{A}(\bm{w})$ and $\bm{B}(\bm{w})$ from Eq.~(\ref{eqn:hessianMatrices}). Note that
+\begin{align}
+\bm{A}(\z)&=\frac{1}{K}\sum_{k=1}^K\Big(2|\bm{s}_k\herm\z|^2-R_2\Big)\bm{s}_k\bm{s}_k\herm
+=\frac{2}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M(\overline{s}_{ka}z_as_{kb}\overline{z}_b)\bm{s}_k\bm{s}_k\herm-\frac{R_2}{K}\sum_{k=1}^K\bm{s}_k\bm{s}_k\herm\nonumber\\
+\bm{B}(\z)&=\frac{1}{K}\sum_{k=1}^K(\bm{s}_k\herm\z)^2\bm{s}_k\bm{s}_k\T=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M(\overline{s}_{ka}z_a\overline{s}_{kb}{z}_b)\bm{s}_k\bm{s}_k\T\nonumber
+\end{align}
+Any particular element of these matrices is given by
+\begin{align}
+[\bm{A}(\z)]_{ij}&=\frac{2}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M\overline{s}_{ka}{s}_{kb}s_{ki}\overline{s}_{kj}z_a\overline{z}_b-\frac{R_2}{K}\sum_{k=1}^Ks_{ki}\overline{s}_{kj}\\
+[\bm{B}(\z)]_{ij}&=\frac{1}{K}\sum_{k=1}^K\sum_{a=1}^M\sum_{b=1}^M\overline{s}_{ka}\overline{s}_{kb}s_{ki}{s}_{kj}z_a{z}_b
+\end{align}
+Taking expectation, and having all $\bm{s}_k$ iid.,
+\begin{align}
+\mathbb{E}\{[\bm{A}(\z)]_{ij}\}&=2\sum_{a=1}^M\sum_{b=1}^M\mathbb{E}\{s_{kb}\overline{s}_{ka}s_{ki}\overline{s}_{kj}\}z_a\overline{z}_b-R_2\mathbb{E}\{s_{ki}\overline{s}_{kj}\}
+\end{align}
+\begin{itemize}
+	\item Diagonal terms ($i=j$): $\mathbb{E}\{\overline{s}_{ka}s_{kb}|s_{ki}|^2\}= 0$ unless $a=b$, and $\mathbb{E}\{|s_{ki}|^2\}=\kappa_2$, therefore
+	\begin{align}
+	\mathbb{E}\{[\bm{A}(\z)]_{ii}\}
+	&=2\sum_{a=1}^M\mathbb{E}\{|s_{ka}|^2|s_{ki}|^2\}|z_a|^2-R_2\kappa_2\nonumber\\
+	&=2\mathbb{E}\{|s_{ki}|^4\}|z_i|^2+2\sum_{a\neq i}^M\mathbb{E}\{|s_{ka}|^2|s_{ki}|^2\}|z_a|^2-R_2\kappa_2\nonumber\\
+	&=2\kappa_4|z_i|^2+2\kappa_2^2\sum_{a\neq i}^M|z_a|^2-R_2\kappa_2\nonumber\\
+	&=2\kappa_2^2(|z_i|^2+\|\z\|^2)-R_2\kappa_2+2(\kappa_4-2\kappa_2^2)|z_i|^2
+	\end{align}
+	\item Off-diagonal terms ($i\neq j$): $\mathbb{E}\{\overline{s}_{ka}{s}_{kb}s_{ki}\overline{s}_{kj}\}=0$ unless $a=i,b=j$, and $\mathbb{E}\{s_{ki}\overline{s}_{kj}\}=0$, hence
+	\begin{align}
+	\mathbb{E}\{[\bm{A}(\z)]_{ij}\}&=2\mathbb{E}\{|s_{ki}|^2|s_{kj}|^2\}z_i\overline{z}_j=2\kappa_2^2z_i\overline{z}_j
+	\end{align}
+\end{itemize}
+Using the same approach for the expectation of $[\bm{B}(\z)]_{ij}$, we have
+\begin{align}
+\mathbb{E}\{[\bm{B}(\z)]_{ij}\}&=\sum_{a=1}^M\sum_{b=1}^M\mathbb{E}\{\overline{s}_{ka}\overline{s}_{kb}s_{ki}{s}_{kj}\}z_a{z}_b
+\end{align}
+\begin{itemize}
+	\item Diagonal terms ($i=j$): $\mathbb{E}\{\overline{s}_{ka}\overline{s}_{kb}s_{ki}^2\}=0$ unless $a=b=i$, therefore
+	\begin{align}
+	\mathbb{E}\{[\bm{B}(\z)]_{ii}\}&=\kappa_4z_i^2
+	\end{align}
+	\item Off-diagonal terms ($i\neq j$): $\mathbb{E}\{\overline{s}_{ka}\overline{s}_{kb}s_{ki}s_{kj}\}=0$ unless $a=i,b=j$ or $a=j,b=i$, hence
+	\begin{align}
+	\mathbb{E}\{[\bm{B}(\z)]_{ij}\}&=2\kappa_2^2z_iz_j
+	\end{align}
+\end{itemize}
+Therefore,
+\begin{align}
+\mathbb{E}\{\bm{A}(\z)\}&=2\kappa_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)-R_2\kappa_2\bm{I}+2(\kappa_4-2\kappa_2^2)\mathrm{diag}(\z\z\herm)\\
+\mathbb{E}\{\bm{B}(\z)\}&=2\kappa_2^2\z\z\T+(\kappa_4-2\kappa_2^2)\mathrm{diag}(\z\z\T).
+\end{align}
+Therefore,
+\begin{align}
+\mathbb{E}\{\nabla^2 f(\bm{z})\}&=  (2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2)\bm{I}+ 2\kappa_2^2\begin{bmatrix}
+\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T
+\end{bmatrix}\nonumber\\
+&\quad+(\kappa_4-2\kappa_2^2)\begin{bmatrix}
+2\mathrm{diag}(\bm{z}\bm{z}\herm)&\mathrm{diag}(\bm{z}\bm{z}\T)\\
+\mathrm{diag}(\overline{\bm{z}}\bm{z}\herm)&2\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)
+\end{bmatrix}.
+\end{align}
+
+\section{Proof of Lemma~\ref{lemma:concentration_hessian}}\label{appdx:concentration_hessian}
+Let $\bm{D}$ be a $K\times M$ matrix whose rows are given by $[\bm{D}]_{j:}=(\bm{z}\herm\bm{s}_k)\bm{s}_k\herm$. Thus, $\bm{D}\herm\bm{D}=\nabla^2 f(\bm{z})$. Let $\bm{\Sigma}=\mathbb{E}\{\bm{D}\herm\bm{D}\}$. Finally, we apply concentration inequalities for sample covariances matrices \cite[Theorem 5.39]{Vershynin2012nonasymptoticmatrices}, and for $t>0$, 
+\begin{equation}
+\|\frac{1}{K}\bm{D}\herm\bm{D}-\bm{\Sigma}\|\leq \delta
+\end{equation}
+with probability at least $1-2\e{-c_2t^2}$, as long as the number of samples $K \geq C_1(t/\delta)^2L$, with $C_1>0$ a sufficiently large constant. 
+
+%{\textbf{Work to obtain a better version.} 
+
+
+%{\textbf{In progress. Signal vectors $\bm{x}_k$ not circular symmetric, so unitary invariance used in WF paper does not apply directly, but there's a version of rotation invariance for subgaussian variables, leading to Hoeffding-type inequalities \cite[Proposition 5.10]{Vershynin2012nonasymptoticmatrices}. Trying to progress through this route.}
+
+
+%\section{Proof of Lemma~\ref{lemma:concentration_gradient}}\label{appdx:concentration_gradient}
+%Following the proof of Lemma 7.7 in \cite{Candes2015a_phaseretrievalWF}, it is sufficient to prove that 
+%\begin{align}
+%&\big\|\nabla f(\bm{w})-\mathbb{E}\{\nabla f(\bm{w})\}\big\|=\nonumber\\
+%&\qquad\max_{\bm{u}\in\mathbb{C}^M,\|\bm{u}\|=1}\bm{u}\herm\big(\nabla f(\bm{w})-\mathbb{E}\{\nabla f(\bm{w})\}\big)
+%\end{align}
+%is bounded. Let $\bm{p}=\e{-j\phi(\bm{w})}\bm{w}-\z$ and $\bm{q}=\e{-j\phi(\bm{w})}\bm{u}$. Hence, $\|\bm{p}\|=\dist(\bm{w},\z)$ and $\bm{u}\herm\bm{Y}\bm{w}=\bm{q}\herm\bm{Y}(\bm{p}+\z)$ for any matrix $\bm{Y}$. The first term is
+%\begin{align}
+%&\bm{u}\herm\nabla f(\bm{w})\nonumber\\
+%&\quad=\bm{q}\herm\big(\bm{A}(\bm{p}+\z)-\bm{A}(\z)\big)(\bm{p}+\z)\nonumber\\
+%&\quad=\frac{1}{K}\sum_{k=1}^K\Big(\bm{q}\herm\big(2\bm{x}_k\herm\bm{p}\bm{p}\herm\bm{x}_k+\bm{x}_k\herm\z\z\herm\bm{x}_k\big)\bm{x}_k\bm{x}_k\herm(\bm{p}+\z)\nonumber\\
+%&\quad\quad+\bm{q}\herm\big(2\bm{x}_k\herm\bm{p}\z\herm\bm{x}_k+2\bm{x}_k\z\herm\bm{p}\herm\bm{x}_k\big)\bm{x}_k\bm{x}_k\herm(\bm{p}+\z)\Big)\nonumber\\
+%&\quad=\frac{1}{K}\sum_{k=1}^K\bm{q}\herm\Big(|\bm{x}_k\herm\bm{p}|^2\bm{x}_k\bm{x}_k\herm\Big)\bm{p}+\bm{q}\herm\Big(|\bm{x}_k\herm\z|^2\bm{x}_k\bm{x}_k\herm\Big)\bm{p}\nonumber\\
+%&\qquad+2\bm{q}\herm\Big(|\bm{x}_k\herm\bm{p}|^2\bm{x}_k\bm{x}_k\herm\Big)\z\nonumber\\
+%&\qquad+\bm{q}\herm\Big((\bm{x}_k\herm\bm{p})^2\bm{x}_k\bm{x}_k\T\Big)\overline{\z}+\bm{q}\herm\Big((\bm{x}_k\herm\z)^2\bm{x}_k\bm{x}_k\T\Big)\overline{\bm{p}}. \label{eqn:con_grad1}
+%\end{align}
+%
+%Analogously, the second term is equal to
+%\begin{align}
+%&\bm{u}\herm\mathbb{E}\{\nabla f(\bm{w})\}\nonumber\\
+%&\quad=\kappa_2^2\bm{q}\herm\big(2\|\bm{w}\|^2\bm{I}-\|\z\|^2\bm{I}-\z\z\herm\big)(\bm{p}+\z)\nonumber\\
+%&\quad\quad +(\kappa_4-2\kappa_2^2)\bm{q}\herm\mathrm{diag}((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm)(\bm{p}+\z)\nonumber\\
+%&\quad=\kappa_2^2\bm{q}\herm\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bm{p}+\kappa_2^2\bm{q}\herm\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bm{p}\nonumber\\
+%&\quad\quad+2\kappa_2^2\bm{q}\herm\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\z\nonumber\\
+%&\quad\quad+\kappa_2^2\bm{q}(2\bm{p}\bm{p}\T)\overline{\z}+\kappa_2^2\bm{q}(2\z\z\T)\overline{\bm{p}}\nonumber\\
+%&\quad\quad +(\kappa_4-2\kappa_2^2)\bm{q}\herm\mathrm{diag}(\bm{p}\bm{p}\herm+\z\bm{p}\herm+\bm{p}\z\herm)(\bm{p}+\z). \label{eqn:con_grad2}
+%\end{align}
+%Using Eqs.~(\ref{eqn:con_grad1}) and~(\ref{eqn:con_grad2}) and the triangular inequality, we have
+%\begin{align}
+%&\big\|\nabla f(\bm{w})-\mathbb{E}\{\nabla f(\bm{w})\}\big\|\nonumber\\
+%&\quad\leq\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K |\bm{x}_k\herm\bm{p}|^2\bm{x}_k\bm{x}_k\herm-\kappa_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg)\bm{p}\bigg|\nonumber\\
+%&\qquad+\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K|\bm{x}_k\herm\z|^2\bm{x}_k\bm{x}_k\herm-\kappa_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bigg)\bm{p}\bigg|\nonumber\\
+%&\qquad+2\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K|\bm{x}_k\herm\bm{p}|^2\bm{x}_k\bm{x}_k\herm-\kappa_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg)\z\bigg|\nonumber\\
+%&\qquad+\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K(\bm{x}_k\herm\bm{p})^2\bm{x}_k\bm{x}_k\T-2\kappa_2^2\bm{p}\bm{p}\T\bigg)\overline{\z}\bigg|\nonumber\\
+%&\qquad+\bigg|\bm{q}\herm\bigg(\frac{1}{K}\sum_{k=1}^K(\bm{x}_k\herm\z)^2\bm{x}_k\bm{x}_k\T-2\kappa_2^2\z\z\T\bigg)\overline{\bm{p}}\bigg|\nonumber\\
+%&\qquad +\big|(\kappa_4-2\kappa_2^2)\bm{q}\herm\mathrm{diag}(\bm{p}\bm{p}\herm+\z\bm{p}\herm+\bm{p}\z\herm)(\bm{p}+\z)\big|\nonumber\\
+%&\quad\leq\bigg\|\frac{1}{K}\sum_{k=1}^K |\bm{x}_k\herm\bm{p}|^2\bm{x}_k\bm{x}_k\herm-\kappa_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg\|\|\bm{p}\|\nonumber\\
+%&\qquad+\bigg\|\frac{1}{K}\sum_{k=1}^K|\bm{x}_k\herm\z|^2\bm{x}_k\bm{x}_k\herm-\kappa_2^2\big(\|\z\|^2\bm{I}+\z\z\herm\big)\bigg\|\|\bm{p}\|\nonumber\\
+%&\qquad+2\bigg\|\frac{1}{K}\sum_{k=1}^K|\bm{x}_k\herm\bm{p}|^2\bm{x}_k\bm{x}_k\herm-\kappa_2^2\big(\|\bm{p}\|^2\bm{I}+\bm{p}\bm{p}\herm\big)\bigg\|\|\z\|\nonumber\\
+%&\qquad+\bigg\|\frac{1}{K}\sum_{k=1}^K(\bm{x}_k\herm\bm{p})^2\bm{x}_k\bm{x}_k\T-2\kappa_2^2\bm{p}\bm{p}\T\bigg\|\|\z\|\nonumber\\
+%&\qquad+\bigg\|\frac{1}{K}\sum_{k=1}^K(\bm{x}_k\herm\z)^2\bm{x}_k\bm{x}_k\T-2\kappa_2^2\z\z\T\bigg\|\|\bm{p}\|\nonumber\\
+%&\qquad +\big|\kappa_4-2\kappa_2^2\big|\big|\bm{q}\herm\mathrm{diag}(\bm{p}\bm{p}\herm+\z\bm{p}\herm+\bm{p}\z\herm)(\bm{p}+\z)\big|\label{eqn:con_grad3}
+%%&\quad\leq \frac{3}{4}\delta\|\bm{p}\|\big(\|\bm{p}\|+\|\z\|\big)
+%\end{align}
+%
+%Lemma~\ref{lemma:concentration_hessian} provides upper bounds for the first 5 terms, so we focus on bounding the last term. Note that 
+%\begin{align}
+%&\big|\bm{q}\herm\mathrm{diag}\big((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm\big)(\bm{p}+\z)\big|\nonumber\\
+%&\quad=\big|\Tr\big(\bm{q}\herm\mathrm{diag}\big((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm\big)(\bm{p}+\z)\big)\nonumber\\
+%%&\quad=\Tr\Big(\bm{q}\herm\mathrm{diag}\big((\bm{p}+\z)(\bm{p}+\z)\herm-\z\z\herm\big)(\bm{p}+\z)\Big)\nonumber\\
+%%&\quad= \sum_{i=1}^M\overline{q}_i\big(|p_i+z_i|^2-|z_i|^2\big)(p_i+z_i)\nonumber\\
+%%&\quad\leq \max_{1\leq j\leq M}\big(|p_j+z_j|^2-|z_j|^2\big)\sum_{i=1}^M\overline{q}_i(p_i+z_i)
+%&\quad=\big| \sum_{i=1}^M\overline{q}_i\big((p_i+z_i)(\overline{p}_i+\overline{z}_i)-z_i\overline{z}_i\big)(p_i+z_i)\big|\nonumber\\
+%&\quad\leq \max_{1\leq j\leq M} \Big||p_j+z_j|^2-|z_j|^2\Big|\bigg|\sum_{i=1}^M\overline{q}_i(p_i+z_i)\bigg|\nonumber\\
+%&\quad\leq \max_{1\leq j\leq M} \Big(|p_j|^2\Big)\Big|\bm{q}\herm(\bm{p}+\z)\Big|\nonumber\\
+%&\quad\leq \|\bm{p}\|^2\|\bm{p}+\z\|\nonumber\\
+%&\quad\leq \|\bm{p}\|\big(\|\bm{p}\|+\|\z\|\big).
+%\end{align} 
+%{\textbf{Only part missing here is to bound this term in relation to $\delta$. Other possibility would be to define bound of Lemma as $(\delta+a)\dist(\bm{w},\z)$, with $a$ constant, but not sure about the impact of that change in rest of the convergence criterions.}
+
+\section{Proof of Lemma~\ref{lemma:concentration_covariance}}\label{appdx:concentration_covariance}
+This lemma is consequence of standard results, e.g. Theorem 5.39 in \cite{Vershynin2012nonasymptoticmatrices}, concerning the deviation of the sample covariance matrix from its mean for subgaussian matrices with independent rows.\\
+%\textbf{Lemma as it is, considers $\|\z\|=1$ and $\kappa_2=1$. Check for rewriting. We could always normalize to obtain $\kappa_2=1$ but have to discuss.}
+%Consider a regular QAM constellation of size $C_l$ with normalized average energy. 
+%First, note that any transmitted symbol under this constellation can be written as 
+%\begin{align}
+%s_l(k)&=\frac{1}{\sqrt{E_l}}\Big( \sum_{i=1}^{\log_4(C_l)} 2^{i-1}I_i +j \sum_{i=1}^{\log_4(C_l)} 2^{i-1}Q_i\Big)
+%\end{align}
+%where $E_l$ is given by 
+%$I_i, Q_i$ are independent copies of Rademacher random variables (also known as symmetric Bernoulli), i.e., $\mathbb{P}(I_i=1)= \mathbb{P}(I_i=-1)=0.5$. 
+	
+\section{Proof of Corollary~\ref{cor:2}}\label{appdx:corolary2}
+Note that
+\begin{align}
+\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2=\frac{1}{2}\bm{h}\herm\bm{A}(\bm{z})\bm{h}+\frac{R_2}{2K}\sum_{k=1}^K\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{h}. \label{eqn:cor2_def}
+\end{align}
+We study the first term. From Lemma~\ref{lemma:concentration_hessian}, we have $\|\nabla^2 f(\bm{z}) - \mathbb{E}\{\nabla^2 f(\bm{z})\}\|\leq\delta$, hence
+\begin{align}
+\|\bm{A}-\mathbb{E}\{\bm{A}(\bm{z})\}\|\leq\delta,
+\end{align}
+hence
+\begin{align}
+-\delta\bm{I}&\preceq\bm{A}(\bm{z}) - 2\kappa_2^2(\|\bm{z}\|^2\bm{I} +\bm{z}\bm{z}\herm)-R_2\kappa_2\bm{I} - 2(\kappa_4-2\kappa_2^2)\mathrm{diag}(\bm{z}\bm{z}\herm)\preceq\delta\bm{I}.
+\end{align}
+Note that the eigenvalues of the matrix $\mathrm{diag}(\bm{z}\bm{z}\herm)$ are 
+\begin{align}
+\lambda_{\mathrm{max}}(\bm{z})=\max_{1\leq i\leq L}|z_i|^2,\qquad\lambda_{\mathrm{min}}(\bm{z})=\min_{1\leq i\leq L}|z_i|^2\geq0
+\end{align}
+and $\kappa_4-2\kappa_2^2\leq0$, thus
+\begin{align}
+\bm{A}(\bm{z})&\succeq 2\kappa_2^2\big(\|\bm{z}\|^2\bm{I} +\bm{z}\bm{z}\herm\big)-R_2\kappa_2\bm{I}+ 2(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\bm{I}-\delta\bm{I}, \\
+\bm{A}(\bm{z})&\preceq  2\kappa_2^2\big(\|\bm{z}\|^2\bm{I} +\bm{z}\bm{z}\herm\big)-R_2\kappa_2\bm{I} + \delta\bm{I}.
+\end{align}
+Therefore,
+\begin{align}
+\bm{h}\herm\bm{A}(\bm{z})\bm{h}&\geq2\kappa_2^2\big(\|\bm{z}\|^2\|\bm{h}\|^2 +|\bm{z}\herm\bm{h}|^2\big)-R_2\kappa_2\|\bm{h}\|^2+2(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2-\delta\|\bm{h}\|^2\nonumber\\
+&\geq \big(2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2-\delta\big)\|\bm{h}\|^2+ 2(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2
+\end{align}
+and
+\begin{align}
+\bm{h}\herm\bm{A}(\bm{z})\bm{h}&\leq  \kappa_2^2(2\|\bm{z}\|^2\|\bm{h}\|^2 +2|\bm{z}\herm\bm{h}|^2)-R_2\kappa_2\|\bm{h}\|^2 + \delta\|\bm{h}\|^2\nonumber\\
+&\leq \big(4\kappa_2^2\|\bm{z}\|^2 -R_2\kappa_2+ \delta\big)\|\bm{h}\|^2.
+\end{align}
+
+The second term can be bounded using Lemma~\ref{lemma:concentration_covariance}. Therefore,
+\begin{align}
+\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2&\leq \frac{1}{2}\big(4\kappa_2^2\|\bm{z}\|^2 -R_2\kappa_2+ \delta\big)\|\bm{h}\|^2+\frac{R_2}{2}(\kappa_2+\delta)\|\bm{h}\|^2\nonumber\\
+&\leq \Big(2\kappa_2^2\|\bm{z}\|^2+\frac{R_2+1}{2}\delta\Big)\|\bm{h}\|^2\\
+\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2&\geq \frac{1}{2}\big(2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2-\delta\big)\|\bm{h}\|^2+ (\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2	\nonumber\\
+&\quad+\frac{R_2}{2} (\kappa_2-\delta)\|\bm{h}\|^2\nonumber\\
+&\geq \Big(\kappa_2^2\|\bm{z}\|^2+ (\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})-\frac{R_2+1}{2}\delta\Big)\|\bm{h}\|^2
+\end{align}
+
+
+\section{Proof of Corollary~\ref{cor:1}}\label{appdx:corolary1}
+From Lemma~\ref{lemma:concentration_hessian}, we have $\|\nabla^2 f(\bm{z}) - \mathbb{E}\{\nabla^2 f(\bm{z})\}\| \leq \delta $ and thus
+$\nabla^2 f(\bm{z}) \preceq \mathbb{E}\{\nabla^2 f(\bm{z})\}+ \delta\bm{I}$. Noting that $\kappa_4-2\kappa_2\leq0$ for all QAM modulations, 
+\begin{align}
+\nabla^2 f(\bm{z}) &\preceq \mathbb{E}\{\nabla^2 f(\bm{z})\}+ \delta\bm{I} \preceq \big(2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2+\delta\big)\bm{I} + 2\kappa_2^2\begin{bmatrix}
+\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T \label{eqn:upperBound_hessian}
+\end{bmatrix}.
+\end{align}
+
+On the other hand, the Shur's complement of the matrix multiplied by $\kappa_4-2\kappa_2$ in the expectation of the Hessian, Eq.(\ref{eqn:hessian_expectation}), is
+\begin{align}
+&2\mathrm{diag}(\bm{z}\bm{z}\herm)-\mathrm{diag}(\bm{z}\bm{z}\T)\big[2\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)\big]^{\dagger}\mathrm{diag}(\overline{\bm{z}}\bm{z}\herm)=\frac{3}{2}\mathrm{diag}(\bm{z}\bm{z}\herm),
+\end{align}
+where $\bm{C}^{\dagger}$ denotes a generalized inverse of $\bm{C}$. Thus, this matrix can be rewritten as
+\begin{align}
+&\begin{bmatrix}
+2\mathrm{diag}(\bm{z}\bm{z}\herm)&\mathrm{diag}(\bm{z}\bm{z}\T)\\
+\mathrm{diag}(\overline{\bm{z}}\bm{z}\herm)&2\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)
+\end{bmatrix}= \begin{bmatrix}
+\bm{I}&\bm{U}\\
+\bm{0}&\bm{I}
+\end{bmatrix}
+\begin{bmatrix}
+\frac{3}{2}\mathrm{diag}({\bm{z}}\bm{z}\herm)&\bm{0}\\
+\bm{0}&2\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)
+\end{bmatrix}\begin{bmatrix}
+\bm{I}&\bm{0}\\
+\bm{L}&\bm{I}
+\end{bmatrix}
+\end{align}
+where $\bm{U}=\frac{1}{2} \mathrm{diag}({\bm{z}}\bm{z}\T)[\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)]^{\dagger}$ and $\bm{L}=\frac{1}{2}[\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)]^{\dagger}\mathrm{diag}(\overline{\bm{z}}\bm{z}\herm)$. The maximum and minimum eigenvalues of this matrix are
+\begin{align}
+\eta_{\mathrm{max}}(\bm{z})&=\max_{1\leq i\leq L}2|z_i|^2=2\lambda_{\mathrm{max}}(\bm{z})\\
+\eta_{\mathrm{min}}(\bm{z})&=\min_{1\leq i\leq L}\frac{3}{2}|z_i|^2=\frac{3}{2}\lambda_{\mathrm{min}}(\bm{z})\geq0
+\end{align}
+Therefore,
+\begin{align}
+\bm{0}\preceq \frac{3}{2}\lambda_{\mathrm{min}}(\bm{z})\bm{I}\preceq\begin{bmatrix}
+2\mathrm{diag}(\bm{z}\bm{z}\herm)&\mathrm{diag}(\bm{z}\bm{z}\T)\\
+\mathrm{diag}(\overline{\bm{z}}\bm{z}\herm)&2\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)
+\end{bmatrix} \preceq 2\lambda_{\mathrm{max}}(\bm{z})\bm{I}
+\end{align}
+and
+\begin{align}
+\nabla^2 f(\bm{z}) &\succeq  \big(2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2+2(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})-\delta\big)\bm{I} + 2\kappa_2^2\begin{bmatrix}
+\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T \label{eqn:lowerBound_hessian}
+\end{bmatrix}.
+\end{align}
+Now, note that using the fact that for any $c\in\mathbb{C}$, $2\re^2(c)=|c|^2+\re(c^2)$, we can write
+\begin{align}
+\frac{1}{K}\sum_{k=1}^K\re^2\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)
+&=\frac{1}{2K}\sum_{k=1}^K\big|\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big|^2+\frac{1}{2K}\sum_{k=1}^K\re\big((\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2\big)	\nonumber\\
+&=\frac{1}{4K}\sum_{k=1}^K\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}\herm
+\begin{bmatrix}
+|\bm{s}_k\herm\bm{z}|^2\bm{s}_k\bm{s}_k\herm & (\bm{s}_k\herm\bm{z})^2\bm{s}_k\bm{s}_k\T\\
+(\overline{\bm{s}_k\herm\bm{z}})^2\overline{\bm{s}_k}\bm{s}_k\herm & |\bm{s}_k\herm\bm{z}|^2\overline{\bm{s}_k}\bm{s}_k\herm
+\end{bmatrix}
+\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}\nonumber\\
+&=\frac{1}{4K}\sum_{k=1}^K\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}\herm
+\nabla^2f(\bm{z})\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}+\frac{R_2}{2K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2\nonumber\\
+&\quad-\frac{1}{2K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2
+\label{eqn:cor1eqn_to_bound}
+\end{align}
+
+%	Note that the off-diagonal terms are equal to $\bm{B}(\bm{z})$ and $\overline{\bm{B}}(\bm{z})$, hence by Lemma~\ref{lemma:concentration_hessian}, we have $\|\bm{B}-\mathbb{E}\{\bm{B}(\bm{z})\}\|\leq\delta$ and
+%	\begin{align}
+%	-\delta\bm{I}&\preceq\bm{B}(\bm{z}) - 2\kappa_2^2\bm{z}\bm{z}\T - (\kappa_4-2\kappa_2^2)\mathrm{diag}(\bm{z}\bm{z}\T)\preceq\delta\bm{I}.
+%	\end{align}
+	
+We now obtain the upper bound using Lemma~\ref{lemma:concentration_covariance}, Corollary~\ref{cor:2} and Eq.(\ref{eqn:upperBound_hessian}):
+\begin{align}
+&\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2
+\nonumber\\
+&\quad\leq\frac{1}{2}
+\big(2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2+\delta\big)\|\bm{h}\|^2+ \frac{\kappa_2^2}{2}\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}\herm\begin{bmatrix}
+\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T\end{bmatrix}
+\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}+\frac{R_2}{2}(\kappa_2+\delta)\|\bm{h}\|^2\nonumber\\
+&\qquad-\frac{1}{2}\Big(\kappa_2^2\|\bm{z}\|^2+ (\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})-\frac{R_2+1}{2}\delta\Big)\|\bm{h}\|^2\nonumber\\
+&\quad\leq\frac{2\kappa_2^2\|\bm{z}\|^2+(R_2+1)\delta}{4}\|\bm{h}\|^2+2\kappa_2^2\re^2(\bm{z}\herm\bm{h}) -\frac{1}{2}(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2..
+\end{align}
+
+The lower bound is obtained in a similar fashion with Eq.(\ref{eqn:lowerBound_hessian}):
+\begin{align}
+&\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2\nonumber\\
+&\quad\geq\frac{1}{2}\Big(
+2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2-\delta +2(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\Big)\|\bm{h}\|^2
+%\nonumber\\
+%&\quad\quad 
++ \frac{\kappa_2^2}{2}\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}\herm\begin{bmatrix}
+\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T\end{bmatrix}
+\begin{bmatrix}
+\bm{h}\\\overline{\bm{h}}
+\end{bmatrix}\nonumber\\
+&\quad\quad +\frac{R_2}{2}(\kappa_2-\delta)\|\bm{h}\|^2- \frac{1}{2}\Big(2\kappa_2^2\|\bm{z}\|^2+\frac{R_2+1}{2}\delta\Big)\|\bm{h}\|^2\nonumber\\
+&\quad\geq-\frac{R_2+1}{4}\delta\|\bm{h}\|^2+2\kappa_2^2\re(\bm{z}\herm\bm{h})^2+(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2.
+\end{align}
+	%This is a direct result from \cite[Section 7]{Candes2015a_phaseretrievalWF}.
+	
+%\big(2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2+2(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})-\delta\big)\bm{I} + 2\kappa_2^2\begin{bmatrix}
+%	\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+%	\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T \label{eqn:lowerBound_hessian}
+%\end{bmatrix}.
+	
+	
+	
+	%\section{Other proofs}
+	%\label{appdx:sec}
+	
+\section{Proof of Local Curvature Condition}\label{appdx:llc}
+We show that, for every $\bm{w}\in E(\epsilon)$, the cost function satisfies the local curvature condition~\ref{eqn:llc}. Let $\bm{h}=\bm{w}\e{i\phi_{\bm{w}}}-\bm{z}$. Proving $LLC(\alpha,\epsilon,\delta)$ is equivalent to prove that
+\begin{align}
+&\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9}{10K}|\bm{s}_k\herm\bm{h}|^4\Big)\nonumber\\
+&\quad \geq \Big( \frac{1}{\alpha}+\frac{2\kappa_2^2-R_2\kappa_2+\delta}{4}\Big)\|\bm{h}\|^2.
+\end{align}
+holds for all $\bm{h}$ such that $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|\leq\epsilon$. Equivalently, is is sufficient to prove that for all $\bm{h}$ such that $\im(\bm{h}\herm\bm{z})=0$ and $\|\bm{h}\|=1$, and for all $\xi$ with $0\leq \xi\leq \epsilon$, 
+\begin{align}
+&\frac{1}{K}\sum_{k=1}^K\Big(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3s\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9}{10}s^2|\bm{s}_k\herm\bm{h}|^4\Big)\nonumber\\
+&\quad \geq \frac{1}{\alpha}+\frac{2\kappa_2^2-R_2\kappa_2+\delta}{4}
+\end{align}
+By Corollary~\ref{cor:1}, for all $\bm{h}$ such that $\|\bm{h}\|=1$ and $\im(\bm{h}\herm\bm{z})=0$,
+\begin{align}
+&\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2\nonumber\\
+&\quad\geq\frac{2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2-\delta}{2}\|\bm{h}\|^2+2\kappa_2^2\re(\bm{z}\herm\bm{h})^2+(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2.
+\end{align}
+holds with high probability. Thus, to prove $LLC(\alpha,\epsilon,\delta)$, we show that 
+\begin{align}
+&\frac{1}{K}\sum_{k=1}^K\Big(\frac{5}{2}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3s\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9}{10K}s^2|\bm{s}_k\herm\bm{h}|^4\Big) \nonumber\\
+&\qquad\qquad\geq  \frac{1}{\alpha}+\frac{2\kappa_2^2-R_2\kappa_2}{2} + \kappa_2^2\re(\bm{z}\herm\bm{h})^2+(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z})\|\bm{h}\|^2. \label{eqn:llc_2}
+\end{align}
+
+Let
+\begin{align}
+\bm{Y}_k(\bm{h},s)=&\frac{1}{K}\sum_{k=1}^K\Big(\frac{5}{2}\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+3s\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})|\bm{s}_k\herm\bm{h}|^2+\frac{9}{10K}s^2|\bm{s}_k\herm\bm{h}|^4\Big), \\
+\bm{Y}(\bm{h},s)=&\frac{1}{K}\sum_{k=1}^K\bm{Y}_k(\bm{h},s).
+\end{align}
+
+Using the Cauchy-Schwarz inequality,
+\begin{align}
+&\bm{Y}(\bm{h},s)\geq\frac{5}{2K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2+\frac{3s}{K}\sqrt{\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2}\sqrt{\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4}+\frac{9s^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\nonumber\\
+&\quad=\Bigg(\sqrt{\frac{5}{2K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2}-\sqrt{\frac{9s^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4}\Bigg)^2\nonumber\\
+&\quad\geq \frac{5}{4K}\sum_{k=1}^K\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})^2-\frac{9s^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4, \label{eqn:ineq1}
+\end{align}
+where the last inequality holds because $(a-b)^2\geq\frac{a^2}{2}-b^2$. By Corollary~\ref{cor:1}, for all $\bm{h}$ such that $\|\bm{h}\|^2=1$ it holds with high probability that
+\begin{align}
+\frac{1}{K}\sum_{k=1}^K\re\big(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z}\big)^2&\geq\frac{2\kappa_2^2-R_2\kappa_2-\delta}{2}+2\kappa_2^2\re(\bm{z}\herm\bm{h})^2+(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z}). \label{eqn:ineq1a}
+\end{align}
+Furthermore, Lemma~\ref{lemma:concentration_covariance} states that
+\begin{align}
+\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\leq\max_k\|\bm{s}_k\|^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2\Big)\leq B^2(\kappa_2+\delta) \label{eqn:ineq1b}
+\end{align}
+holds with high probability. Using~(\ref{eqn:ineq1a}) and~(\ref{eqn:ineq1b}) into~(\ref{eqn:ineq1}), we have
+\begin{align}
+\bm{Y}(\bm{h},s)&\geq\frac{5\kappa_2^2}{2}\re(\bm{z}\herm\bm{h})^2+\frac{5}{8}(2\kappa_2^2-R_2\kappa_2-\delta)-\frac{9B^2}{10}s^2(\kappa_2+\delta)+\frac{5}{4}(\kappa_4-2\kappa_2^2)\lambda_{\mathrm{max}}(\bm{z}).
+\end{align}
+Finally,~(\ref{eqn:llc_2}) follows by setting $\alpha\geq30$, $\epsilon=\frac{1}{8B}$, and $\delta=0.01$, for regular QAM modulations of up to 1024 symbols.\\
+%\textbf{Select values accordingly. Discuss simplifications on $\bm{\kappa}_2$, etc.}
+
+
+\section{Proof of Local Smoothness Condition}\label{appdx:lsc}
+Let $\bm{w}\in E(\epsilon)$. Proving Eq.~(\ref{eqn:lsc}) is equivalent to prove that for all $\bm{u}\in\mathbb{C}^M$ such that $\|\bm{u}\|=1$, 
+\begin{align}
+|\bm{u}\herm\nabla f(\bm{w})|^2&\leq \beta\Big(\frac{2\kappa_2^2-R_2\kappa_2+\delta}{4}\mathrm{dist}^2(\bm{w},\bm{z})+ \frac{1}{10K}\sum_{k=1}^K \Big|\bm{s}_k\herm(\bm{w} - \e{j\phi(\bm{w})}\z)\Big|^4\Big).
+\end{align}
+Define the function
+\begin{align}
+q(\bm{h},\bm{v},s)&=\frac{1}{K}\sum_{k=1}^K\bigg(2\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})\re(\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{z})+s|\bm{s}_k\herm\bm{h}|^2\re(\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{z})\nonumber\\
+&\quad+2s\re(\bm{h}\herm\bm{s}_k\bm{s}_k\herm\bm{z})\re(\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h})+s^2|\bm{s}_k\herm\bm{h}|^2\re(\bm{v}\herm\bm{s}_k\bm{s}_k\herm\bm{h})\bigg)
+\end{align}
+Let $\bm{h}=\e{-i\phi(\bm{w})}\bm{w}-\bm{z}$ and $\bm{v}=\e{-i\phi(\bm{w})}\bm{u}$, then it is sufficient to prove that
+\begin{align}
+|q(\bm{h},\bm{v},1)|^2&\leq \beta\Big(\frac{2\kappa_2^2-R_2\kappa_2+\delta}{4}\|\bm{h}\|^2+ \frac{1}{10K}\sum_{k=1}^K \Big|\bm{s}_k\herm\bm{h}\Big|^4\Big).
+\end{align}
+holds for all $\bm{h}$ and $\bm{v}$ satisfying $\im(\bm{h}\herm\bm{z})=0$, $\|\bm{h}\|\leq\epsilon$ and $\|\bm{v}\|=1$. Equivalently, we only need to
+prove for all $\bm{h}$ and $\bm{v}$ satisfying $\im(\bm{h}\herm\bm{z})=0$, $\|\bm{h}\|=\|\bm{v}\|=1$ and for all $s$ such that $0\leq s\leq\epsilon$,
+\begin{align}
+|q(\bm{h},\bm{v},s)|^2&\leq \beta\Big(\frac{2\kappa_2^2-R_2\kappa_2+\delta}{4}+ \frac{s^2}{10K}\sum_{k=1}^K \Big|\bm{s}_k\herm\bm{h}\Big|^4\Big).
+\end{align}
+
+Note that, since $(a+b+c)^2\leq3(a^2+b^2+c^2)$,
+\begin{align}
+|q(\bm{h},\bm{v},s)|^2&\leq\Bigg|\frac{1}{K}\sum_{k=1}^K\bigg(2|\bm{h}\herm\bm{s}_k||\bm{v}\herm\bm{s}_k|\bm{s}_k\herm\bm{z}|^2+3s|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}||\bm{v}\herm\bm{s}_k|+s^2|\bm{s}_k\herm\bm{h}|^3|\bm{v}\herm\bm{s}_k|\bigg)\Bigg|^2\nonumber\\
+&\leq3\Big|\frac{2}{K}\sum_{k=1}^K2|\bm{h}\herm\bm{s}_k||\bm{v}\herm\bm{s}_k|\bm{s}_k\herm\bm{z}|^2\Big|+3\Big|\frac{3s}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}||\bm{v}\herm\bm{s}_k|\Big|\nonumber\\
+&\quad+3\Big|\frac{s^2}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3|\bm{v}\herm\bm{s}_k|\Big|^2\nonumber\\
+&=3(Q_1+Q_2+Q_3)
+\end{align}
+The first term, using Cauchy-Schwarz inequality and Corollary~\ref{cor:2}, is bounded above by
+\begin{align}
+Q_1&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{v}|^2\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2|\bm{s}_k\herm\bm{h}|^2\Big)(4\kappa_2^2-R_2\kappa_2+\delta)^2
+\end{align}
+The second term can be bounded in a similar fashion:
+\begin{align}
+Q_2&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{v}|^2|\bm{s}_k\herm\bm{z}|^2\Big)\leq\frac{4\kappa_2^2-R_2\kappa_2+\delta}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4
+\end{align}
+For the third term, we use the Cauchy-Schwarz inequality and Lemma~\ref{lemma:concentration_covariance} to obtain
+\begin{align}
+Q_3&\leq\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3\max_{1\leq k\leq K}\|\bm{s}_k\|\Big)^2\leq B^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^3\Big)^2\nonumber\\
+&\leq B^2\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)\Big(\frac{1}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^2\Big)\leq\frac{B^2(\kappa_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4
+\end{align}
+Therefore, we obtain
+\begin{align}
+|q(\bm{h},\bm{v},s)|^2&\leq 12(4\kappa_2^2-R_2\kappa_2+\delta)^2+\frac{27s^2B^2(4\kappa_2^2-R_2\kappa_2+\delta)+3s^4B^2(\kappa_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\nonumber\\
+%&\quad+\frac{3s^4B^2(\kappa_2+\delta)}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\nonumber\\
+%&\quad+3s|\bm{s}_k\herm\bm{h}|^2|\bm{s}_k\herm\bm{z}||\bm{v}\herm\bm{s}_k|\nonumber\\
+&\leq\beta\Big(\frac{2\kappa_2^2-R_2\kappa_2+\delta}{4}+\frac{s^2}{10K}\sum_{k=1}^K|\bm{s}_k\herm\bm{h}|^4\Big)
+\end{align}
+
+Hence, the Local Smoothness Condition holds as long as
+\begin{align}
+\beta\geq&\max\Big\{\frac{48(4\kappa_2^2-R_2\kappa_2+\delta)^2}{2\kappa_2^2-R_2\kappa_2+\delta},\ 270(4\kappa_2^2-R_2\kappa_2+\delta)+30\epsilon^2B^2(\kappa_2+\delta)\Big\}.
+\end{align}
+With $\epsilon=\frac{1}{8B}$ and $\delta\leq0.01$, and regular QAM modulations with up to 1024 symbols, the condition holds as long as
+\begin{align}
+\beta\geq814.
+\end{align}
+
+\section{Proof of Lemma~\ref{lemma:local_convergence}}\label{appdx:local_convergence}
+This proof follows the method to prove Lemma 7.10 in \cite{Candes2015a_phaseretrievalWF}, knowing that our proof must also consider non-unique global solutions, as for any solution $\z$, $\e{j\phi}\z$ is also a solution.\\
+We prove that if $\bm{w} \in E(\epsilon)$ then, for all $0 < \mu \leq 2/\beta$, the update rule
+\begin{equation}
+\bm{w}_+ = \bm{w} - \mu\nabla f(\bm{w})
+\end{equation}
+obeys
+\begin{equation}
+\dist^2(\bm{w}_+,\z)\leq \Big(1 - \frac{2\mu}{\alpha}\Big)\dist^2(\bm{w},\z). \label{eqn:dist_rule}
+\end{equation}
+
+Therefore, if $\bm{w} \in E(\epsilon)$ then we also have $\bm{w}_+ \in E(\epsilon)$. The lemma follows by inductively applying Eq.(\ref{eqn:dist_rule}). Now, using triangle inequality and the regularity condition (\ref{eqn:regularity_condition}), we have
+\begin{align}
+&\|\bm{w}_+-\e{j\phi(\bm{w}_+)}\z\|^2\nonumber\\
+&\qquad\leq\|\bm{w}_+-\e{j\phi(\bm{w})}\z\|^2\nonumber=\|\bm{w}-\e{j\phi(\bm{w})}\z-\mu\nabla f(\bm{w})\|^2\nonumber\\
+&\qquad=\|\bm{w}-\e{j\phi(\bm{w})}\z\|^2-2\mu\re\Big((\bm{w}-\e{j\phi(\bm{w})}\z\big)\herm\nabla f(\bm{w})\Big) +\mu^2\|\nabla f(\bm{w})\|^2\nonumber\\
+&\qquad\leq\|\bm{w}-\e{j\phi(\bm{w})}\z\|^2 +\mu^2\|\nabla f(\bm{w})\|^2-2\mu\bigg(\frac{1}{\alpha}\|\bm{w}-\e{j\phi(\bm{w})}\z\|^2+\frac{1}{\beta}\|\nabla f(\bm{w})\|^2\bigg)\nonumber\\
+&\qquad=\Big(1-\frac{2\mu}{\alpha}\Big)\|\bm{w}-\e{j\phi(\bm{w})}\z\|^2+\mu\Big(\mu-\frac{2}{\beta}\Big)\|\nabla f(\bm{w})\|^2\nonumber\\
+&\qquad\leq\Big(1-\frac{2\mu}{\alpha}\Big)\|\bm{w}-\e{j\phi(\bm{w})}\z\|^2\,\,,
+\end{align}
+
+where the first line comes from the definition of $\phi(\bm{w}_+)$, and the last line follows from $\mu \leq 2/\beta$. 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+%	\section{Proof of Lemma~\ref{lemma:initialization}}\label{appdx:initialization}
+%	The initialization procedure uses the leading eigenvector of 
+%	\begin{align}
+%	\bm{O}&=\frac{R_2}{K}\sum_{k=1}^K\bm{x}_k\bm{x}_k\herm=\bm{H}\Big(\frac{R_2}{K}\sum_{k=1}^K\bm{s}_k\bm{s}_k\herm\Big)\bm{H}\herm=\bm{H}\bm{S}\bm{H}\herm. \label{eqn:initialization_relation_eig}
+%	\end{align}
+%	In the transmitted signal domain, the initialization uses the leading eigenvalue and corresponding eigenvector of $\bm{S}$, and Eq.(\ref{eqn:initialization_relation_eig}) shows the relationship between the initialization matrices in both domains.
+%	
+%	
+%	Let $\bm{u}_1\in\mathbb{C}^L$ be the normalized eigenvector to the largest eigenvalue $\nu_1$ of $\bm{S}$. By Lemma~\ref{lemma:concentration_covariance}, we have
+%	\begin{align}
+%	&\Big|\nu_1-R_2\kappa_2\Big|=\Big|\bm{u}_1\herm\Big(\bm{S}-R_2\kappa_2\bm{I}\Big)\bm{u}_1\Big|\leq\Big\|\bm{S}-R_2\kappa_2\bm{I} \Big\|\nonumber\\
+%	&\quad\leq R_2\delta,
+%	\end{align}
+%	and hence
+%	\begin{align}
+%	R_2(\kappa_2-\delta) \leq \nu_1\leq R_2(\kappa_2+\delta).
+%	\end{align}
+%	
+%	%On the other hand, let $\bm{v}_1\in\mathbb{C}^M$ be the normalized eigenvector corresponding to the largest eigenvalue $\lambda_1$ of $\bm{O}$. Thus,
+%	%\begin{align}
+%	%\lambda_1&=\bm{v}_1\herm\bm{O}\bm{v}_1=\bm{v}_1\herm\bm{H}\bm{S}\bm{H}\herm\bm{v}_1 \leq \bm{u}_1\herm\bm{S}\bm{u}_1=\nu_1
+%	%\end{align}
+%	
+%	Recall that 
+%	\begin{align}
+%	%\bm{O}&=\frac{R_2}{K}\sum_{k=1}^K\bm{x}_k\bm{x}_k\herm\\
+%	\bm{A}&=\frac{1}{K}\sum_{k=1}^K\big(2|\bm{s}_k\herm\bm{z}|^2-R_2\big)\bm{s}_k\bm{s}_k\herm
+%	%\nonumber\\&=\frac{2}{K}\sum_{k=1}^K|\bm{s}_k\herm\bm{z}|^2\bm{s}_k\bm{s}_k\herm-\bm{S}
+%	\end{align}
+%	and, as stated in Appendix~\ref{appdx:corolary2},
+%	\begin{align}
+%	&\bigg\|\bm{A}-\Big( 2\kappa_2^2\|\bm{z}\|^2\bm{I} +2\kappa_2^2\bm{z}\bm{z}\herm-R_2\kappa_2\bm{I} \nonumber\\
+%	&\quad\qquad+ 2(\kappa_4-2\kappa_2^2)\mathrm{diag}(\bm{z}\bm{z}\herm)\Big)\bigg\|\leq\delta.
+%	\end{align}
+%	
+%	
+%	Now, let $\bm{y}_0$ be the normalized eigenvector corresponding to the largest eigenvalue $\lambda_0$ of $\bm{A}$. Therefore,
+%	\begin{align}
+%	&\bigg|\lambda_0-2\kappa_2^2(|\bm{y}_0\herm\bm{z}|^2+\|\bm{z}\|^2)+R_2\kappa_2\nonumber\\
+%	&\quad\qquad-2(\kappa_4-2\kappa_2^2)\sum_{l=1}^L|y_l|^2|z_l|^2\bigg|\nonumber\\
+%	&\quad=\bigg|\bm{y}_0\herm\Big(\bm{A}-2\kappa_2^2(\|\bm{z}\|^2\bm{I}+\bm{z}\bm{z}\herm)+R_2\kappa_2\bm{I}\nonumber\\
+%	&\quad\qquad-2(\kappa_4-2\kappa_2^2)\mathrm{diag}(\bm{z}\bm{z}\herm)\Big)\bm{y}_0\bigg|\nonumber\\
+%	&\quad\leq\bigg\|\bm{A}-\Big(2\kappa_2^2\|\bm{z}\|^2\bm{I} +2\kappa_2^2\bm{z}\bm{z}\herm-R_2\kappa_2\bm{I}\nonumber\\
+%	&\quad\qquad + 2(\kappa_4-2\kappa_2^2)\mathrm{diag}(\bm{z}\bm{z}\herm)\Big)\bigg\|\leq\delta.
+%	\end{align}
+%	Therefore, and knowing that $\kappa_4-2\kappa_2^2<0$, 
+%	\begin{align}
+%	\kappa_2^2|\bm{y}_0\herm\bm{z}|^2&\geq \frac{\lambda_0}{2}-\kappa_2^2\|\bm{z}\|^2+\frac{R_2}{2}\kappa_2-\frac{\delta}{2}\nonumber\\
+%	&\quad-(\kappa_4-2\kappa_2^2)\sum_{l=1}^L|y_l|^2|z_l|^2\nonumber\\
+%	&\geq \frac{\lambda_0}{2}-\kappa_2^2\|\bm{z}\|^2 +\frac{R_2}{2}\kappa_2-\frac{\delta}{2}
+%	\end{align}
+%	Since $\lambda_0$ is the largest eigenvalue of $\bm{A}$,
+%	\begin{align}
+%	\frac{\lambda_0}{2}&\geq \frac{1}{2}\bm{z}\herm\bm{A}\bm{z}\nonumber\\
+%	&= \frac{1}{2}\bm{z}\herm\Big(\bm{A}-2\kappa_2^2(\|\bm{z}\|^2\bm{I}+\bm{z}\bm{z}\herm)+R_2\kappa_2\bm{I}\nonumber\\
+%	&\quad-2(\kappa_4-2\kappa_2^2)\mathrm{diag}(\bm{z}\bm{z}\herm)\Big)\bm{z}\nonumber\\
+%	&\quad+2\kappa_2^2\|\bm{z}\|^4-\frac{R_2}{2}\kappa_2\|\bm{z}\|^2+(\kappa_4-2\kappa_2^2)\sum_{l=1}^L|z_l|^4\nonumber\\
+%	&\geq 2\kappa_2^2\|\bm{z}\|^4-\frac{R_2}{2}\kappa_2\|\bm{z}\|^2+(\kappa_4-2\kappa_2^2)\sum_{l=1}^L|z_l|^4-\frac{\delta}{2}
+%	%\nonumber\\
+%	%&\geq +2\kappa\|\bm{z}\|^4+(\kappa_4-2\kappa_2)\sum_{m=1}^M|z_m|^2-\delta
+%	\end{align}
+%	Combining both inequalities, we have
+%	\begin{align}
+%	|\bm{z}\herm\bm{y}_0|^2&\geq 2\|\bm{z}\|^4-\Big(1+\frac{R_2}{2\kappa_2}\Big)\|\bm{z}\|^2+\frac{R_2}{2\kappa_2}-\frac{\delta}{\kappa_2^2}\nonumber\\
+%	&\quad +\Big(\frac{\kappa_4}{\kappa_2^2}-2\Big)\sum_{l=1}^L|z_l|^4\nonumber\\
+%	&=a(\bm{z})-\frac{\delta}{\kappa_2^2}
+%	\end{align}
+%	In consequence,
+%	\begin{align}
+%	\dist^2(\bm{y}_0,\bm{z})\leq 2 - 2\sqrt{a(\bm{z})-\frac{\delta}{\kappa_2^2}}\leq \tau^2
+%	\end{align}
+%	Under the stated initialization procedure, the starting iterate is \begin{align}
+%	\bm{w}_0=\Bigg(\sqrt{\frac{LKR_2}{\sum_{k=1}^K\|\bm{s}_k\|^2}}\Bigg)\bm{y}_0.
+%	\end{align}
+%	Using Lemma~\ref{lemma:concentration_covariance}, with high probability we have
+%	\begin{align}
+%	\Big|\|\bm{w}_0\|^2-1\Big|&=\Bigg|\frac{LKR_2}{\sum_{k=1}^K\|\bm{s}_k\|^2}-1\Bigg|\nonumber\\
+%	%&\leq B\Big|\Big|
+%	\end{align}
+%	Hence,
+%	\begin{align}
+%	\dist(\bm{w}_0,\bm{z})&\leq\|\bm{w}_0-\e{i\phi(\bm{u_1})}\bm{z}\|\nonumber\\
+%	&\leq\|\bm{w}_0-\bm{u}_1\|+\dist(\bm{u}_1,\bm{z})\nonumber\\
+%	&=\Big|\|\bm{w}_0\|-1\Big|+\dist(\bm{u}_1,\bm{z}) \nonumber\\
+%	&\leq2\tau_2
+%	\end{align}
+%	\textbf{Select $\bm{\tau}$ accordingly}.
+%	
+	
+%	\section{Proof of Lemma~\ref{lemma:expectation_hessian_msr}}\label{appdx:expectations_hessian_msr}
+%	By Lemma~\ref{lemma:expectation_hessian_msr}, we know that
+%	\begin{align}
+%	\mathbb{E}\{\bm{V}_j(\z)\}&=  (2\kappa_2^2\|\bm{z}_j\|^2-R_2\kappa_2)\bm{I}+ 2\kappa_2^2\begin{bmatrix}
+%	\bm{z}_j\bm{z}_j\herm&\bm{z}_j\bm{z}_j\T\\
+%	\overline{\bm{z}_j}\bm{z}_j\herm&\overline{\bm{z}_j}\bm{z}_j\T
+%	\end{bmatrix}\nonumber\\
+%	&\quad+(\kappa_4-2\kappa_2^2)\begin{bmatrix}
+%	2\mathrm{diag}(\bm{z}_j\bm{z}_j\herm)&\mathrm{diag}(\bm{z}_j\bm{z}_j\T)\\
+%	\mathrm{diag}(\overline{\bm{z}_j}\bm{z}_j\herm)&2\mathrm{diag}(\overline{\bm{z}_j}\bm{z}_j\T)
+%	\end{bmatrix}.
+%	\end{align}
+%	
+%	
+%	We now need to derive the expectation of the matrices $\bm{C}(\bm{w})$, $\bm{E}(\bm{w})$ and $\bm{F}(\bm{w})$ from Eqs.~(\ref{eqn:hessianMatricesG_msr}-\ref{eqn:hessianMatricesH_msr}). Note that
+%	\begin{align}
+%	\bm{C}_i(\z)&=\sum_{j\neq i}^J\bm{O}\bm{z}_j\bm{z}_j\herm\bm{O}=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\sum_{j\neq i}^J
+%	\bm{s}_k\bm{s}_k\herm \bm{z}_j\bm{z}_j\herm \bm{s}_m\bm{s}_m\herm\nonumber\\
+%	\bm{E}_{ij}(\z)&=\bm{z}_j\herm\bm{O}\bm{z}_i\bm{O}=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\bm{z}_j\herm\bm{s}_k\bm{s}_k\herm\bm{z}_i\bm{s}_m\bm{s}_m\herm\nonumber\\
+%	\bm{F}_{ij}(\z)&=\bm{O}\bm{z}_j\bm{z}_i\T\bm{O}\T=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\bm{s}_k\bm{s}_k\herm\bm{z}_j\bm{z}_i\T\overline{\bm{s}_m}\bm{s}_m\T\nonumber
+%	\end{align}
+%	Any particular element of these matrices is given by
+%	\begin{align}
+%	[\bm{C}_{i}(\z)]_{pq}&=\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K\sum_{m=1}^K\sum_{a=1}^L\sum_{b=1}^L s_{kp}\overline{s}_{ka}z_{ja}\overline{z}_{jb}s_{mb}\overline{s}_{mq}\\
+%	[\bm{E}_{ij}(\z)]_{pq}&=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\sum_{a=1}^L\sum_{b=1}^L \overline{z}_{ja}s_{ka}\overline{s}_{kb}{z}_{ib}s_{mp}\overline{s}_{mq}\\
+%	[\bm{F}_{ij}(\z)]_{pq}&=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\sum_{a=1}^L\sum_{b=1}^L s_{kp}\overline{s}_{ka}z_{ja}{z}_{ib}\overline{s}_{mb}s_{mq}
+%	\end{align}
+%	Taking expectation, and having all elements of every $\bm{s}_k$ iid.,
+%	\begin{align}
+%	&\mathbb{E}\{[\bm{C}_{i}(\z)]_{pq}\}=\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K\sum_{m=1}^K\sum_{a=1}^L\sum_{b=1}^L \mathbb{E}\{s_{kp}\overline{s}_{ka}s_{mb}\overline{s}_{mq}\}z_{ja}\overline{z}_{jb}
+%	\end{align}
+%	%Noting that the expectation is 0 unless $p=a$ and $q=b$, and separating the cases where $k=m$ and $k\neq m$, we have
+%	\begin{itemize}
+%		\item Diagonal terms($p=q$): the expectation is zero unless either $p=a=q=b$, or $k=m$ and $p=q\neq a=b$, thus
+%		\begin{align}
+%		&\mathbb{E}\{[\bm{C}_{i}(\z)]_{pp}\}\nonumber\\
+%		&\quad=\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K \mathbb{E}\{|s_{kp}|^4\}z_{jp}\overline{z}_{jp}	+\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K\sum_{m\neq k}^K \mathbb{E}\{|s_{kp}|^2\}\mathbb{E}\{|s_{mp}|^2\}z_{jp}\overline{z}_{jp}\nonumber\\
+%		&\quad\quad+\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K\sum_{a=1}^L \mathbb{E}\{|s_{ka}|^2\}\mathbb{E}\{|s_{kp}|^2\}z_{ja}\overline{z}_{ja}\nonumber\\
+%		&\quad=\frac{\kappa_4+(K-1)\kappa_2^2}{K}\sum_{j\neq i}^J|z_{jp}|^2+\frac{\kappa_2^2}{K}\sum_{j\neq i}^J\sum_{a=1}^L|z_{ja}|^2\nonumber\\
+%		&\quad=\Big(\frac{\kappa_4-\kappa_2^2}{K}+\kappa_2^2\Big)\sum_{j\neq i}^J|z_{jp}|^2+\frac{\kappa_2^2}{K}\sum_{j\neq i}^J\|\bm{z}_j\|^2
+%		\end{align}
+%		\item Off-diagonal terms ($p\neq q$): expectation is zero unless $p=a\neq q=b$, hence
+%		\begin{align}
+%		&\mathbb{E}\{[\bm{C}_{i}(\z)]_{pq}\}=\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K\sum_{m=1}^K \mathbb{E}\{|s_{kp}|^2\}\mathbb{E}\{|s_{mq}|^2\}z_{jp}\overline{z}_{jq}	=\kappa_2^2\sum_{j\neq i}^Jz_{jp}\overline{z}_{jq}
+%		%&\quad\quad-R_2\kappa_2\nonumber\\
+%		\end{align}
+%	\end{itemize}
+%	
+%	Using the same approach for the expectation of $[\bm{E}(\z)]_{ij}$, we have
+%	\begin{align}
+%	&\mathbb{E}\{[\bm{E}_{ij}(\z)]_{pq}\}=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\sum_{a=1}^L\sum_{b=1}^L \mathbb{E}\{s_{ka}\overline{s}_{kb}s_{mp}\overline{s}_{mq}\}\overline{z}_{ja}{z}_{ib}
+%	\end{align}
+%	%Note that the expectation is nonzero in the following cases: (a) if $k\neq m$, $p=q$ and $a=b$; (b) f $k=m$, whenever $p=a\neq q=b$ or $p=q\neq a=b$ or $p=q=a=b$. Thus, the expectation is
+%	%\begin{align}
+%	%&\mathbb{E}\{[\bm{E}_{ij}(\z)]_{pq}\}\nonumber\\
+%	%&\quad=\sum_{a=1}^L\sum_{b=1}^L \mathbb{E}\{s_{ka}\overline{s}_{kb}s_{mp}\overline{s}_{mq}\}\overline{z}_{ja}{z}_{ib}\nonumber\\
+%	%&\quad\quad+\frac{1}{K^2}\sum_{j\neq i}^J\sum_{k=1}^K\sum_{m\neq k}^K \mathbb{E}\{|s_{kp}|^2\}\mathbb{E}\{|s_{mp}|^2\}z_{jp}\overline{z}_{jp}\nonumber\\
+%	%&\quad=\frac{\kappa_4+(K-1)\kappa_2^2}{K}\sum_{j\neq i}^J|z_{jp}|^2\nonumber\\
+%	%&\quad=\Big(\frac{\kappa_4-2\kappa_2^2}{K}+\kappa_2^2\Big)\sum_{j\neq i}^J|z_{jp}|^2
+%	%\end{align}
+%	
+%	\begin{itemize}
+%		\item Diagonal terms ($p=q$): the expectation is zero unless $a=b$, hence
+%		\begin{align}
+%		&\mathbb{E}\{[\bm{E}_{ij}(\z)]_{pp}\}\nonumber\\
+%		&\quad=\frac{1}{K^2}\sum_{k=1}^K \mathbb{E}\{|s_{kp}|^4\}z_{jp}\overline{z}_{ip}+\frac{1}{K^2}\sum_{k=1}^K\sum_{a\neq p}^L \mathbb{E}\{|s_{ka}|^2\}\mathbb{E}\{|s_{kp}|^2\}z_{ja}\overline{z}_{ia}\nonumber\\
+%		&\quad\quad+\frac{1}{K^2}\sum_{k=1}^K\sum_{m\neq k}^K\sum_{a=1}^L \mathbb{E}\{|s_{ka}|^2\}\mathbb{E}\{|s_{mp}|^2\}z_{ja}\overline{z}_{ia}\nonumber\\
+%		&\quad=\frac{1}{K}\Big(\kappa_4z_{jp}\overline{z}_{ip}+\kappa_2^2\sum_{a\neq p}^Lz_{ja}\overline{z}_{ia}\Big)+\frac{K-1}{K}\kappa_2^2(\bm{z}_i\herm\bm{z}_j)\nonumber\\
+%		&\quad=\frac{\kappa_4-\kappa_2^2}{K}z_{jp}\overline{z}_{ip} + \kappa_2^2(\bm{z}_i\herm\bm{z}_j)
+%		\end{align}
+%		\item Off-diagonal terms ($p\neq q$): in this case, the expectation is 0 unless $p=b\neq q=a$ and $k=m$, thus
+%		\begin{align}
+%		\mathbb{E}\{[\bm{E}_{ij}(\z)]_{pq}\}&=\frac{1}{K^2}\sum_{k=1}^K \mathbb{E}\{|s_{kp}|^2|\}\mathbb{E}\{|s_{kq}|^2\}z_{jp}\overline{z}_{iq}=\frac{\kappa_2^2}{K}z_{jp}\overline{z}_{iq}
+%		\end{align}
+%	\end{itemize}
+%	
+%	Finally, the expectation of $[\mathbb{E}\{\bm{F}_{ij}\}]_{pq}$ is given by
+%	\begin{align}
+%	&\mathbb{E}\{[\bm{F}_{ij}(\z)]_{pq}\}=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K\sum_{a=1}^L\sum_{b=1}^L \mathbb{E}\{s_{kp}\overline{s}_{ka}\overline{s}_{mb}s_{mq}\}z_{ja}{z}_{ib}
+%	%&\quad=\sum_{a=1}^L\sum_{b=1}^L \kappa_2^2\bm{1}[p=a\wedge q=b]z_{ja}{z}_{ib}\nonumber\\
+%	%&\quad= \kappa_2^2z_{jp}z_{iq}
+%	\end{align}
+%	
+%	\begin{itemize}
+%		\item Diagonal terms ($p=q$): the expectation is zero unless $p=q=a=b$, hence
+%		\begin{align}
+%		&\mathbb{F}\{[\bm{E}_{ij}(\z)]_{pp}\}=\frac{1}{K^2}\sum_{k=1}^K \mathbb{E}\{|s_{kp}|^4\}z_{jp}z_{ip}+\frac{1}{K^2}\sum_{k=1}^K\sum_{m\neq k}^K \mathbb{E}\{|s_{kp}|^2\}\mathbb{E}\{|s_{mp}|^2\}z_{jp}z_{ip}\nonumber\\
+%		&\quad=\Big(\frac{\kappa_4-\kappa_2^2}{K}+\kappa_2^2\Big)z_{jp}z_{ip}
+%		%	\nonumber\\&\quad=\Big(\frac{\kappa_4-2\kappa_2^2}{K}+\kappa_2^2+\frac{\kappa_2^2}{K}\Big)z_{jp}z_{ip}
+%		\end{align}
+%		\item Off-diagonal terms ($p\neq q$): in this case, the expectation is 0 unless either $p=a\neq q=b$, or $k=m$ and $p=b\neq q=a$, thus
+%		\begin{align}
+%		\mathbb{E}\{[\bm{F}_{ij}(\z)]_{pq}\}&=\frac{1}{K^2}\sum_{k=1}^K\sum_{m=1}^K \mathbb{E}\{|s_{kp}|^2|\}\mathbb{E}\{|s_{mq}|^2\}z_{jp}{z}_{iq}\nonumber\\
+%		&\quad+\frac{1}{K^2}\sum_{k=1}^K \mathbb{E}\{|s_{kp}|^2|\}\mathbb{E}\{|s_{kq}|^2\}z_{jq}{z}_{ip}\nonumber\\
+%		&=\kappa_2^2z_{jp}{z}_{iq}+\frac{\kappa^2}{K}z_{jq}{z}_{ip}
+%		\end{align}
+%	\end{itemize}
+%	
+%	Therefore, in matrix form,
+%	\begin{align}
+%	\mathbb{E}\{\bm{C}_i(\z)\}&=\kappa_2^2\sum_{j\neq i}^J\bm{z}_j\bm{z}_j\herm +\frac{\kappa_2^2}{K}\Big(\sum_{j\neq i}^J \|\bm{z}_j\|^2\Big)\bm{I}+ \frac{\kappa_4-\kappa_2^2}{K}\sum_{j\neq i}^J \mathrm{diag}(\bm{z}_j\bm{z}_j\herm)\\
+%	\mathbb{E}\{\bm{E}_{ij}(\z)\}&=\kappa_2^2(\bm{z}_i\herm\bm{z}_j)\bm{I}+ \frac{\kappa_2^2}{K}\bm{z}_j\bm{z}_i\herm+\frac{\kappa_4-2\kappa_2^2}{K}\mathrm{diag}(\bm{z}_j\bm{z}_i\herm)\\
+%	\mathbb{E}\{\bm{F}_{ij}(\z)\}&=\kappa_2^2\bm{z}_j\bm{z}_i\T+\frac{\kappa_2^2}{K}\bm{z}_i\bm{z}_j\T+ \frac{\kappa_4-2\kappa_2^2}{K}\mathrm{diag}(\bm{z}_j\bm{z}_i\T).
+%	\end{align}
+%	Hence,
+%	\begin{align}
+%	\mathbb{E}\{\bm{G}_i(\z)\}&=\kappa_2^2\sum_{j\neq i}^J\begin{bmatrix}
+%	\bm{z}_j\bm{z}_j\herm&\bm{0}\\\bm{0}&\overline{\bm{z}}_j\bm{z}_j\T
+%	\end{bmatrix} +\frac{\kappa_2^2}{K}\Big(\sum_{j\neq i}^J \|\bm{z}_j\|^2\Big)\bm{I}_{2L}\nonumber\\
+%	&\quad+ \frac{\kappa_4-\kappa_2^2}{K}\sum_{j\neq i}^J\begin{bmatrix}
+%	\mathrm{diag}(\bm{z}_j\bm{z}_j\herm)&\bm{0}\\\bm{0}&\mathrm{diag}(\overline{\bm{z}}_j\bm{z}_j\T)
+%	\end{bmatrix}\\
+%	\mathbb{E}\{\bm{H}_{ij}(\z)\}&=\kappa_2^2\begin{bmatrix}
+%	(\bm{z}_i\herm\bm{z}_j)\bm{I}&\bm{z}_j\bm{z}_i\T\\\overline{\bm{z}}_j\bm{z}_i\herm&(\bm{z}_i\T\overline{\bm{z}}_j)\bm{I}
+%	\end{bmatrix}
+%	+\frac{\kappa_2^2}{K}\begin{bmatrix}
+%	\bm{z}_j\bm{z}_i\herm&\bm{z}_i\bm{z}_j\T\\
+%	\overline{\bm{z}}_j\bm{z}_j\herm&\bm{z}_j\bm{z}_i\T
+%	\end{bmatrix}\nonumber\\
+%	&\quad+\frac{\kappa_4-2\kappa_2^2}{K}\begin{bmatrix}
+%	\mathrm{diag}(\bm{z}_j\bm{z}_i\herm)&\mathrm{diag}(\bm{z}_j\bm{z}_i\T)\\
+%	\mathrm{diag}(\overline{\bm{z}}_j\bm{z}_i\herm)&\mathrm{diag}(\overline{\bm{z}_j}\bm{z}_i\T)
+%	\end{bmatrix}.
+%	\end{align}
+%	
+%	
+%	%And the expectation of the Hessian is 
+%	%\begin{align}
+%	%\mathbb{E}\{\nabla^2 g(\bm{z})\}&=  (2\kappa_2^2\|\bm{z}\|^2-R_2\kappa_2)\bm{I}+ 2\kappa_2^2\begin{bmatrix}
+%	%\bm{z}\bm{z}\herm&\bm{z}\bm{z}\T\\
+%	%\overline{\bm{z}}\bm{z}\herm&\overline{\bm{z}}\bm{z}\T
+%	%\end{bmatrix}\nonumber\\
+%	%&\quad+(\kappa_4-2\kappa_2^2)\begin{bmatrix}
+%	%2\mathrm{diag}(\bm{z}\bm{z}\herm)&\mathrm{diag}(\bm{z}\bm{z}\T)\\
+%	%\mathrm{diag}(\overline{\bm{z}}\bm{z}\herm)&2\mathrm{diag}(\overline{\bm{z}}\bm{z}\T)
+%	%\end{bmatrix}.
+%	%\end{align}
+%	
+%	
+%	\section{Proof of Lemma~\ref{lemma:concentration_hessian_msr}}\label{appdx:concentration_hessian_msr}
+%	Following a similar method to the proof of Lemma~\ref{lemma:concentration_hessian}, we want to show that both the diagonal and off-diagonal blocks have bounded spectra at the solution, i.e.,
+%	\begin{align}
+%	\|\bm{V}_j(\bm{z})-\mathbb{E}\{\bm{V}_j(\bm{z})\}+2\gamma_0(G_j(\bm{z})- \mathbb{E}\{G_i(\bm{z})\} ) \| \leq \delta\\
+%	\|\bm{H}_{ij}(\bm{z})-\mathbb{E}\{\bm{H}_{ij}(\bm{z})\} \|\leq \delta
+%	\end{align}
+%	
+%	For the diagonal blocks, Lemma~\ref{lemma:concentration_hessian} states that
+%	\begin{align}
+%	\|\bm{V}_j(\bm{z})-\mathbb{E}\{\bm{V}_j(\bm{z})\}\|\leq \delta_V
+%	\end{align}
+%	so it suffices to prove that 
+%	\begin{align}
+%	\|\bm{C}_i(\bm{z})-\mathbb{E}\{\bm{C}_i(\bm{z})\}\|\leq \frac{\delta_G}{2}
+%	\end{align}
+%	Using the quadratic form, for any $\bm{y}$ such that $\|\bm{y}\|=1$, we have
+%	\begin{align}
+%	c_i(\bm{y})&=\Big|\bm{y}\herm(\bm{C}_i(\bm{z})-\mathbb{E}\{\bm{C}_i(\bm{z})\})\bm{y}\Big|\nonumber\\
+%	&=\bigg|\frac{1}{K}\sum_{k=1}^K\sum_{j\neq i}|\bm{s}_k\herm\bm{y}|^2|\bm{s}_k\herm\bm{z}_j|^2\nonumber\\
+%	&\quad+\frac{1}{K^2}\sum_{k=1}^K\sum_{m\neq k}^K\sum_{j\neq i}\bm{y}\herm\bm{s}_k\bm{s}_m\herm\bm{y}\herm\bm{z}_j\herm\bm{s}_m\bm{s}_k\herm\bm{z}_j\nonumber\\
+%	&\quad+\kappa_2^2\sum_{j\neq i} |\bm{y}\herm\bm{z}_j|^2+\frac{\kappa_2^2}{K}\sum_{j\neq i} \|\bm{y}\|^2\|\bm{z}_j\|^2\nonumber\\
+%	&\quad+\frac{\kappa_4-2\kappa_2^2}{K}\sum_{j\neq i} \sum_{p=1}^L|y_p|^2|z_{jp}|^2\bigg|
+%	\end{align}
