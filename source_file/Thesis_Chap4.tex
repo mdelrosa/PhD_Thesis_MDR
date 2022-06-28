@@ -108,16 +108,7 @@ To compensate for this ill-conditioning, we propose to use off-diagonal regulari
     \label{fig:outdoor_p2d_init}
 \end{figure}
 
-Having assessed the initial accuracy of the P2DE at the UE, we now apply a deep learning network to compress the output of the P2DE. Figure~\ref{fig:outdoor_drcr_sweep} demonstrates the accuracy of ISTANet+ \cite{ref:zhang2018ista} for multiple compression ratios (CR) using the P2DE as its input. For progressively smaller compression ratios, the accuracy of ISTANet+ remains stable until $\text{DR}_f=\frac{1}{32}$, at which point the network's performance degrades.
-
-\begin{figure}[!hbtp]
-    \centering
-    \includegraphics{./images/outdoor_drcr_D_sweep.pdf}
-    \caption{Performance of ISTANet+ for multiple compression ratios using P2D estimates with different downsampling ratios ($\text{DR}_f=\frac{M_f}{N_f}$) for the Outdoor COST2100 dataset. Non-diagonal pattern ($D=1$) is compared with a diagonal pattern of size $D=4$. Performance for $\text{DR}_f=1/1$, $D=4$ is omitted since it is equivalent to the $\text{DR}_f=1, D=1$ case.}
-    \label{fig:outdoor_drcr_sweep}
-\end{figure}
-
-Finally, we assess the accuracy of the P2DE assuming noise from pilot estimation. To simulate pilot estimation error, we use additive Gaussian noise,
+We assess the accuracy of the P2DE assuming noise from pilot estimation. To simulate pilot estimation error, we use additive Gaussian noise,
 \begin{align*}
     \hat{\mathbf{H}}_d &= \mathbf{H}_d + \mathbf{N}_d
 \end{align*}
@@ -139,4 +130,29 @@ In addition to varying the pilots estimation SNR, we also showcase the effect of
 
 \subsection{P2DE Compression Network Comparison}
 
-% Having assessed the initial accuracy of the P2DE at the UE, we now apply deep learning networks to compress the output of the P2DE. Figure~\ref{fig:} demonstrates the performance of 
+Having assessed the initial accuracy of the P2DE at the UE, we now apply a deep learning network to compress the output of the P2DE. Figure~\ref{fig:outdoor_drcr_sweep} demonstrates the accuracy of ISTANet+ \cite{ref:zhang2018ista} for multiple compression ratios (CR) using the P2DE as its input. For progressively smaller compression ratios, the accuracy of ISTANet+ remains stable until $\text{DR}_f=\frac{1}{32}$, at which point the network's performance degrades.
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics{./images/outdoor_drcr_D_sweep.pdf}
+    \caption{Performance of ISTANet+ for multiple compression ratios using P2D estimates with different downsampling ratios ($\text{DR}_f=\frac{M_f}{N_f}$) for the Outdoor COST2100 dataset. Non-diagonal pattern ($D=1$) is compared with a diagonal pattern of size $D=4$. Performance for $\text{DR}_f=1/1$, $D=4$ is omitted since it is equivalent to the $\text{DR}_f=1, D=1$ case.}
+    \label{fig:outdoor_drcr_sweep}
+\end{figure}
+
+In addition to ISTANet+, we assess the accuracy deep CNN autoencoders using P2DE as an input. Figure~\ref{fig:outdoor_net_ablation} shows the accuracy of ISTANet+ compared to ENet \cite{ref:Sun2021ENet} and SphNet \cite{ref:liu2020sphnet}. The performance of ISTANet+ is better than both ENet and SphNet at larger compression ratios ($\text{CR}\in [\frac 14, \frac 18]$), and the performance of ISTANet+ and ENet is comparable at $\text{CR}=\frac {1}{16}$.
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics{outdoor_net_compare.pdf}
+    \caption{Performance comparison for different feedback compression networks using P2D estimates ($\text{DF}_f=1/16, D=4$) for Outdoor COST2100 dataset. For all tested networks, we use $N_{\text{phase}}=4$, resulting in an augmented training set with $80$k samples.}
+    \label{fig:outdoor_net_ablation}
+\end{figure}
+
+To assess the accuracy of these networks under quantization, we also conduct an experiment where the latent feedback elements are subjected to $\mu$-law companding and uniform quantization (as described in Section~\ref{sec:markov-results}). We present these results in Figure~\ref{fig:net_quant}.
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics[width=\linewidth]{./images/outdoor_net_quant.pdf}
+    \caption{Tested networks where feedback is subject to $\mu$-law companding ($\mu=255$) and uniform quantization for different numbers of quantization bits. P2DE parameters are $D=4, \text{DR}_f=\frac{1}{16}$.}
+    \label{fig:net_quant}
+\end{figure}
