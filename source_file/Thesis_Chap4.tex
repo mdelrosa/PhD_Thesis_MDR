@@ -63,9 +63,9 @@ where $\mathbf{F}$ is the $\mathbf{C}^{N_f \times N_f}$ discrete Fourier transfo
 \end{align}
 where $\mathbf{Q}_i=\mathbf{F}\mathbf{P}_i\in\mathbb{C}^{N_f\times M_f}$ is the downsampled DFT matrix.
 Leveraging the sparsity of CSI data in the delay domain (see Section~\ref{sect:sparse-csi}, Figure~\ref{fig:freq-vs-delay}), many works choose to feedback and compress the truncated delay domain vectors, $\tilde{\boldeta}_{c,i}\in\mathbb{C}^{N_t}$. The zero-padded vector $\tilde{\boldeta}_{i}$ defined as
-\begin{align*} 
-	\tilde{\boldeta}_{i} = \left[\tilde{\boldeta}_{c,i}, \mathbf{0}_{N_f - N_t}\right].
-\end{align*}
+\begin{align} 
+	\tilde{\boldeta}_{i} = \left[\tilde{\boldeta}_{c,i}, \mathbf{0}_{N_f - N_t}\right]. \label{eq:p2d_short}
+\end{align}
 
 Based on \ref{eq:qmat}, the delay domain can be related directly to the pilots by taking the pseudoinverse,
 \begin{align}
@@ -82,6 +82,61 @@ Based on \ref{eq:qmat}, the delay domain can be related directly to the pilots b
     \label{fig:p2d_diag}
 \end{figure}
 
-\subsection{Results}
+\subsection{Regularization of P2DE} \label{sec:odir}
 
-\lipsum[1-3]
+When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversion unstable.
+
+To compensate for this ill-conditioning, we propose to use off-diagonal regularization (ODIR) to condition the P2DE matrices. Denote $\mathbf{R} = \mathbf{Q}_i\mathbf{Q}_i^T$ and $R_{ij}$ as the element in the $i$-th row and $j$-th column of the matrix. We select a non-negative real scaling factor $\delta \in \mathbb{R}^{+}$ to scale down the off-diagonal elements of $\mathbf{R}$. The element of the resulting ODIR matrix, $\mathbf{R}_{\text{ODIR}}$, are written as
+\begin{align}
+    R_{ij, \text{ODIR}} &= 
+        \begin{cases}
+            R_{ij} & \text{if } i = j\\
+            \frac{R_{ij}}{1+\delta} & \text{if } i \neq j.
+        \end{cases}
+\end{align}
+
+\section{Results}
+
+\subsection{Accuracy of P2DE}
+
+ We assess the accuracy of the P2DE under values of $M_f$ and $D$. Fig.~\ref{fig:outdoor_p2d_init} demonstrates the accuracy of the P2DE at the UE (i.e., before compression and feedback) for different frequency downsampling ratios. The P2DE achieves impressive accuracy even under aggressive values of $\text{DR}_f$ (e.g., better than $-30$dB at $\text{DR}_f=\frac 18$). Additionally, the effect of increasing the diagonal size, $D$, is apparent at larger compression ratios (i.e., $\text{CR} \geq \frac 18$), where the accuracy of the P2DE to a value as low as $-25$dB. For smaller compression ratios (i.e., $\text{CR} \leq \frac {1}{16}$), increasing $D$ has a marginal effect on the accuracy of the P2DE.
+
+ \begin{figure}[!hbtp]
+    \centering
+    \includegraphics{./images/outdoor_p2d_diag.pdf}
+    \caption{P2D estimation performance under different frequency downsampling ratios ($\text{DR}_f=\frac{M_f}{N_f}$) and diagonal dimensions ($D$) for the Outdoor COST2100 dataset. Downsampling is done along the frequency axis.}
+    \label{fig:outdoor_p2d_init}
+\end{figure}
+
+Having assessed the initial accuracy of the P2DE at the UE, we now apply a deep learning network to compress the output of the P2DE. Figure~\ref{fig:outdoor_drcr_sweep} demonstrates the accuracy of ISTANet+ \cite{ref:zhang2018ista} for multiple compression ratios (CR) using the P2DE as its input. For progressively smaller compression ratios, the accuracy of ISTANet+ remains stable until $\text{DR}_f=\frac{1}{32}$, at which point the network's performance degrades.
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics{./images/outdoor_drcr_D_sweep.pdf}
+    \caption{Performance of ISTANet+ for multiple compression ratios using P2D estimates with different downsampling ratios ($\text{DR}_f=\frac{M_f}{N_f}$) for the Outdoor COST2100 dataset. Non-diagonal pattern ($D=1$) is compared with a diagonal pattern of size $D=4$. Performance for $\text{DR}_f=1/1$, $D=4$ is omitted since it is equivalent to the $\text{DR}_f=1, D=1$ case.}
+    \label{fig:outdoor_drcr_sweep}
+\end{figure}
+
+Finally, we assess the accuracy of the P2DE assuming noise from pilot estimation. To simulate pilot estimation error, we use additive Gaussian noise,
+\begin{align*}
+    \hat{\mathbf{H}}_d &= \mathbf{H}_d + \mathbf{N}_d
+\end{align*}
+where the elements of $\mathbf{N}_d$, $\mathbf{N}_d(i,j) \sim \mathcal{N}(0, \sigma^2)$ for $i \in \left[1,2,\dots, N_b\right], j \in \left[1,2,\dots, M_f\right]$. To achieve different SNR values for $\hat{\mathbf{H}}_d$, we simply vary the noise variance $\sigma^2$, and we use the P2DE at different pilot estimation noise levels. Figure~\ref{fig:snr_sweep} shows the accuracy of the P2DE for different values of $\sigma^2$.
+
+In addition to varying the pilots estimation SNR, we also showcase the effect of varying $\delta$ (i.e., the ODIR parameter as described in Section~\ref{sec:odir}). We observe that $\delta$ helps the P2DE achieve better performance under both low-noise and noisy conditions, i.e.,
+
+\begin{itemize}
+    \item \textbf{Low-noise condition (SNR $\mathbf{=-20}$ dB)}: The P2DE goes from $-8$ dB to $-22$ dB for $\delta=0$ and $\delta=0.5$, respectively.
+    \item \textbf{Noisy condition (SNR $\mathbf{\geq -10}$ dB)}: The P2DE goes from $-9$ dB to $-30$ dB for $\delta=0$ and $\delta=0.5$, respectively.
+\end{itemize}
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics{outdoor_snr_sweep_delta_D4_sz32.pdf}
+    \caption{Accuracy of P2DE output, $\mathbf{H}_{\tau}$, assuming noisy pilots, $\hat{\mathbf{H}}_d$. Additive Gaussian noise is used to model the error inherent in pilot estimation. Here, $D=4, \text{DR}_f=\frac{1}{32}$.}
+    \label{fig:snr_sweep}
+\end{figure}
+
+\subsection{P2DE Compression Network Comparison}
+
+% Having assessed the initial accuracy of the P2DE at the UE, we now apply deep learning networks to compress the output of the P2DE. Figure~\ref{fig:} demonstrates the performance of 
