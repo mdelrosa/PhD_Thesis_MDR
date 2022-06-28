@@ -162,4 +162,30 @@ using $\text{CR}=\frac 14$.}
 	\label{fig:csi_image} 
 \end{figure}
 
-In addition to 
+To understand the effect of quantization on the network performance, we choose to use $\mu$-law companding and uniform quantization on the latent feedback elements. We begin by performing a logarithmic scaling on the feedback elements, $x$,
+\begin{align}
+	f(x) = \frac{\text{sign}(x)\ln\left(1 + \mu|x|\right)}{\ln\left(1 + \mu\right)} , \; 0 \leq |x| \leq 1. \label{eq:mu-forward}
+\end{align}
+After applying (\ref{eq:mu-forward}) to the signal, uniform quantization is applied to yield
+\begin{align}
+	\hat x = \Delta\left\lfloor\frac{f(x)}{\Delta}\right\rceil \label{eq:unif-quant}
+\end{align}
+where $\Delta = 2^{-(b-1)}$ for $b$-bit quantization. Finally, an inverse logarithmic scaling is applied to quantized signal,
+\begin{align}
+	F(\hat x) = \frac{\text{sign}(\hat x)\left(1 + \mu\right)^{|\hat x|} - 1}{\mu} , \; -1 \leq \hat x \leq 1. \label{eq:mu-backward}
+\end{align}
+In short, the described $\mu$-law quantization scheme involves applying (\ref{eq:mu-forward}), then (\ref{eq:unif-quant}), then (\ref{eq:mu-backward}) to each feedback element. Figures~\ref{fig:feedback_quant_indoor} and~\ref{fig:feedback_quant_outdoor} show the performance of MarkovNet and CsiNet-LSTM under $\mu$-law quantization where $\mu=255$.
+
+In the Outdoor scenario, the performance of each network at each compression ratio does not change substantially for different numbers of quantization bits. In contrast, the performance for each network/compression ratio in the Indoor scenario drops appreciably for smaller quantization bits. We note that the performance of either network could potentially benefit from quantization during training, as all the results in Figures~\ref{fig:diffnet_indoor} and~\ref{fig:diffnet_outdoor} are trained with continuous feedback.
+
+\begin{figure}[!hbtp] \centering 
+	\includegraphics[width=\textwidth]{Indoor_feedback_quant.pdf}
+    \caption{NMSE comparison of MarkovNet and CsiNet-LSTM for the Indoor scenario with feedback subject to $\mu$-law quantization using fixed step size, $\Delta=2^{-(b-1)}$, for $b$ bits.}
+	\label{fig:feedback_quant_indoor} \vspace*{-2mm}
+\end{figure}
+
+\begin{figure}[!hbtp] \centering 
+	\includegraphics[width=\textwidth]{Outdoor_feedback_quant.pdf}
+    \caption{NMSE comparison of MarkovNet and CsiNet-LSTM for the Outdoor scenario with feedback subject to $\mu$-law quantization using fixed step size, $\Delta=2^{-(b-1)}$, for $b$ bits.}
+	\label{fig:feedback_quant_outdoor} \vspace*{-6mm}
+\end{figure}
