@@ -95,6 +95,55 @@ To compensate for this ill-conditioning, we propose to use off-diagonal regulari
         \end{cases}
 \end{align}
 
+\subsection{Diagonal Pilot Allocations for 3GPP Standards}
+
+3GPP specifications describe the allocation of pilots to time-frequency resources in 4G/LTE \cite{ref:3gpp.36.211, ref:Asplund2020} and 5G/NR \cite{ref:3GPPTS38.211V15.8.0} radio networks. In LTE, the resource elements reserved for downlink pilot estimation are called CSI reference signals (CSI-RS), while in NR, the analogous resource elements are called demodulation reference signals (DMRS). 
+
+Algorithm~\ref{alg:p2d-diag} shows the process for acquiring the delay domain P2DE from sparse frequency domain pilots.
+
+\begin{algorithm}
+    \caption{Pilots-to-delay Estimator (P2D) for Diagonal Pilot Pattern} 
+    \label{alg:p2d-diag}
+    \begin{algorithmic}[1]
+    \State \textbf{\emph{Input}}:
+        P2DE Matrices, $\mathbf{Q}_{c,j}^\#,\;
+        j\in\{1,\dots, D\}$
+    \State \textbf{\emph{Input}}: Pilot spatial-frequency CSI, $\mathbf{H}_d\in\mathbb{C}^{N_b\times M_f}$
+    \State \textbf{\emph{Initialize}}: Spatial-delay CSI, $\tilde{\mathbf{H}}_\tau\in\mathbb{C}^{N_b\times N_t}$
+   \State \textbf{\emph{Initialize}}: Angular-delay CSI estimate, ${\mathbf{H}}_\tau
+              \in\mathbb{C}^{N_b\times N_t}$
+   \For {$i=1,2,\ldots, N_b$}
+        \State \textbf{\# \emph{Index for $j$-th pilot matrix}}
+        \State $j = ((i-1) \text{ mod } D) + 1$
+        \State \textbf{\# \emph{Apply P2D to $i$-th antenna port}}
+        \State ${\boldeta}_{d,i} = \mathbf{H}_d(i,:)$
+        \State $\tilde{{\mathbf{H}}}_{\tau}(i,:) = {\boldeta}_{d,i}\mathbf{Q}^{\#}_{c,j}$
+        \EndFor
+        \State \textbf{\# \emph{Convert from spatial to angular}}
+        \State ${{\mathbf{H}}}_{\tau}=\mathbf{F}_{N_b}\tilde{{\mathbf{H}}}_{\tau}$
+        \State \textbf{\emph{Return}} ${{\mathbf{H}}}_{\tau}$
+    \end{algorithmic} 
+\end{algorithm}
+
+
+\section{Heterogeneous Differential Encoding with P2DE}
+
+Chapter~\ref{chap:markovnet} introduced the concept of differential encoding for CSI feedback compression. The delay domain P2DE CSI introduced in this Chapter can also be used in the differential encoding framework. Figure~\ref{fig:markov-p2d} showcases the data path when utilizing the P2D estimates with a differential encoding network.
+
+\begin{figure}[!hbtp]
+    \centering
+    {
+      \fontsize{8pt}{8pt}
+      \def\svgwidth{1.0\linewidth}
+      \input{./images/02_markov_ista_p2d.pdf_tex}
+    }
+    % \input{figure/csinet_quant.pdf_tex}
+    \caption{Diagram of a CSI estimation network using compressed differential feedback based on the linear P2DE. First, downlink pilots are used to estimate a downsampled frequency domain CSI estimate, $\bar{\mathbf{H}}_t\in\mathbb{C}^{N_b \times M_f}$ where $M_f << N_f$ at the $t$-th timeslot. Then, the P2DE $\mathbf{Q}^\#_{N_t}$ of Algorithm~\ref{alg:p2d-diag} is applied to estimate $\tilde{\mathbf{H}}_t$. After P2DE, the learnable transforms $f_t(x)$ and $g_t(x)$ are used to compress and decode the feedback, respectively. For $t=1$, the encoder/decoder are applied directly to $\tilde{\mathbf{H}}_1$. In all subsequent timeslots ($t > 1$), the differential term $\mathbf{E}_t$ is compressed and fed back.}
+    \label{fig:markov-p2d}
+\end{figure}
+
+To exploit the temporal correlation of the channel, 
+
 \section{Results}
 
 \subsection{Accuracy of P2DE}

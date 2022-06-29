@@ -1,0 +1,111 @@
+%% Creator: Inkscape inkscape 0.92.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file '02_markov_ista_p2d.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{784.76760504bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.69201917)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0.54048442,0.67810399){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Base Station (BS)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{02_markov_ista_p2d.pdf}}%
+    \put(0.57088107,0.00395003){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}User Equipment (UE)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{02_markov_ista_p2d.pdf}}%
+    \put(0.11251543,0.3334191){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Feedback (CR)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{02_markov_ista_p2d.pdf}}%
+    \put(0.17359283,0.38500764){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$g_1(x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{02_markov_ista_p2d.pdf}}%
+    \put(0.17359284,0.28699593){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$f_1(x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{02_markov_ista_p2d.pdf}}%
+    \put(0.0569978,0.13297022){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}${\mathbf{H}}_{d,1}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{02_markov_ista_p2d.pdf}}%
+    \put(0.17590793,0.5439034){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf H}_{\tau,1}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{02_markov_ista_p2d.pdf}}%
+    \put(0.26138298,0.43244001){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\gamma$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{02_markov_ista_p2d.pdf}}%
+    \put(0.35133721,0.54398056){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\gamma\hat{\mathbf H}_{\tau,1}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{02_markov_ista_p2d.pdf}}%
+    \put(0.17359284,0.13297022){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}${\mathbf{H}}_{\tau,1}$\end{tabular}}}}%
+    \put(0.53321352,0.13316042){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\bar{\mathbf{E}}_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{02_markov_ista_p2d.pdf}}%
+    \put(0.47015121,0.33350834){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Feedback (CR)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{02_markov_ista_p2d.pdf}}%
+    \put(0.53123049,0.38509692){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$g_2(x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{02_markov_ista_p2d.pdf}}%
+    \put(0.53122896,0.28708522){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$f_2(x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{02_markov_ista_p2d.pdf}}%
+    \put(0.52910203,0.5439034){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf{E}}_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{02_markov_ista_p2d.pdf}}%
+    \put(0.43777772,0.63862898){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf H}_{\tau,2}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{02_markov_ista_p2d.pdf}}%
+    \put(0.31143465,0.04893588){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}${\mathbf{H}}_{d,2}$\end{tabular}}}}%
+    \put(0.43185236,0.04893588){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}${\mathbf{H}}_{\tau,2}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{02_markov_ista_p2d.pdf}}%
+    \put(0.90767534,0.13316042){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\bar{\mathbf{E}}_T$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{02_markov_ista_p2d.pdf}}%
+    \put(0.84270238,0.33350834){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Feedback (CR)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{02_markov_ista_p2d.pdf}}%
+    \put(0.90569235,0.38509692){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$g_T(x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{02_markov_ista_p2d.pdf}}%
+    \put(0.90569083,0.28708522){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$f_T(x)$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{02_markov_ista_p2d.pdf}}%
+    \put(0.9035639,0.5439034){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf{E}}_T$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{02_markov_ista_p2d.pdf}}%
+    \put(0.81223959,0.63862898){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf H}_{\tau,T}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{02_markov_ista_p2d.pdf}}%
+    \put(0.6858965,0.04893588){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}${\mathbf{H}}_{d,T}$\end{tabular}}}}%
+    \put(0.80631424,0.04893588){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}${\mathbf{H}}_{\tau,T}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{02_markov_ista_p2d.pdf}}%
+    \put(0.7253756,0.54398056){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\gamma\hat{\mathbf H}_{\tau,T-1}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{02_markov_ista_p2d.pdf}}%
+    \put(0.11481718,0.20662213){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}P2DE\end{tabular}}}}%
+    \put(0.37020339,0.12118426){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}P2DE\end{tabular}}}}%
+    \put(0.74478019,0.12118426){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}P2DE\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
