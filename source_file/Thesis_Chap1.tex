@@ -65,7 +65,17 @@ To achieve near-capacity transmission rates, the transmitter needs access to an 
 \section{Pilot-based Channel Estimates}
 \label{sect:pilots}
 
+% \section{Sparse Pilots in Practical Networks}
+To estimate the downlink CSI in wireless networks, transmitters allocate pilot reference signals. To reserve spectral resources, pilots are restricted to a limited number of spatial-frequency positions, and the allocation of these pilots is defined in the 3GPP technical standards, TS 36.211 for 4G/LTE networks \cite{ref:3gpp.36.211} and TS 38.211 for 5G/NR networks \cite{ref:3GPPTS38.211V15.8.0}. In these two standards, the pilots are called CSI reference signals (CSI-RS) or demodulation reference signals (DM-RS), respectively. Figure~\ref{fig:lte-vs-5g} shows valid placements of CSI-RS/DM-RS in the time-frequency resource grid as defined by TS 36.211 and TS 38.211.
 
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics[width=\linewidth]{LTE_vs_5GNR_resource_grid.png}
+    \caption{(a) LTE resource blocks with CSI-RS locations. (b) 5G NR resource blocks with DM-RS locations.}
+    \label{fig:lte-vs-5g}
+\end{figure}
+
+While many using deep learning for CSI estimation do not address pilot estimation explicitly, a few works have incorporated pilot estimation into the CSI feedback problem. 
 
 \section{Channel Model}
 \label{sect:channel_model}

@@ -74,14 +74,6 @@ Based on \ref{eq:qmat}, the delay domain can be related directly to the pilots b
 	&= \boldeta_{d,i}\mathbf{Q}_i^{\#} \label{eq:p2d}
 \end{align}
 
-\begin{figure}[!hbtp]
-    \centering
-    \includegraphics[width=\linewidth]{./images/01_p2d_pilots_diag_with_resource_grid.png}
-    % \input{figure/csinet_quant.pdf_tex}
-    \caption{(a) LTE Resource Blocks and CSI-RS locations where antenna port pilots are allocated. (b) Schematic for diagonal pilots with relevant parameters, size of diagonal $D$ and frequency downsampling ratio $\text{DR}_f$. In this diagram, $N_b=32, D=4, \text{DR}_f=\frac 18$. The pilot matrix $\mathbf{P}_j$ indicates the downsampling pattern for the $j$-th element of the diagonal pattern. The number of subframes necessary to populate (b) is inversely proportional to $D$.}
-    \label{fig:p2d_diag}
-\end{figure}
-
 \subsection{Regularization of P2DE} \label{sec:odir}
 
 When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversion unstable.
@@ -95,9 +87,24 @@ To compensate for this ill-conditioning, we propose to use off-diagonal regulari
         \end{cases}
 \end{align}
 
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics[width=\linewidth]{images/01_p2d_pilots_diag_with_resource_grid.png}
+    \caption{(a) LTE Resource Blocks and CSI-RS locations where antenna port pilots are allocated. (b) Schematic for diagonal pilots with relevant parameters, size of diagonal $D$ and frequency downsampling ratio $\text{DR}_f$. In this diagram, $N_b=32, D=4, \text{DR}_f=\frac 18$. The pilot matrix $\mathbf{P}_j$ indicates the downsampling pattern for the $j$-th element of the diagonal pattern. The number of subframes necessary to populate (b) is inversely proportional to $D$.}
+    \label{fig:p2d_diag}
+\end{figure}
+
 \subsection{Diagonal Pilot Allocations for 3GPP Standards}
 
+
 3GPP specifications describe the allocation of pilots to time-frequency resources in 4G/LTE \cite{ref:3gpp.36.211, ref:Asplund2020} and 5G/NR \cite{ref:3GPPTS38.211V15.8.0} radio networks. In LTE, the resource elements reserved for downlink pilot estimation are called CSI reference signals (CSI-RS), while in NR, the analogous resource elements are called demodulation reference signals (DMRS). 
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics[width=\linewidth]{images/03_p2d_pilots_diag_with_resource_grid_5gnr_ortho.png}
+    \caption{(a) 5G NR Resource Blocks and DMRS locations where antenna port pilots are allocated. (b) Schematic for diagonal pilots with relevant parameters, size of diagonal $D$ and frequency downsampling ratio $\text{DR}_f$. In this diagram, $N_b=32, D=4, \text{DR}_f=\frac 18$. The pilot matrix $\mathbf{P}_j$ indicates the downsampling pattern for the $j$-th element of the diagonal pattern. The number of subframes necessary to populate (b) is inversely proportional to $D$.}
+    \label{fig:p2d_diag_5gnr}
+\end{figure}
 
 Algorithm~\ref{alg:p2d-diag} shows the process for acquiring the delay domain P2DE from sparse frequency domain pilots.
 
