@@ -1,22 +1,9 @@
 \chapter{Spectrum-efficient Pilot-based CSI Feedback}
 \label{chap:p2d}
 
-This chapter details a scheme for acquiring angular-delay domain CSI at the UE based on a limited number of spatial-frequency domain pilots. This scheme adheres to the 3GPP standard for pilot allocation across time-frequency resources.
+This chapter details an estimator for the UE-side angular-delay domain CSI based on a limited number of spatial-frequency domain pilots. This scheme adheres to the 3GPP standards for pilot allocation across time-frequency resources as described in Section~\ref{sect:pilots}.
 
-\section{Sparse Pilots in Practical Networks}
-
-To estimate the downlink CSI in wireless networks, transmitters allocate pilot reference signals. To reserve spectral resources, pilots are restricted to a limited number of spatial-frequency positions, and the allocation of these pilots is defined in the 3GPP technical standards, TS 36.211 for 4G/LTE networks \cite{ref:3gpp.36.211} and TS 38.211 for 5G/NR networks \cite{ref:3GPPTS38.211V15.8.0}. In these two standards, the pilots are called CSI reference signals (CSI-RS) or demodulation reference signals (DM-RS), respectively. Figure~\ref{fig:lte-vs-5g} shows valid placements of CSI-RS/DM-RS in the time-frequency resource grid as defined by TS 36.211 and TS 38.211.
-
-\begin{figure}[!hbtp]
-    \centering
-    \includegraphics[width=\linewidth]{LTE_vs_5GNR_resource_grid.png}
-    \caption{(a) LTE resource blocks with CSI-RS locations. (b) 5G NR resource blocks with DM-RS locations.}
-    \label{fig:lte-vs-5g}
-\end{figure}
-
-Considering the sparse placement pilot is important for practical deployment of CSI estimation networks. The works discussed thus far have assumed that (truncated) angular-delay domain CSI is readily available at the UE. However, the pilots as defined in 3GPP standards are defined in the spatial-frequency domain, and to utilize these pilots effectively with CSI estimation networks, one must specify a method for estimating the delay-domain CSI based on the sparse pilots. 
-
-The following section details the pilots-to-delay estimator (P2DE), and Figure~\ref{fig:p2d} demonstrates the operating principle behind P2DE. 
+Section~\ref{sect:p2de} details our proposed pilots-to-delay estimator (P2DE), and Figure~\ref{fig:p2d} demonstrates the operating principle behind P2DE. Section~\ref{sect:odir} describes off-diagonal regularization as a countermeasure for ill-conditioned CSI matrices. Section~\ref{sect:diag} explicitly links the proposed P2DE to the 3GPP placement of CSI-RS/DMRS resource elements and describes our proposed diagonal pilot pattern which adheres to LTE/NR specifications. Section~\ref{sect:hetero-markov} describes an extension of our previously proposed differential encoding network which uses heterogeneous CNNs for different timeslots. Finally, Section~\ref{sect:p2de-results} presents results for the P2DE and our propose heterogeneous differential encoding networks.
 
 \begin{figure}[!hbtp]
     \centering
@@ -43,6 +30,7 @@ The following section details the pilots-to-delay estimator (P2DE), and Figure~\
 \end{figure}
 
 \section{Pilots-to-delay Estimator (P2DE)}
+\label{sect:p2de}
 
 Denote $\boldeta_i \in \mathbb{C}^{N_f}$ as the $i$-th row of the spatial-frequency matrix $\mathbf{H}$, and denote the downsampled version of $\boldeta_i$ as $\boldeta_{d,i} \in \mathbb{C}^{M_f}$ where $M_f << N_f$. Thus, the spatial-frequency CSI, $\mathbf{H}$, and its downsampled counterpart, $\mathbf{H}_d$, can be written as,
 \begin{equation}
@@ -74,7 +62,7 @@ Based on \ref{eq:qmat}, the delay domain can be related directly to the pilots b
 	&= \boldeta_{d,i}\mathbf{Q}_i^{\#} \label{eq:p2d}
 \end{align}
 
-\subsection{Regularization of P2DE} \label{sec:odir}
+\subsection{Regularization of P2DE} \label{sect:odir}
 
 When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversion unstable.
 
@@ -94,10 +82,11 @@ To compensate for this ill-conditioning, we propose to use off-diagonal regulari
     \label{fig:p2d_diag}
 \end{figure}
 
-\subsection{Diagonal Pilot Allocations for 3GPP Standards}
+\subsection{Diagonal Pilot Allocations for 3GPP Standards} \label{sect:diag}
 
+As discussed in Section~\ref{sect:pilots}, 3GPP specifications describe the allocation of pilots to time-frequency resources in 4G/LTE \cite{ref:3gpp.36.211, ref:Asplund2020} and 5G/NR \cite{ref:3GPPTS38.211V15.8.0} radio networks, where the reserved resource elements are called CSI reference signals (CSI-RS) for the former and demodulation reference signals (DMRS) for the latter.
 
-3GPP specifications describe the allocation of pilots to time-frequency resources in 4G/LTE \cite{ref:3gpp.36.211, ref:Asplund2020} and 5G/NR \cite{ref:3GPPTS38.211V15.8.0} radio networks. In LTE, the resource elements reserved for downlink pilot estimation are called CSI reference signals (CSI-RS), while in NR, the analogous resource elements are called demodulation reference signals (DMRS). 
+In order to connect the P2DE as described in Section~\ref{sect:p2de} to the 3GPP specifications, we must specify the corresponding pilot patterns in the time-frequency grid. In Figure~\ref{fig:p2d_diag}, we show an example of our proposed `diagonal' pilot pattern in an LTE network using CSI-RS locations. We refer to this pattern as diagonal since it is diagonal in the spatial-frequency domain. The benefit of the diagonal pattern can be understood by considering the time needed to acquire downsampled CSI matrix, $\mathbf{H}_d$.
 
 \begin{figure}[!hbtp]
     \centering
@@ -134,6 +123,7 @@ Algorithm~\ref{alg:p2d-diag} shows the process for acquiring the delay domain P2
 
 
 \section{Heterogeneous Differential Encoding with P2DE}
+\label{sect:hetero-markov}
 
 Chapter~\ref{chap:markovnet} introduced the concept of differential encoding for CSI feedback compression. The delay domain P2DE CSI introduced in this Chapter can also be used in the differential encoding framework. Figure~\ref{fig:markov-p2d} showcases the data path when utilizing the P2D estimates with a differential encoding network.
 
@@ -152,6 +142,7 @@ Chapter~\ref{chap:markovnet} introduced the concept of differential encoding for
 To exploit the temporal correlation of the channel, 
 
 \section{Results}
+\label{sect:p2de-results}
 
 \subsection{Accuracy of P2DE}
 
