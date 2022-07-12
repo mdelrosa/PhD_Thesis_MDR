@@ -62,7 +62,7 @@ $\mathbf H_{d}$   		  & $\mathbb{C}^{R_d \times N_b}$ & Truncated downlink CSI (
 \end{table}
 To achieve near-capacity transmission rates, the transmitter needs access to an appropriate estimate of $\bar{\mathbf H}_d$ \cite{ref:goldsmith2003capacity}. Such estimates enable the use of linear precoding techniques (e.g., conjugate beamforming or zero-forcing beamforming) to realize appreciable spectral and power efficiency gains \cite{ref:yang2013performance}. Downlink CSI estimation can be performed in time division duplex (TDD) by using uplink pilots due to channel reciprocity \cite{ref:Kaltenberger2010relative,ref:mi2017massive,ref:Gao2010utilization}. In contrast, frequency domain duplex (FDD) does not admit channel reciprocity due to frequency-selective channels, meaning CSI estimates must be acquired at the UE using pilot signals, and these estimates must be compressed then fed back to the BS.
 
-\section{Pilot-based Channel Estimates}
+\section{Practical Pilot-based Channel Estimation in 4G/5G Networks}
 \label{sect:pilots}
 
 % \section{Sparse Pilots in Practical Networks}
@@ -77,8 +77,14 @@ To estimate the downlink CSI in wireless networks, transmitters allocate pilot r
 
 While many using deep learning for CSI estimation do not address pilot estimation explicitly, a few works have incorporated pilot estimation into the CSI feedback problem. 
 
-\section{Channel Model}
+\section{Geometric Stochastic Channel Models (GSCMs)}
 \label{sect:channel_model}
+
+Ideally, the datasets used for the CSI estimation task would be derived from measurement campaigns (e.g., see \cite{ref:shepard2016argoschannel,ref:du2021interuserangle,ref:li20222finegrained}). However, the financial and labor costs of acquiring these datasets can be prohibitive in certain situations. In such situations, researchers rely on  rely on geometric stochastic channel models (GSCMs), models which are so called since they consider the \textbf{geometry} of scatterers in the wireless environment and the \textbf{stochastic} nature of the channel. Simulations based on GSCMs are advantageous to researchers for a a few reasons:
+\begin{enumerate}
+	\item Simulations permit the generation a large quantities of data in a (relatively) short period of time.
+	\item Simulations enable the adjustment of parameters of the communications system (e.g., carrier frequency, UE mobility, subcarrier spacing).
+\end{enumerate}
 
 For all CSI tests, we mainly rely on the COST2100 MIMO channel model \cite{ref:liu2012cost2100}. We use two datasets with a single base station (gNB) and a single user equipment (UE) in the following scenarios:
 \begin{enumerate}
