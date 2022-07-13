@@ -26,6 +26,13 @@ A common architecture for deep unsupervised learning is the \emph{autoencoder} (
 \end{align*}
 We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent, ADAM).
 
+\textbf{Computational Complexity}: Given the number of layers and operations involved in any deep learning algorithm, measuring the \textbf{computational complexity} of these algorithms is important. Two metrics that are commonly used in deep learning literature are:
+
+\begin{enumerate}
+	\item \textbf{Floating point operations (FLOPs)}: FLOPs provide a measure of the compute consumed by a given layer or mathematical operation in a network. A single FLOP is defined as any arithmetic operation between floating point numbers (e.g., addition, multiplication) or any assignment of a floating point value.
+	\item \textbf{Parameters}: The number of parameters in a deep learning network determines the storage cost for inference\footnote{The size of the dataset will contribute towards the storage cost but only during training/evaluation.}. The number of parameters in a typical deep learning model can be anywhere from millions (e.g., ResNet architectures \cite{ref:he2016identity}) to billions (e.g., GPT-3 \cite{ref:brown2020language}).
+\end{enumerate}
+
 % For data with multiple input features of different scales. In ML curricula, this is often illustrated using the iris dataset \cite{ref:anderson1936species,ref:fisher1936use}), which contains .
 
 \section{Data Pre-processing for CSI Data} \label{sec:data-preprocessing}
