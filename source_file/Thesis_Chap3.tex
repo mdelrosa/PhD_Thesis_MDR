@@ -1,4 +1,4 @@
-\chapter{Temporal Coherence}
+\chapter{Temporal Coherence and Differential Encoding}
 \label{chap:markovnet}
 
 In this chapter, we consider methods for exploiting temporal correlation between CSI of subsequent timeslots. The \emph{coherence time} of a channel is the amount of time that a channel estimate can be used before that estimate's SNR falls beneath a given threshold \cite{ref:Chopra2016ChannelAging}. Within this window of time ($\Delta t = t_i - t_{i-1}$), the correlation between CSI matrices $\mathbf H_{i}$ and $\mathbf H_{i-1}$ is high (see Figure~\ref{fig:csi_img_gt} for an illustrative example). 
@@ -45,6 +45,13 @@ Recent works have leveraged recurrent neural networks (RNNs) to exploit temporal
 \end{figure}
 
 RNNs have been used extensively in natural language processing (NLP) for machine translation \cite{ref:Sutskever2014seq2seq} and sentiment extraction \cite{ref:Irsoy2014opinion}. For such works in NLP, authors have empirically found ``stacked'' or ``deep'' RNNs to be effective (e.g., Fig.~\ref{fig:lstm_example}), hypothesizing that having multiple recurrent layers allows the network to extract different semantic timescales \cite{ref:Irsoy2014opinion, ref:Bengio2009Learning}. Works in CSI estimation have taken cues from this work in NLP, proposing CSI estimation networks with stacked LSTMs after a sequence of autoencoders \cite{ref:Wang2019CsiNetLSTM}. While such work has demonstrated the utility of RNNs, the computational cost of LSTMs can be prohibitively high. For example, the RNN portion of the network proposed in \cite{ref:Wang2019CsiNetLSTM} accounts for $10^8$ additional parameters. Since channel estimation should not place an undue computational burden on the communications system, LSTMs can be problematic.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.9\textwidth]{csinet-lstm-arch.png}
+	\caption{CsiNet-LSTM architecture from \cite{ref:Wang2019CsiNetLSTM}}
+	\label{fig:csinet_lstm_arch}
+\end{figure}
 
 \section{Differential Encoding}
 
