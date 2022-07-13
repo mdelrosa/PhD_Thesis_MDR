@@ -1,7 +1,30 @@
-\chapter{Data Pre-processing and Normalization}
+\chapter{Deep Learning for CSI Estimation}
 \label{chap:sph_norm}
 
-In this chapter, we will discuss the data pre-processing techniques and the applications of domain knowledge that have enabled successful application of deep learning to MIMO CSI estimation (Section~\ref{sec:data-preprocessing}), including our proposed pre-processing technique, spherical normalization (Section~\ref{sect:sph_norm}). 
+In this chapter, we will discuss important aspects of successfully applying deep learning to MIMO CSI estimation. In Section~\ref{sect:dl_overview}, we provide a basic overview of deep learning concepts that are pertinent to the task of CSI estimation. In Section~\ref{sec:data-preprocessing}, we discuss data pre-processing techniques and the applications of domain knowledge that have enabled successful application of. In Section~\ref{sect:sph_norm}, we describe our proposed CSI pre-processing technique, spherical normalization, which boosts estimation accuracy without changing computational complexity. 
+
+\section{Deep Learning Background}
+\label{sect:dl_overview}
+
+This section provides a brief overview of relevant deep learning concepts employed in this work, including convolutional neural networks (CNNs), autoencoders, and unsupervised learning.
+
+\textbf{Deep learning (DL)} is a subset of machine learning (ML), a broad class of algorithms which use data to ``fit'' models for prediction or classification tasks. The three predominant learning frameworks are supervised learning, unsupervised learning, and reinforcement learning. In the works proposed, we focus on \emph{unsupervised learning}, which seeks to find a compressed representation of the data without labels (see Chapter 14 of \cite{ref:Hastie2016Elements} for an overview).
+
+\textbf{Convolutional Neural Networks}: A neural network is a machine learning algorithm with multiple \emph{layers} of parameterized linear functions followed nonlinear functions (typically referred to as `activation' functions). The parameters for these layers can be updated via a stochastic optimizer (e.g., \cite{ref:Kingma2014ADAM}), and given enough layers, such networks can achieve arbitrarily accurate functional approximation \cite{ref:Hecht1992TheoryBackprop}. In recent years, neural networks with convolutional layers have established state-of-the-art performance in computer vision tasks such as image classification \cite{ref:Sabour2017Dynamic} and segmentation \cite{ref:He2017Mask}.
+
+\begin{figure}[!hbtp]
+\centering
+\def\svgwidth{0.8\columnwidth}
+\input{images/autoencoder_schematic.pdf_tex}
+\caption{Abstract schematic for an autoencoder operating on CSI matrices $\mathbf H$. The encoder learns a latent representation, $\mathbf Z$, while the decoder learns to reconstruct estimates $\hat{\mathbf H}$.}
+\label{fig:autoencoder_schematic}
+\end{figure}
+
+A common architecture for deep unsupervised learning is the \emph{autoencoder} (see Fig.~\ref{fig:autoencoder_schematic} for a generic example). Trained end-to-end on input data, an autoencoder is comprised of an encoder and a decoder which jointly learn a compressed latent representation ($\mathbf Z$) and an estimate of the input ($\hat{\mathbf H}$). By choosing $\mathbf Z$ to have lower dimension than the input, the network is forced to learn a ``useful'' summary of the input data. The typical objective function for such a network is the mean squared error (MSE),
+\begin{align*}
+\underset{\theta_e, \theta_d}{\text{argmin}}\; \frac 1N \sum_{i=1}^N\Arrowvert \mathbf H_i - g(f(\mathbf H_i, \theta_e), \theta_d) \Arrowvert^2.
+\end{align*}
+We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent, ADAM).
 
 % For data with multiple input features of different scales. In ML curricula, this is often illustrated using the iris dataset \cite{ref:anderson1936species,ref:fisher1936use}), which contains .
 

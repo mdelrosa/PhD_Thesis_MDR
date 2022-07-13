@@ -86,7 +86,19 @@ Ideally, the datasets used for the CSI estimation task would be derived from mea
 	\item Simulations enable the adjustment of parameters of the communications system (e.g., carrier frequency, UE mobility, subcarrier spacing).
 \end{enumerate}
 
-For all CSI tests, we mainly rely on the COST2100 MIMO channel model \cite{ref:liu2012cost2100}. We use two datasets with a single base station (gNB) and a single user equipment (UE) in the following scenarios:
+GSCMs consider the problem of modeling the wireless channels at two different scales. At a small-scale, the focus is on th meodeling of ``scatterers,'' objects in the environment which reflect the electromagnetic waves transmitted during. Examples of scatterers in an outdoor environment are buildings, balconies, cars, and trees, while examples of scatters in an indoor environment are walls, furniture, and people. Due to the presence of many scatterers, electromagnetic waves transmitted from a BS arrive at UEs along multiple paths at different delays, and accordingly, the scatterers are often referred to as \textbf{multipath components (MPCs)}. From the UE's perspective, the MPCs are often grouped together in specific delay regions, and each such grouping of MPCs is referred to as a \textbf{cluster}. In GSCMs, modeling is done at a cluster-level, capturing the diverse effects of many MPCs that are present in typical real-world wireless channels. Modeled clusters are typically parameterized by three values: delay, direction of departure (DoD), and direction of arrival (DoA).  
+
+While the modeling of MPCs and clusters is vital, also vital is ensuring that the results of the GSCM-based simulations are statistically consistent with the measured channel data. This consistency is ensured by selecting \textbf{large-scale parameters (LSPs)}, examples of which are the delay spread and the angular spread. In designing GSCMs, the goal is to balance the fidelity of cluster behavior (based on delay, DoD, DoA) and of LSPs when compared to measured channel data. In practice, researchers implement GSCMs based on two different modeling approaches: system-level modeling or cluster-level modeling.
+
+In system-level modeling, the interaction(s) between the BS and the UE(s) is first defined by choosing LSPs. This selection of LSPs is done by sampling from probability distributions. Based on the LSPs, the clusters and MPCs for each BS/UE interaction is defined.
+
+While some well-known channel models, such as the 3GPP Spatial Channel Model (SCM) \cite{ref:kyosti2007winner} and the WINNER II \cite{ref:kyosti2007winner}, adopt the system-level approach, this modeling approach has some salient limitations. First, system-level models do not lend themselves well to high-mobility scenarios, as the LSPs are likely to change as the position of UEs change substantially. Second, system-level models make the addition of new LSPs (e.g., inter-link correlation) to a given interaction.
+
+In contrast with system-level models, cluster-level models begin with cluster/MPC definition then move on to LSPs. First, a large number of clusters are defined by sampling from a chosen probability distribution. Then, the location(s) of UE(s) is (are) defined, and the scattering of each cluster is calculated based on the ``visibility'' of UEs with respect to the clusters. Finally, the LSPs are synthesized by sampling from a given probability distribution.
+
+The cluster-level approach addresses both of the issues associated with system-level approaches. Simulating time-varying channels with high mobility is straightforward since it involves recalculating UE visibility and LSPs, and layering new LSPs into the model is simple since it is the last step of the simulation.
+
+For all CSI tests, we mainly rely on a cluster-level GSCM, the COST2100 channel model,  \cite{ref:liu2012cost2100}. We use two datasets with a single base station (gNB) and a single user equipment (UE) in the following scenarios:
 \begin{enumerate}
 	\item \textbf{Indoor} channels using a 5.3GHz downlink at
 	0.001 m/s UE velocity, served by a
@@ -116,30 +128,7 @@ $\delta$		& 40 ms			 & Feedback delay interval between consecutive CSI timeslots
 
 Works in compressive feedback for CSI estimation in MIMO networks can be placed in three broad categories. The first category includes works which use direct quantization of continuous CSI elements to discrete levels. The quantized CSI are encoded and fed back to the transmitter \cite{ref:makki2012hybrid,ref:shirani2009channel}. The second category includes works which use compressed sensing, a technique which applies a random measurement matrix at the transmitter and the receiver \cite{ref:rao2014distributed, ref:eltayeb2014compressive}. Compressed sensing assumes matrices to be encoded and fed back meet certain sparsity requirements, and compressed sensing algorithms require iterative solvers \cite{ref:do2008sparsity} for decoding, resulting in undesired latency.
 
-The last category of work in compressive CSI feedback uses deep learning (DL), neural networks with numerous layers which are trained on large datasets using backpropagation. Before describing these works, we first describe a few pertinent concepts from deep learning.
-
-\section{Deep Learning Background}
-\label{sect:dl_overview}
-
-This section provides a brief overview of relevant deep learning concepts employed in this work, including convolutional neural networks (CNNs), autoencoders, and unsupervised learning.
-
-\textbf{Deep learning (DL)} is a subset of machine learning (ML), a broad class of algorithms which use data to ``fit'' models for prediction or classification tasks. The three predominant learning frameworks are supervised learning, unsupervised learning, and reinforcement learning. In the works proposed, we focus on \emph{unsupervised learning}, which seeks to find a compressed representation of the data without labels (see Chapter 14 of \cite{ref:Hastie2016Elements} for an overview).
-
-\textbf{Convolutional Neural Networks}: A neural network is a machine learning algorithm with multiple \emph{layers} of parameterized linear functions followed nonlinear functions (typically referred to as `activation' functions). The parameters for these layers can be updated via a stochastic optimizer (e.g., \cite{ref:Kingma2014ADAM}), and given enough layers, such networks can achieve arbitrarily accurate functional approximation \cite{ref:Hecht1992TheoryBackprop}. In recent years, neural networks with convolutional layers have established state-of-the-art performance in computer vision tasks such as image classification \cite{ref:Sabour2017Dynamic} and segmentation \cite{ref:He2017Mask}.
-
-\begin{figure}[!hbtp]
-\centering
-\def\svgwidth{0.8\columnwidth}
-\input{images/autoencoder_schematic.pdf_tex}
-\caption{Abstract schematic for an autoencoder operating on CSI matrices $\mathbf H$. The encoder learns a latent representation, $\mathbf Z$, while the decoder learns to reconstruct estimates $\hat{\mathbf H}$.}
-\label{fig:autoencoder_schematic}
-\end{figure}
-
-A common architecture for deep unsupervised learning is the \emph{autoencoder} (see Fig.~\ref{fig:autoencoder_schematic} for a generic example). Trained end-to-end on input data, an autoencoder is comprised of an encoder and a decoder which jointly learn a compressed latent representation ($\mathbf Z$) and an estimate of the input ($\hat{\mathbf H}$). By choosing $\mathbf Z$ to have lower dimension than the input, the network is forced to learn a ``useful'' summary of the input data. The typical objective function for such a network is the mean squared error (MSE),
-\begin{align*}
-\underset{\theta_e, \theta_d}{\text{argmin}}\; \frac 1N \sum_{i=1}^N\Arrowvert \mathbf H_i - g(f(\mathbf H_i, \theta_e), \theta_d) \Arrowvert^2.
-\end{align*}
-We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent, ADAM).
+The last category of work in compressive CSI feedback uses deep learning (DL), neural networks with numerous layers which are trained on large datasets using backpropagation. We will provide the background knowledge needed for deep learning in Chapter 2, Section~\ref{sect:dl_overview}.
 
 \section{Objective and Contributions}
 
@@ -148,7 +137,7 @@ Successful efforts in DL for CSI estimation have typically utilized convolutiona
 While they can continue to push the state-of-the-art in CSI reconstruction accuracy, architectural optimizations may ultimately follow the same trends of fields such as language modeling, where state-of-the-art performance requires prohibitively massive compute \cite{ref:brown2020language}. In this proposal, we take a different approach seek to improving compressive channel feedback by focusing on domain knowledge and physical insight.
 % While the powerful functional approximation of deep CNNs has enabled state-of-the-art CSI reconstruction accuracy, they run the risk falling into the same trap as the image.
 
-This qualifying exam proposal details our attempts to use domain knowledge to enhance the performance and the efficiency of neural networks for CSI estimation (for a visual summary, see Figure~\ref{fig:contrib}). Section~\ref{chap:sph_norm} details our work in power-based normalization, which leverages CSI sparsity. Section ~\ref{chap:markovnet} describes our work in differential encoding, which exploits temporal coherence of CSI. Section~\ref{chap:p2d} describes our work in pilot-based delay domain CSI estimation.
+This thesis details our attempts to use domain knowledge to enhance the performance and the efficiency of neural networks for CSI estimation (for a visual summary, see Figure~\ref{fig:contrib}). Section~\ref{chap:sph_norm} details our work in power-based normalization, which leverages CSI sparsity. Section ~\ref{chap:markovnet} describes our work in differential encoding, which exploits temporal coherence of CSI. Section~\ref{chap:p2d} describes our work in pilot-based delay domain CSI estimation.
 
 \begin{figure}[htb] \centering 
 	{
