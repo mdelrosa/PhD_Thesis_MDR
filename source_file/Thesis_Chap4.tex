@@ -157,7 +157,7 @@ For compressed sensing approaches, the measurement matrix is analogous to the `e
 \end{align}
 where $\mathbf y=\mathbf{\Phi} \mathbf x$, $\mathbf x^{(0)}=\mathbf{R}_{\text{init}}\mathbf{y}$, and $\mathbf R_{\text{init}}=\mathbf {XY}(\mathbf{YY}^\top)^{-1}$ is the initialization matrix for the training data matrix $\mathbf X = \left[\mathbf{x}_1, \mathbf{x}_2,\dots, \mathbf{x}_{N_{\text{train}}}\right]$ and the training measurement matrix $\mathbf Y = \left[\mathbf{y}_1, \mathbf{y}_2,\dots, \mathbf{y}_{N_{\text{train}}}\right]$. `soft($\cdot$)' denotes the soft threshold function,
 \begin{align}
-    \text{soft}(x, \theta) &= \text{sign}(x)\text{ReLU}(|x|-\theta).
+    \text{soft}(x, \theta) &= \text{sign}(x)\text{ReLU}(|x|-\theta). \label{eq:soft}
 \end{align}
 $\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ indicate trainable nonlinear mappings (in this case, CNNs), and $\mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ are subject to the symmetry constraint $\mathcal H^{(k)}\circ \tilde{\mathcal H}^{(k)}=\mathbf I$.
 
