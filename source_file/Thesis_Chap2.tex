@@ -26,7 +26,7 @@ A common architecture for deep unsupervised learning is the \emph{autoencoder} (
 \end{align*}
 We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent, ADAM).
 
-The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:csinet}. Figure~\ref{fig:csinet} shows the architecture of CsiNet, where the encoder is deployed at the UE and the decoder is deployed at the BS. The encoder uses a convolutional layer and a linear layer to find a compressed representation of the input CSI, and the decoder uses a linear layer to expand the dimension of the feedback and two ``refine blocks'' with an output convolutional layer to refine the CSI estimate. In Section\ref{sect:sparse-csi}, we will discuss the sparse basis of the CSI data that is utilized in CsiNet. 
+The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:csinet}. Figure~\ref{fig:csinet} shows the architecture of CsiNet, where the encoder is deployed at the UE and the decoder is deployed at the BS. The encoder uses a convolutional layer and a linear layer to find a compressed representation of the input CSI, and the decoder uses a linear layer to expand the dimension of the feedback and two ``refine blocks'' with an output convolutional layer to refine the CSI estimate. After the CsiNet paper, many works attempted to bolster the performance of CNN autoencoders for CSI estimation by incorporating \emph{domain knowledge}. This Chapter details several such works, and in Section\ref{sect:sparse-csi}, we will discuss one such area of domain knowledge about CSI data: the sparse basis of the CSI data utilized in CsiNet. 
 
 \begin{figure}[htb]
 	\centering
