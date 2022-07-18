@@ -48,7 +48,7 @@ See Appendix~\ref{appdx:complexity} for a more exhaustive discussion of common l
 
 \section{Data Pre-processing for CSI Data} \label{sec:data-preprocessing}
 
-The success of machine learning tasks relies on proper \emph{data pre-processing}, a sequence of transformations used on the input data before fitting a model. In any machine learning task, data pre-processing is necessary to ensure that the scales of input features are similar. In deep learning, three important pre-processing techniques are domain transformations, truncation, or normalization, and here we will explore the choices in pre-processing that different authors have made based on domain knowledge of MIMO CSI data.
+The success of machine learning tasks relies on proper \emph{data pre-processing}, a sequence of transformations used on the input data before fitting a model. In any machine learning task, data pre-processing is necessary to ensure that the scales of input features are similar. In deep learning for CSI estimation, three important pre-processing techniques are domain transformations, truncation, or normalization, and in this section, we will explore the important choices in pre-processing that authors have made based on domain knowledge of MIMO CSI data.
 
 \subsection{Sparse Basis for CSI} \label{sect:sparse-csi}
 
@@ -89,7 +89,7 @@ The next type of pre-processing under consideration is a change of coordinates. 
 The last pre-processing technique we discuss is normalization. Typical deep autoencoders require normalized data to ensure that the range of the input data matches the range of the autoencoder's output function, which is typically chosen as \texttt{sigmoid} or \texttt{tanh} as pictured in Figure~\ref{fig:ae_output_fx}. 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=.7\textwidth]{activations.pdf}
+  \includegraphics[width=.9\textwidth]{activations.pdf}
   % \medskip
   \caption{Typical activation functions used at the output of convolutional autoencoders.}
   \label{fig:ae_output_fx}
@@ -120,6 +120,8 @@ However, for CSI matrices, minmax normalization is applied to the real and imagi
 	\label{fig:cost_indoor_dist}
 \end{figure}
 
+In Section~\ref{sect:sph_norm}, we  will detail our proposed method for increasing the variance of CSI data and demonstrate that this method can improve the estimation accuracy of deep learning networks for CSI estimation.
+
 \section{Related Work}
 
 In image processing, several works have investigated normalization techniques such as batch normalization \cite{ref:ioffe2015batch}, instance normalization \cite{ref:huang2017instance}, layer normalization \cite{ref:ba2016layer}, and group normalization \cite{ref:wu2018group}. These normalization techniques scale the outputs of latent layers in neural networks, which helps to solve the problem of covariate shift \cite{ref:ioffe2015batch} where the mean and variance of changes between subsequent layers of the network.
@@ -132,7 +134,7 @@ Here, we discuss our work in spherical normalization (Section~\ref{sect:sph_norm
 
 % \subsection{Spherical Normalization}
 \label{sect:sph_norm_method}
-Rather than apply minmax normalization, which is adversely impacted by outliers, we propose spherical normalization. Before describing spherical normalization in detail, consider z-score normalization. Given a random variable, $x$, with mean $\mu$ and standard deviation $\sigma$. The z-score normalized version of this random variable is given as
+Rather than apply minmax normalization, which results in a low variance distribution when applied to highly sparse CSI data, we propose spherical normalization. Before describing spherical normalization in detail, consider z-score normalization. Given a random variable, $x$, with mean $\mu$ and standard deviation $\sigma$. The z-score normalized version of this random variable is given as
 \begin{align}
 	z &= \frac{x - \mu}{\sigma^2}. \label{eq:zscore}
 \end{align}
