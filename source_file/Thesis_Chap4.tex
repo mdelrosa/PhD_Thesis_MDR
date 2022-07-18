@@ -213,7 +213,7 @@ We assess the accuracy of the P2DE assuming noise from pilot estimation. To simu
 \end{align*}
 where the elements of $\mathbf{N}_d$, $\mathbf{N}_d(i,j) \sim \mathcal{N}(0, \sigma^2)$ for $i \in \left[1,2,\dots, N_b\right], j \in \left[1,2,\dots, M_f\right]$. To achieve different SNR values for $\hat{\mathbf{H}}_d$, we simply vary the noise variance $\sigma^2$, and we use the P2DE at different pilot estimation noise levels. Figure~\ref{fig:snr_sweep} shows the accuracy of the P2DE for different values of $\sigma^2$.
 
-In addition to varying the pilots estimation SNR, we also showcase the effect of varying $\delta$ (i.e., the ODIR parameter as described in Section~\ref{sec:odir}). We observe that $\delta$ helps the P2DE achieve better performance under both low-noise and noisy conditions, i.e.,
+In addition to varying the pilots estimation SNR, we also showcase the effect of varying $\delta$ (i.e., the ODIR parameter as described in Section~\ref{sect:odir}). We observe that $\delta$ helps the P2DE achieve better performance under both low-noise and noisy conditions, i.e.,
 
 \begin{itemize}
     \item \textbf{Low-noise condition (SNR $\mathbf{=-20}$ dB)}: The P2DE goes from $-8$ dB to $-22$ dB for $\delta=0$ and $\delta=0.5$, respectively.
