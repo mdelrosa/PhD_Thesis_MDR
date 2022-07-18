@@ -255,3 +255,15 @@ To assess the accuracy of these networks under quantization, we also conduct an 
     \caption{Tested networks where feedback is subject to $\mu$-law companding ($\mu=255$) and uniform quantization for different numbers of quantization bits. P2DE parameters are $D=4, \text{DR}_f=\frac{1}{16}$.}
     \label{fig:net_quant}
 \end{figure}
+
+\subsection{Heterogeneous Differential Encoding Networks}
+
+Figure~\ref{fig:markov-p2d-results} shows the performance of the proposed heterogeneous differential encoding networks compared to homogeneous networks. We observe that ENet provides worse initial performance than ISTANet+ (i.e., at $t_1$) but provides a more improvement in accuracy than ISTANet+ in subsequent timeslots (i.e., at $t_2, t_3, \dots$). Based on this observation, we expect the best network configuration to be the heterogeneous network, MN-IE. Figure~\ref{fig:markov-p2d-results} supports this reasoning, as MN-IE achieves better asymptotic performance (i.e., as $i$ for $t_i$ increases) than MN-I.
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics{outdoor_markov_sweep_v2.pdf}
+    \caption{Compressive CSI estimation using differential encoding and  linear P2D estimator ($M_f=128, \text{DR}_f=\frac{1}{8}, D=4$). MarkovNet-ISTA (MN-I), MarkovNet-ENet (MN-E), and MarkovNet-ISTA-ENet (MN-IE) are tested using two different compression ratios in the first timeslot, $\text{CR}_{t_1}\in\left[\frac{1}{2},\frac{1}{4}\right]$.}
+    \label{fig:markov-p2d-results}
+\end{figure}
+
