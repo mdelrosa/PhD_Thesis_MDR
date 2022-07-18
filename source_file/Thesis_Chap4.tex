@@ -269,7 +269,7 @@ Figure~\ref{fig:markov-p2d-results} shows the performance of the proposed hetero
 
 \subsection{Computational Complexity}
 
-We assess the computational complexity (as defined in Chapter~\ref{chap:sph_net}, Section~\ref{sect:dl_overview}) of the network architectures tested in this work. While ISTANet+ has superior accuracy compared to the autoencoder networks, we observe that its computational complexity is much higher. This discrepancy in complexity further motivates the heterogeneous network architecture of MN-IE. While MN-I uses $T$ copies of ISTANet+, MN-IE uses one copy of ISTANet+ to provide an initial estimate and $T-1$ copies of ENet to compress the differential term.
+We assess the computational complexity (as defined in Chapter~\ref{chap:sph_norm}, Section~\ref{sect:dl_overview}) of the network architectures tested in this work. While ISTANet+ has superior accuracy compared to the autoencoder networks, we observe that its computational complexity is much higher. This discrepancy in complexity further motivates the heterogeneous network architecture of MN-IE. While MN-I uses $T$ copies of ISTANet+, MN-IE uses one copy of ISTANet+ to provide an initial estimate and $T-1$ copies of ENet to compress the differential term.
 
 \begin{table}[htb]
 \centering
