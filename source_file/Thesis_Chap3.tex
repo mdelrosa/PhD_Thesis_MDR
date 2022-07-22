@@ -53,7 +53,7 @@ RNNs have been used extensively in natural language processing (NLP) for machine
 	\label{fig:csinet_lstm_arch}
 \end{figure}
 
-\section{Differential Encoding}
+\section{Differential Encoding} \label{sect:diff-enc}
 
 Rather than use RNNs to extract temporal dependencies in CSI data, we proposed a lightweight network based on the principle of differential encoding. We trained a network to estimate the error (\ref{eq:diff_err}) under a linear estimator, 
 \begin{align*}
