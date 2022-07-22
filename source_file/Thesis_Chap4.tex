@@ -62,18 +62,9 @@ Based on \ref{eq:qmat}, the delay domain can be related directly to the pilots b
 	&= \boldeta_{d,i}\mathbf{Q}_i^{\#} \label{eq:p2d}
 \end{align}
 
-\subsection{Regularization of P2DE} \label{sect:odir}
+% \subsection{Regularization of P2DE} \label{sect:odir}
 
-When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversion unstable.
-
-To compensate for this ill-conditioning, we propose to use off-diagonal regularization (ODIR) to condition the P2DE matrices. Denote $\mathbf{R} = \mathbf{Q}_i\mathbf{Q}_i^T$ and $R_{ij}$ as the element in the $i$-th row and $j$-th column of the matrix. We select a non-negative real scaling factor $\delta \in \mathbb{R}^{+}$ to scale down the off-diagonal elements of $\mathbf{R}$. The element of the resulting ODIR matrix, $\mathbf{R}_{\text{ODIR}}$, are written as
-\begin{align}
-    R_{ij, \text{ODIR}} &= 
-        \begin{cases}
-            R_{ij} & \text{if } i = j\\
-            \frac{R_{ij}}{1+\delta} & \text{if } i \neq j.
-        \end{cases}
-\end{align}
+When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversion unstable. To compensate for this ill-conditioning, we propose to use off-diagonal regularization (ODIR) to condition the P2DE matrices. This form of regularization is described in more detail in Appendix~\ref{appx:odir}. 
 
 \begin{figure}[!hbtp]
     \centering
