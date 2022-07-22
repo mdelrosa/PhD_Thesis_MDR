@@ -3,40 +3,37 @@
 
 In Chapter~\ref{chap:markovnet} Section~\ref{sect:diff-enc}, we introduced a differential encoding network based on an autoregressive Markov model that was A) one-step and B) scalar. In this appendix, we show how we can generalize both the number of steps and the dimension of the Markov model.
 
-Recall the truncated delay domain CSI at the $t$-th timeslot, $\mathbf{H}_{t}\in\mathbb{C}^{R_d \times N_b}$. An autoregressive model for this CSI matrix can be written generally as a function of the previous timeslots,
+Recall the truncated delay domain CSI at the $t$-th timeslot, $\mathbf{H}_{t}\in\mathbb{C}^{R_d \times N_b}$. Rather than the one-step, scalar model $\hat\gamma \in \mathbb R^+$ (see (\ref{eq:diff-estim}) in Section~\ref{sect:diff-enc}), we can derive a $p$-step, multivariate predictor. A $p$-step autoregressive model for $\mathbf{H}_t$ can be written generally as a function of $p$ previous timeslots,
 \begin{align*}
 	\hat{\mathbf{H}}_t &= f(\mathbf{H}_{t-1}, \mathbf{H}_{t-2}, \dots, \mathbf{H}_{t-p}).
 \end{align*}
-Rather than scalar $\hat\gamma \in \mathbb R^+$, we can derive a multivariate $p$-step predictor, $\mathbf W_1, \dots, \mathbf W_p$.
-Given $p$ prior CSI samples, the mean-square optimal predictor
-$\hat H_t$ is a linear combination of these the prior CSI samples,
+, $\mathbf W_1, \dots, \mathbf W_p$.
+Given $p$ prior CSI samples, the mean-square optimal predictor $\hat H_t$ is a linear combination of these the prior CSI samples,
 \begin{equation}
 \mathbf{\hat H}_{t} = \mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-p} \mathbf W_{p} + \mathbf E_t.
 \end{equation}
 
-Where $\mathbf{W}_{i}$ is the coefficient matrix of dimension $\mathbb{C}^{}$, and $\mathbf{E}_t$ is the error term, which is uncorrelated with the CSI samples (i.e. $\mathbf H_{t-i}^H \mathbf E_t = 0$ for all $i \in [0, \dots, p]$), and we pre-multiply by $\mathbf H_{t-i}^H$,
+Where $\mathbf{W}_{i}$ is the coefficient matrix foro the $i$-th timeslot with dimension $\mathbb{C}^{N_b \times N_b}$, and $\mathbf{E}_t$ is the error term at time $t$, which is uncorrelated with the CSI samples (i.e. $\mathbf H_{t-i}^H \mathbf E_t = 0$ for all $i \in [0, \dots, p]$). To solve for the matrices $\mathbf{W}_{t-1}, \dots, \mathbf{W}_{t-p}$, we first pre-multiply by $\mathbf H_{t-i}^H$,
 \begin{align}
 \mathbf{H}_{t-i}^H\mathbf{\hat H}_{t} &= \mathbf{H}_{t-i}^H\mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-i}^H\mathbf{H}_{t-p} \mathbf W_{p} + \mathbf{H}_{t-i}^H\mathbf E_t \nonumber \\
                     &= \mathbf{H}_{t-i}^H\mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-i}^H\mathbf{H}_{t-p} \mathbf W_{p}. \label{eq:var-init}
 \end{align}
 
 Denote the correlation matrix 
-$\mathbf R_i = \mathbb E [\mathbf H^H_{t-i}\mathbf H_{t}]$.
-Presume CSI matrices arise from a 
-stationary process, implying the following properties:
+$\mathbf R_i = \mathbb E [\mathbf H^H_{t-i}\mathbf H_{t}]$. If temporal coherence between timeslots is maintained, then we may assume that CSI matrices arise from a stationary process, implying the following properties:
 \begin{enumerate}
   \item $\mathbf R_i = \mathbb E [\mathbf H^H_{t-i}\mathbf H_{t}] = \mathbb E [\mathbf H^H_{t}\mathbf H_{t+i}]$
   \item $\mathbf R_i = \mathbf R^H_{-i}$
 \end{enumerate}
 
-Taking the expectation, write (\ref{eq:var-init})
-as a linear combination of $\mathbf R$,
+With these properties in mind, we take the expectation of (\ref{eq:var-init}), 
+resulting in a linear combination of $\mathbf R_i$ matrices,
 \begin{align*}
+\mathbb E\left[\mathbf{H}_{t-i}^H\mathbf{\hat H}_{t}\right] &= \mathbb E\left[\mathbf{H}_{t-i}^H\mathbf{H}_{t-1} \mathbf W_{1}\right] + \dots + \mathbb E\left[\mathbf{H}_{t-i}^H\mathbf{H}_{t-p} \mathbf W_{p}\right] \\
 \mathbf R_{i+1} &= \mathbf{R}_{i} \mathbf W_{1} + \dots + \mathbf{R}_{i-p+1} \mathbf W_{p}. 
 \end{align*}
-For $p$ CSI samples, write a system of $p$
-equations, admitting the following,
-\begin{align*}
+For $p$ CSI samples (i.e., for $i \in [0, 1, \dots, p-1]$), we write a system of $p$ equations, admitting the following,
+\begin{align}
   \begin{bmatrix}
     \mathbf R_{1} \\ \mathbf R_{2} \\ \dots \\ \mathbf R_{p} \\
   \end{bmatrix}
@@ -49,5 +46,22 @@ equations, admitting the following,
   \end{bmatrix}
   \begin{bmatrix}
     \mathbf W_{1} \\ \mathbf W_{2} \\ \dots \\ \mathbf W_{p} \\
-  \end{bmatrix}.
-\end{align*}
+  \end{bmatrix}. \label{eq:toep}
+\end{align}
+Finally, we solve for the coefficient matrices by inverting the Toeplitz matrix,
+\begin{align}
+  \begin{bmatrix}
+    \mathbf W_{1} \\ \mathbf W_{2} \\ \dots \\ \mathbf W_{p} \\
+  \end{bmatrix}
+  &= 
+  \begin{bmatrix}
+    \mathbf R_{0} & \mathbf R_1^H & \dots  & \mathbf R_{p-1}^H \\
+    \mathbf R_{1} & \mathbf R_0   & \dots  & \mathbf R_{p-2}^H \\
+    \vdots      &         & \ddots & \vdots \\
+    \mathbf R_{p-1} & \mathbf R_{p-2}   & \dots  & \mathbf R_{0} \\
+  \end{bmatrix}^{-1}
+  \begin{bmatrix}
+    \mathbf R_{1} \\ \mathbf R_{2} \\ \dots \\ \mathbf R_{p} \\
+  \end{bmatrix}. \label{eq:toep-sol}
+\end{align}
+Thus, the solution to multi-step, multivariate Markov model is a function of the correlation matrices.
