@@ -65,3 +65,24 @@ Finally, we solve for the coefficient matrices by inverting the Toeplitz matrix,
   \end{bmatrix}. \label{eq:toep-sol}
 \end{align}
 Thus, the solution to multi-step, multivariate Markov model is a function of the correlation matrices.
+
+Since the distributions of $\mathbf{H}_i$ are not known, we cannot calculate the expectations in the correlation matrices, $\mathbf R_i$. Instead, we estimate the sample correlation matrices with the training data, i.e.,
+\begin{align*}
+	\hat{\mathbf{R}}_i = \frac{1}{N_{\text{train}}} \sum_{j}^{N_{\text{train}}} \mathbf{H}_{t-i}(j)^{H}\mathbf{H}_{t}(j),
+\end{align*}
+where $j$ indexes over the training data. Now, we write the estimators, $\hat{\mathbf{W}}_i$, with respect to the sample correlation matrices,
+\begin{align}
+  \begin{bmatrix}
+    \hat{\mathbf W}_{1} \\ \hat{\mathbf W}_{2} \\ \dots \\ \hat{\mathbf W}_{p} \\
+  \end{bmatrix}
+  &= 
+  \begin{bmatrix}
+    \hat{\mathbf R}_{0} & \hat{\mathbf R}_1^H & \dots  & \hat{\mathbf R}_{p-1}^H \\
+    \hat{\mathbf R}_{1} & \hat{\mathbf R}_0   & \dots  & \hat{\mathbf R}_{p-2}^H \\
+    \vdots      &         & \ddots & \vdots \\
+    \hat{\mathbf R}_{p-1} & \hat{\mathbf R}_{p-2}   & \dots  & \hat{\mathbf R}_{0} \\
+  \end{bmatrix}^{-1}
+  \begin{bmatrix}
+    \hat{\mathbf R}_{1} \\ \hat{\mathbf R}_{2} \\ \dots \\ \hat{\mathbf R}_{p} \\
+  \end{bmatrix}. \label{eq:toep-sol}
+\end{align}
