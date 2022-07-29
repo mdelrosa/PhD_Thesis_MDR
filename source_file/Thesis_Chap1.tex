@@ -75,7 +75,15 @@ To estimate the downlink CSI in wireless networks, transmitters allocate pilot r
     \label{fig:lte-vs-5g}
 \end{figure}
 
-While many using deep learning for CSI estimation do not address pilot estimation explicitly, a few works have incorporated pilot estimation into the CSI feedback problem. 
+For the UE to estimate the downlink channel state at the known pilot locations, the UE can use a straightforward least-squares estimator. Denote the pilot matrix $\mathbf{X}\in\mathbb{C}^{M_b \times \tau}$ where $\tau$ is a given number of timeslots that is less than the coherence interval of the channel. The received signal at the UE based on the transmitted pilots is,
+\begin{align}
+	\mathbf{y}_{\text{pilots}} &= \mathbf{h}_{\text{pilots}}\mathbf{X} + \mathbf{n},
+\end{align}
+where $\mathbf{h}_{\text{pilots}}\in\mathbb{C}^{1\times M_b}$ is the pilot matrix for a subset of the transmitter antennas such that $M_b < N_b$ and $\mathbf{n}\sim\mathcal{CN}(\mathbf{0},\sigma^2\mathbf{I})$ is additive complex Gaussian noise. Pilot estimation based on $\mathbf{y}_{\text{pilots}}$ and $\mathbf{X}$ is straightforward using the least-squares solution,
+\begin{align}
+	\hat{\mathbf{h}}_{\text{pilots}} &= \mathbf{y}_{\text{pilots}}\mathbf{X}^H(\mathbf{X}\mathbf{X}^H)^{-1}. \label{eq:pilots-least-squares}
+\end{align}
+While many works using deep learning for CSI estimation do not address pilot estimation explicitly (i.e., they assume perfect CSI at the UE), a few such works have incorporated pilot estimation into the CSI feedback problem. These works typically apply deep learning to either A) improve upon the least-squares estimator of (\ref{eq:pilots-least-squares}) or B) design the pilot matrix, $\mathbf{X}$. In \cite{ref:mashhadi2021pruning}, the authors propose a fully-connected network (FCN) which performs pilot allocation and coarse CSI estimation followed by a CNN-based attention layer for refining the estimate, and they proposed architecture, and the authors demonstrate the efficacy of the proposed network compared to the MMSE estimator as well as other neural estimators.
 
 \section{Geometric Stochastic Channel Models (GSCMs)}
 \label{sect:channel_model}
