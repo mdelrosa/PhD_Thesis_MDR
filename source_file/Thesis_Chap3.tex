@@ -44,12 +44,12 @@ Recent works have leveraged recurrent neural networks (RNNs) to exploit temporal
 	\label{fig:lstm_example}
 \end{figure}
 
-RNNs have been used extensively in natural language processing (NLP) for machine translation \cite{ref:Sutskever2014seq2seq} and sentiment extraction \cite{ref:Irsoy2014opinion}. For such works in NLP, authors have empirically found ``stacked'' or ``deep'' RNNs to be effective (e.g., Fig.~\ref{fig:lstm_example}), hypothesizing that having multiple recurrent layers allows the network to extract different semantic timescales \cite{ref:Irsoy2014opinion, ref:Bengio2009Learning}. Works in CSI estimation have taken cues from this work in NLP, proposing CSI estimation networks with stacked LSTMs after a sequence of autoencoders \cite{ref:Wang2019CsiNetLSTM}. While such work has demonstrated the utility of RNNs, the computational cost of LSTMs can be prohibitively high. For example, the RNN portion of the network proposed in \cite{ref:Wang2019CsiNetLSTM} accounts for $10^8$ additional parameters. Since channel estimation should not place an undue computational burden on the communications system, LSTMs can be problematic.
+RNNs have been used extensively in natural language processing (NLP) for machine translation \cite{ref:Sutskever2014seq2seq} and sentiment extraction \cite{ref:Irsoy2014opinion}. For such works in NLP, authors have empirically found ``stacked'' or ``deep'' RNNs to be effective (e.g., Fig.~\ref{fig:lstm_example}), hypothesizing that having multiple recurrent layers allows the network to extract different semantic timescales \cite{ref:Irsoy2014opinion, ref:Bengio2009Learning}. Works in CSI estimation have taken cues from this work in NLP, proposing CSI estimation networks with stacked LSTMs after a sequence of autoencoders \cite{ref:Wang2019CsiNetLSTM}. While such work has demonstrated the utility of RNNs, the computational cost of LSTMs can be prohibitively high. For example, the RNN portion of the network proposed in \cite{ref:Wang2019CsiNetLSTM} accounts for $10^8$ additional parameters (see Figure~\ref{fig:csinet_lstm_arch} for the network architecture used in \cite{ref:Wang2019CsiNetLSTM}). Since channel estimation should not place an undue computational burden on the communications system, LSTMs can be problematic.
 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=.9\textwidth]{csinet-lstm-arch.png}
-	\caption{CsiNet-LSTM architecture from \cite{ref:Wang2019CsiNetLSTM}}
+	\caption{CsiNet-LSTM architecture from \cite{ref:Wang2019CsiNetLSTM}. (a) CsiNet architecture used in each timeslot. (b) Full CsiNet-LSTM architecture using shared codewords and stacked LSTM cells after CsiNets to extract temporal correlation between timeslots.}
 	\label{fig:csinet_lstm_arch}
 \end{figure}
 
