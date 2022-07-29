@@ -170,7 +170,7 @@ which is equivalent to (\ref{eq:nmse}). Thus, a neural network optimized with MS
 \subsection{CsiNet-Pro}
 \label{sect:csinet_pro}
 
-In \cite{ref:liu2020sphnet}, we proposed a network with larger convolutional kernels and no residual connections called CsiNet-Pro. Large kernels (e.g., $(7\times 7)$ in CsiNet-Pro) allow the network to capture features corresponding to larger delay spreads than comparatively small kernels (e.g., $(3\times 3)$ in CsiNet \cite{ref:csinet}). In addition to the compressed feedback of the autoencoder, the encoder must feedback the power of the CSI matrix, $\|H\|$, meaning the number of floating point elements to feed back increases from $r$ to $r+1$.
+In \cite{ref:liu2020sphnet}, we proposed a network with larger convolutional kernels and no residual connections called CsiNet-Pro. Large kernels (e.g., $(7\times 7)$ in CsiNet-Pro) allow the network to capture features corresponding to larger delay spreads than comparatively small kernels (e.g., $(3\times 3)$ in CsiNet \cite{ref:csinet}). In addition to the compressed feedback of the autoencoder, the encoder must feedback the power of the CSI matrix, $\|\mathbf{H}\|$, meaning the number of floating point elements to feed back increases from $r$ to $r+1$. This can be seen in Figure~\ref{fig:sphnet-arch}, which shows the CsiNet-Pro architecture using spherical normalization, which we refer to as `SphNet.'  
 \begin{figure}[htb]
   \centering
   {
