@@ -85,6 +85,8 @@ where $\mathbf{h}_{\text{pilots}}\in\mathbb{C}^{1\times M_b}$ is the pilot matri
 \end{align}
 While many works using deep learning for CSI estimation do not address pilot estimation explicitly (i.e., they assume perfect CSI at the UE), a few such works have incorporated pilot estimation into the CSI feedback problem. These works typically apply deep learning to either A) improve upon the least-squares estimator of (\ref{eq:pilots-least-squares}) or B) design the pilot matrix, $\mathbf{X}$. In \cite{ref:mashhadi2021pruning}, the authors propose a fully-connected network (FCN) which performs pilot allocation and coarse CSI estimation followed by a CNN-based attention layer for refining the estimate, and they proposed architecture, and the authors demonstrate the efficacy of the proposed network compared to the MMSE estimator as well as other neural estimators. In \cite{ref:sohrabi2021distributed}, the authors propose to incorporate a trainable pilot design as a portion of an end-to-end model that directly maps pilots at the UE into feedback bits and then feeds those received bits at the BS into a precoding matrix, thereby avoiding explicit CSI estimation.
 
+In this thesis (namely, in Chapter~\ref{chap:p2d}), we propose an estimator of the truncated delay domain CSI (see Section~\ref{sect:sparse-csi} of Chapter~\ref{chap:sph_norm}) based on the sparse frequency domain pilots (i.e., $\hat{\mathbf{h}}_{\text{pilots}}$ of equation (\ref{eq:pilots-least-squares}) above).
+
 \section{Geometric Stochastic Channel Models (GSCMs)}
 \label{sect:channel_model}
 
