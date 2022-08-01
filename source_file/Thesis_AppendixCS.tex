@@ -1,0 +1,10 @@
+\chapter{Compressed Sensing}
+\label{appdx:compressed-sensing}
+
+In Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}, we introduced a heterogeneous differential encoder which utilized deep compressed sensing networks. Here, we provide a brief overview of compressed sensing algorithms.
+
+Given a signal $\mathbf{x}\in\mathbb{R}^N$, denote a random measurement of this signal as 
+\begin{align*}
+    \mathbf{y} = \mathbf{\Phi}\mathbf{x}
+\end{align*}
+where $\mathbf{\Phi}\in\mathbb{R}^{M\times N}$ is referred to as the \emph{measurement matrix} and $\mathbf{y}\in\mathbb{R}^{M}$ is a low-dimensional measurement (i.e., $M << N$). The goal of compressed sensing is to recover the original signal $\mathbf{x}$ based on the low-dimensional measurement $\mathbf{y}$.
