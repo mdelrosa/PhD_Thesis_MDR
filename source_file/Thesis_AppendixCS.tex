@@ -1,18 +1,26 @@
 \chapter{Compressed Sensing}
 \label{appdx:compressed-sensing}
 
-In Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}, we introduced a heterogeneous differential encoder which utilized deep compressed sensing networks. Here, we provide a brief overview of compressed sensing algorithms.
+In Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}, we introduced a heterogeneous differential encoder which utilized deep compressed sensing networks. Here, we provide a brief overview of compressed sensing algorithms based on the excellent survey \cite{ref:Marques2019ReviewOfSparseRecovery}.
 
 Given a signal $\mathbf{x}\in\mathbb{R}^N$, denote a random measurement of this signal as 
 \begin{align*}
     \mathbf{y} = \mathbf{\Phi}\mathbf{x}
 \end{align*}
-where $\mathbf{\Phi}\in\mathbb{R}^{M\times N}$ is referred to as the \emph{measurement matrix} and $\mathbf{y}\in\mathbb{R}^{M}$ is a low-dimensional measurement (i.e., $M << N$). The goal of compressed sensing is to recover the original signal $\mathbf{x}$ based on the low-dimensional measurement $\mathbf{y}$. This recovery is typically framed as a regularized least-squares estimation problem, i.e.
+where $\mathbf{\Phi}\in\mathbb{R}^{M\times N}$ is referred to as the \emph{measurement matrix} and $\mathbf{y}\in\mathbb{R}^{M}$ is a low-dimensional measurement (i.e., $M << N$). The goal of compressed sensing is to recover the original signal $\mathbf{x}$ based on the low-dimensional measurement $\mathbf{y}$. The least-squares solution to this problem is given as
+\begin{align}
+    \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_2 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon \label{eq:undet-ls}
+\end{align}
+where $\epsilon > 0$ is some error tolerance. By construction, the matrix $\Phi$ has more columns than rows (i.e., $N >> M$), and consequently, the linear system (\ref{eq:undet-ls}) underdetermined. Furthermore, the least-squares solution cannot return a sparse vector, and instead, the recovery of $\mathbf{x}$ is typically framed as a sparsity-constrained least-squares estimation problem, i.e.
 \begin{align*}
-    \argmin_{\hat{\mathbf{x}}} \|\mathbf{y}-\mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 + \lambda|\mathbf{\Phi}\mathbf{x}|_j.
+    \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_0 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon \label{eq:sparse-ls}
 \end{align*}
-In the ideal case, $j$ is set to 0 such that a strict sparsity is enforced on the measurement. However, solutions for this case are difficult to acquire, and the problem is relaxed such that $j > 0, j\in\mathbb{Z}^{+}$. One common choice, $j=1$, is referred to as the Least Absolute Shrinkage Selection Operation (LASSO),
+Under certain constraints, the original signal $\mathbf{x}$ can be perfectly reconstructed. However, this perfect reconstruction requires a combinatoric search over $\begin{pmatrix}N \\ s\end{pmatrix}$ (where $s$ is the number of non-zero elements in $\mathbf{x}$).
+% \begin{align*}
+%     \argmin_{\hat{\mathbf{x}}} \|\mathbf{y}-\mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 + \lambda|\mathbf{\Phi}\mathbf{x}|_j.
+% \end{align*}
+Instead, the problem is often relaxed to use the $\ell_1$ norm,
 \begin{align*}
-    \argmin_{\hat{\mathbf{x}}} \|\mathbf{y}-\mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 + \lambda|\mathbf{\Phi}\mathbf{x}|_1.
+    \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_0 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon, \label{eq:lasso-ls}
 \end{align*}
-To solve the LASSO, it is possible to use proximal gradient methods from convex optimization. % Such methods ... (add some background on proximal gradient here)
+which is referred to as the Least Absolute Shrinkage Selection Operation (LASSO). To solve the LASSO, it is possible to use proximal gradient methods from convex optimization. % Such methods ... (add some background on proximal gradient here)
