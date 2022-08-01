@@ -7,4 +7,12 @@ Given a signal $\mathbf{x}\in\mathbb{R}^N$, denote a random measurement of this 
 \begin{align*}
     \mathbf{y} = \mathbf{\Phi}\mathbf{x}
 \end{align*}
-where $\mathbf{\Phi}\in\mathbb{R}^{M\times N}$ is referred to as the \emph{measurement matrix} and $\mathbf{y}\in\mathbb{R}^{M}$ is a low-dimensional measurement (i.e., $M << N$). The goal of compressed sensing is to recover the original signal $\mathbf{x}$ based on the low-dimensional measurement $\mathbf{y}$.
+where $\mathbf{\Phi}\in\mathbb{R}^{M\times N}$ is referred to as the \emph{measurement matrix} and $\mathbf{y}\in\mathbb{R}^{M}$ is a low-dimensional measurement (i.e., $M << N$). The goal of compressed sensing is to recover the original signal $\mathbf{x}$ based on the low-dimensional measurement $\mathbf{y}$. This recovery is typically framed as a regularized least-squares estimation problem, i.e.
+\begin{align*}
+    \argmin_{\hat{\mathbf{x}}} \|\mathbf{y}-\mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 + \lambda|\mathbf{\Phi}\mathbf{x}|_j.
+\end{align*}
+In the ideal case, $j$ is set to 0 such that a strict sparsity is enforced on the measurement. However, solutions for this case are difficult to acquire, and the problem is relaxed such that $j > 0, j\in\mathbb{Z}^{+}$. One common choice, $j=1$, is referred to as the Least Absolute Shrinkage Selection Operation (LASSO),
+\begin{align*}
+    \argmin_{\hat{\mathbf{x}}} \|\mathbf{y}-\mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 + \lambda|\mathbf{\Phi}\mathbf{x}|_1.
+\end{align*}
+To solve the LASSO, it is possible to use proximal gradient methods from convex optimization. % Such methods ... (add some background on proximal gradient here)
