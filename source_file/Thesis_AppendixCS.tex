@@ -1,7 +1,7 @@
 \chapter{Compressed Sensing}
 \label{appdx:compressed-sensing}
 
-In Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}, we introduced a heterogeneous differential encoder which utilized deep compressed sensing networks. Here, we provide a brief overview of compressed sensing algorithms based on the excellent survey \cite{ref:Marques2019ReviewOfSparseRecovery}.
+In Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}, we introduced a heterogeneous differential encoder which utilized deep compressed sensing networks. This Appendix provides a brief overview of the relevant theory from compressed sensing based on the excellent survey \cite{ref:Marques2019ReviewOfSparseRecovery}.
 
 Given a signal $\mathbf{x}\in\mathbb{R}^N$, denote a random measurement of this signal as 
 \begin{align*}
@@ -12,15 +12,35 @@ where $\mathbf{\Phi}\in\mathbb{R}^{M\times N}$ is referred to as the \emph{measu
     \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_2 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon \label{eq:undet-ls}
 \end{align}
 where $\epsilon > 0$ is some error tolerance. By construction, the matrix $\Phi$ has more columns than rows (i.e., $N >> M$), and consequently, the linear system (\ref{eq:undet-ls}) underdetermined. Furthermore, the least-squares solution cannot return a sparse vector, and instead, the recovery of $\mathbf{x}$ is typically framed as a sparsity-constrained least-squares estimation problem, i.e.
-\begin{align*}
+\begin{align}
     \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_0 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon \label{eq:sparse-ls}
-\end{align*}
+\end{align}
 Under certain constraints, the original signal $\mathbf{x}$ can be perfectly reconstructed. However, this perfect reconstruction requires a combinatoric search over $\begin{pmatrix}N \\ s\end{pmatrix}$ (where $s$ is the number of non-zero elements in $\mathbf{x}$).
 % \begin{align*}
 %     \argmin_{\hat{\mathbf{x}}} \|\mathbf{y}-\mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 + \lambda|\mathbf{\Phi}\mathbf{x}|_j.
 % \end{align*}
 Instead, the problem is often relaxed to use the $\ell_1$ norm,
+\begin{align}
+    \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_1 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon, \label{eq:lasso-ls}
+\end{align}
+which is referred to as the least absolute shrinkage and selection operation (LASSO). 
+
+\section{The ISTA algorithm}
+To solve the LASSO, it is possible to use proximal gradient methods from convex optimization \cite{ref:beck2009fast}. Such gradient methods solve the problem of the form,
 \begin{align*}
-    \min_{\hat{\mathbf{x}}}\|\hat{\mathbf{x}}\|_0 \; \text{subject to} \; \|\mathbf{y} - \mathbf{\Phi}\hat{\mathbf{x}}\|_2^2 < \epsilon, \label{eq:lasso-ls}
+    \min \left\{f(\mathbf{x})+\lambda\|\mathbf{x}\|_1\right\},
 \end{align*}
-which is referred to as the Least Absolute Shrinkage Selection Operation (LASSO). To solve the LASSO, it is possible to use proximal gradient methods from convex optimization. % Such methods ... (add some background on proximal gradient here)
+using the iterative steps,
+\begin{align*}
+    \mathbf{x}_k &= \argmin_{\mathbf{x}} \left\{f(\mathbf{x}_{k-1}) + \langle \mathbf{x} - \mathbf{x}_{k-1}, \nabla f(\mathbf{x}_{k-1}) \rangle + \frac{1}{2t_k}\|\mathbf{x} - \mathbf{x}_{k-1}\|^2 + \lambda\|\mathbf{x}\|_1\right\} \\
+    &= \argmin_{\mathbf{x}} \left\{\frac{1}{2t_k}\|\mathbf{x} - (\mathbf{x}_{k-1} - t_k\nabla f(\mathbf{x}_{k-1}))\|^2 + \lambda\|\mathbf{x}\|_1\right\},
+\end{align*}
+where $t_k>0$ is the stepsize for the algorithm. Note that the second line is admitted by ignoring the constant terms. The $\ell_1$ term is separable, and consequently, computing the iteration $\mathbf{x}_k$ can be done by solving a one-dimensional minimization problem for each component of $\mathbf{x}_k$,
+\begin{align*}
+    \mathbf{x}_k &= \mathcal{T}_{\lambda t_k} (\mathbf{x}_{k-1} - t_k\nabla f(\matbf{x}_{k-1})).
+\end{align*}
+Note the shrinkage operator, $\mathcal{T}_{\alpha} : \mathbb{R}^n \to \mathbb{R}^n$,
+\begin{align*}
+    \mathcal{T}_{\alpha}(\mathbf{x})_i &= (|x_i| - \alpha)_{+}(x_i)
+\end{align*}
+  % Such methods ... (add some background on proximal gradient here)
