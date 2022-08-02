@@ -26,7 +26,7 @@ Instead, the problem is often relaxed to use the $\ell_1$ norm,
 which is referred to as the least absolute shrinkage and selection operation (LASSO). 
 
 \section{The ISTA algorithm}
-To solve the LASSO, it is possible to use proximal gradient methods from convex optimization \cite{ref:beck2009fast}. Such gradient methods solve the problem of the form,
+To solve the LASSO, it is possible to use proximal gradient methods from convex optimization \cite{ref:beck2009fast}. One such method is the iterative shrinkage threshold algorithm (ISTA), which we will explain in this section. Generally, gradient-based methods solve the problem of the form,
 \begin{align*}
     \min \left\{f(\mathbf{x})+\lambda\|\mathbf{x}\|_1\right\},
 \end{align*}
@@ -37,10 +37,10 @@ using the iterative steps,
 \end{align*}
 where $t_k>0$ is the stepsize for the algorithm. Note that the second line is admitted by ignoring the constant terms. The $\ell_1$ term is separable, and consequently, computing the iteration $\mathbf{x}_k$ can be done by solving a one-dimensional minimization problem for each component of $\mathbf{x}_k$,
 \begin{align*}
-    \mathbf{x}_k &= \mathcal{T}_{\lambda t_k} (\mathbf{x}_{k-1} - t_k\nabla f(\matbf{x}_{k-1})).
+    \mathbf{x}_k &= \mathcal{T}_{\lambda t_k} (\mathbf{x}_{k-1} - t_k\nabla f(\mathbf{x}_{k-1})).
 \end{align*}
 Note the shrinkage operator, $\mathcal{T}_{\alpha} : \mathbb{R}^n \to \mathbb{R}^n$,
 \begin{align*}
     \mathcal{T}_{\alpha}(\mathbf{x})_i &= (|x_i| - \alpha)_{+}(x_i)
 \end{align*}
-  % Such methods ... (add some background on proximal gradient here)
+The 
