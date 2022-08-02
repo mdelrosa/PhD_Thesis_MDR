@@ -26,11 +26,11 @@ Instead, the problem is often relaxed to use the $\ell_1$ norm,
 which is referred to as the least absolute shrinkage and selection operation (LASSO). 
 
 \section{The ISTA algorithm}
-To solve the LASSO, it is possible to use proximal gradient methods from convex optimization \cite{ref:beck2009fast}. One such method is the iterative shrinkage threshold algorithm (ISTA), which we will explain in this section. Generally, gradient-based methods solve the problem of the form,
+To solve the LASSO, it is possible to use proximal gradient methods from convex optimization \cite{ref:beck2009fast}. The gradient method that we focus on in this appendix is the iterative shrinkage threshold algorithm (ISTA), which is the namesake of the ISTANet algorithm discussed in Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}. For the $\ell_1$ regularized problem, gradient-based methods solve 
 \begin{align*}
-    \min \left\{f(\mathbf{x})+\lambda\|\mathbf{x}\|_1\right\},
+    \min \left\{f(\mathbf{x})+\lambda\|\mathbf{x}\|_1\right\}
 \end{align*}
-using the iterative steps,
+using the iterative steps
 \begin{align*}
     \mathbf{x}_k &= \argmin_{\mathbf{x}} \left\{f(\mathbf{x}_{k-1}) + \langle \mathbf{x} - \mathbf{x}_{k-1}, \nabla f(\mathbf{x}_{k-1}) \rangle + \frac{1}{2t_k}\|\mathbf{x} - \mathbf{x}_{k-1}\|^2 + \lambda\|\mathbf{x}\|_1\right\} \\
     &= \argmin_{\mathbf{x}} \left\{\frac{1}{2t_k}\|\mathbf{x} - (\mathbf{x}_{k-1} - t_k\nabla f(\mathbf{x}_{k-1}))\|^2 + \lambda\|\mathbf{x}\|_1\right\},
@@ -43,4 +43,7 @@ Note the shrinkage operator, $\mathcal{T}_{\alpha} : \mathbb{R}^n \to \mathbb{R}
 \begin{align*}
     \mathcal{T}_{\alpha}(\mathbf{x})_i &= (|x_i| - \alpha)_{+}(x_i)
 \end{align*}
-The 
+When $f(\mathbf{x}) := \|\mathbf{\Phi}\mathbf{x}-\mathbf{y}\|$, then this gradient method admits the ISTA algorithm, where the iterations take the form,
+\begin{align}
+    \mathbf{x}_k &= \mathcal{T}_{\lambda t_k}(\mathbf{x}_{k-1} - t_k\Phi^T(\Phi \mathbf{x}_{k-1} - \mathbf{y}))
+\end{align}
