@@ -62,7 +62,7 @@ Rather than use RNNs to extract temporal dependencies in CSI data, we proposed a
 where $\mathbf W \in \mathbb C^{R_b \times R_b}$ is the minimum mean squared error (MMSE) estimator,
 \begin{align*}
 	\mathbf H_i &= \mathbf H_{i-1}\mathbf W + \mathbf E_i \\
-	\mathbf H_{i-1}^H\mathbf H_i &= \mathbf H_{i-1}^H\mathbf H_{i-1} \mathbf W + \cancelto{\mathbf 0}{\mathbf H_{i-1}^H\mathbf E_i}
+	\mathbf H_{i-1}^H\mathbf H_i &= \mathbf H_{i-1}^H\mathbf H_{i-1} \mathbf W + \cancelto{\mathbf 0}{\mathbf H_{i-1}^H\mathbf E_i},
 \end{align*}
 where the cancellation of the product $\mathbf H_{i-1}^H\mathbf E_i$ is due to the principle of orthogonality (i.e., the error terms are orthogonal to the observed data). Denoting the cross correlation matrix as $\mathbf R_{i} = \mathbb{E}\left[\mathbf H_{t-i}^H\mathbf H_{t}\right]$, we solve for the MMSE estimator,
 \begin{align*}
@@ -78,7 +78,7 @@ The MMSE estimator based on the sample correlation matrices is written as
 \begin{align*}
 	\hat{\mathbf W} &= \hat{\mathbf R}_0^{-1} \hat{\mathbf R}_1.
 \end{align*}
-We can further simplify this estimator to a scalar, $\gamma \in \mathbb R$, as
+In Appendix~\ref{appdx:autoregressive}, we describe the general multivariate autoregressive model which depends on $\hat{\mathbf{W}}$\footnote{Furthermore, Appendix~\ref{appdx:autoregressive} discusses this multivariate model for the $p$-step case, i.e. using $p$ previous timeslots rather than a single timeslot as described in this section. However, based on experimental results, models with more than one previous timeslot provided only marginal improvements over the one-step model.}. However, we can simplify this model to use a scalar coefficient, $\gamma \in \mathbb R$, as
 % \begin{align*}
 %   \hat \gamma &= \frac{\sum_{i=1}^N\text{Trace}(\left[\mathbf H_{t-1}^H(i)\mathbf H_{t}(i)\right])}{\sum_{i=1}^N\Arrowvert\mathbf H_t^H(i) \mathbf H_t(i)\Arrowvert^2},
 % \end{align*}
