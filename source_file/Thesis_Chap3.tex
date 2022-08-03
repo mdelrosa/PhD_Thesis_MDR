@@ -82,9 +82,9 @@ In Appendix~\ref{appdx:autoregressive}, we describe the general multivariate aut
 % \begin{align*}
 %   \hat \gamma &= \frac{\sum_{i=1}^N\text{Trace}(\left[\mathbf H_{t-1}^H(i)\mathbf H_{t}(i)\right])}{\sum_{i=1}^N\Arrowvert\mathbf H_t^H(i) \mathbf H_t(i)\Arrowvert^2},
 % \end{align*}
-\begin{align*}
-	\hat \gamma &= \frac{\text{Trace}(\hat{\mathbf R}_1(k,l))}{\sum_k^{R_d}\sum_l^{N_b}\hat{\mathbf R}_0(k,l)},
-\end{align*}
+\begin{align}
+	\hat \gamma &= \frac{\text{Trace}(\hat{\mathbf R}_1(k,l))}{\sum_k^{R_d}\sum_l^{N_b}\hat{\mathbf R}_0(k,l)}, \label{eq:gamma-hat}
+\end{align}
 where $k$ ($l$) are the row (column) indices of the correlation matrices. The estimator in this case is 
 \begin{align}
 	\grave{\mathbf H}_i &= \hat\gamma \hat{\mathbf H}_{i-1} \label{eq:gamma-estim}.

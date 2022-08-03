@@ -7,8 +7,7 @@ Recall the truncated delay domain CSI at the $t$-th timeslot, $\mathbf{H}_{t}\in
 \begin{align*}
 	\hat{\mathbf{H}}_t &= f(\mathbf{H}_{t-1}, \mathbf{H}_{t-2}, \dots, \mathbf{H}_{t-p}).
 \end{align*}
-, $\mathbf W_1, \dots, \mathbf W_p$.
-Given $p$ prior CSI samples, the mean-square optimal predictor $\hat H_t$ is a linear combination of these the prior CSI samples,
+Given $p$ prior CSI samples, the mean-square optimal predictor $\hat{\mathbf{H}}_t$ is a linear combination of these the prior CSI samples,
 \begin{equation}
 \mathbf{\hat H}_{t} = \mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-p} \mathbf W_{p} + \mathbf E_t.
 \end{equation}
@@ -86,3 +85,49 @@ where $j$ indexes over the training data. Now, we write the estimators, $\hat{\m
     \hat{\mathbf R}_{1} \\ \hat{\mathbf R}_{2} \\ \dots \\ \hat{\mathbf R}_{p} \\
   \end{bmatrix}. \label{eq:toep-sol-est}
 \end{align}
+
+If a more simple model is desired, then we can construct scalar estimators for each timeslot. Denote the mean of all elements in the correlation matrix as,
+\begin{align*}
+  r_i = \mathbb{E}\left[\sum_{k}^{R_d} \sum_{\ell}^{N_b}\mathbf{R}_i^{(k,\ell)}\right]
+\end{align*}
+where $\mathbf{R}_i^{(k, \ell)}$ is the element from the $k$-th row and $\ell$-th column of $\mathbf{R}_i$. The resulting system of equations for scalar model is given as
+\begin{align}
+  \begin{bmatrix}
+    \gamma_{1} \\ \gamma_{2} \\ \dots \\ \gamma_{p} \\
+  \end{bmatrix}
+  &= 
+  \begin{bmatrix}
+    r_{0} & r_1^* & \dots  & r_{p-1}^* \\
+    r_{1} & r_0   & \dots  & r_{p-2}^* \\
+    \vdots      &         & \ddots & \vdots \\
+    r_{p-1} & r_{p-2}   & \dots  & r_{0} \\
+  \end{bmatrix}^{-1}
+  \begin{bmatrix}
+    r_{1} \\ r_{2} \\ \dots \\ r_{p} \\
+  \end{bmatrix}. \label{eq:toep-sol-scalar}
+\end{align}
+Following the same logic as before, we utilize the sample versions of $\hat r_i$,
+\begin{align*}
+  \hat r_i &= \frac{1}{N_{\text{train}}} \sum_{j}^{N_{\text{train}}} \sum_{k}^{R_d} \sum_{\ell}^{N_b}\hat{\mathbf{R}}_i^{(k,\ell)}(j),
+\end{align*}
+which admits the system of equations,
+\begin{align}
+  \begin{bmatrix}
+    \hat\gamma_{1} \\ \hat\gamma_{2} \\ \dots \\ \hat\gamma_{p} \\
+  \end{bmatrix}
+  &= 
+  \begin{bmatrix}
+    \hat r_{0} & \hat r_1^* & \dots  & \hat r_{p-1}^* \\
+    \hat r_{1} & \hat r_0   & \dots  & \hat r_{p-2}^* \\
+    \vdots      &         & \ddots & \vdots \\
+    \hat r_{p-1} & \hat r_{p-2}   & \dots  & \hat r_{0} \\
+  \end{bmatrix}^{-1}
+  \begin{bmatrix}
+    \hat r_{1} \\ \hat r_{2} \\ \dots \\ \hat r_{p} \\
+  \end{bmatrix}. \label{eq:toep-sol-scalar-est}
+\end{align}
+For the one-step scalar estimator, we can derive equation (\ref{eq:gamma-hat}) from Chapter~\ref{chap:markovnet} of Section~\ref{sect:diff-enc},
+\begin{align*}
+  \hat{\gamma}_1 &= \frac{\hat{r}_1}{\hat{r}_0} \\
+  &= \frac{\text{Trace}(\hat{\mathbf R}_1(k,l))}{\sum_k^{R_d}\sum_l^{N_b}\hat{\mathbf R}_0(k,l)}.
+\end{align*}
