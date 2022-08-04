@@ -41,9 +41,9 @@ where $t_k>0$ is the stepsize for the algorithm. Note that the second line is ad
 \end{align*}
 Note the shrinkage operator, $\mathcal{T}_{\alpha} : \mathbb{R}^n \to \mathbb{R}^n$,
 \begin{align*}
-    \mathcal{T}_{\alpha}(\mathbf{x})_i &= (|x_i| - \alpha)_{+}(x_i)
+    \mathcal{T}_{\alpha}(\mathbf{x})_i &= \text{soft}(x_i, \alpha) = (|x_i| - \alpha)_{+}(x_i)
 \end{align*}
-When $f(\mathbf{x}) := \|\mathbf{\Phi}\mathbf{x}-\mathbf{y}\|$, then this gradient method admits the ISTA algorithm, where the iterations take the form,
+When this gradient method is applied to the compressed sensing problem, we have $f(\mathbf{x}) := \|\mathbf{\Phi}\mathbf{x}-\mathbf{y}\|$, and the resulting iterative algorithm is known as ISTA, where the iterations take the form,
 \begin{align}
-    \mathbf{x}_k &= \mathcal{T}_{\lambda t_k}(\mathbf{x}_{k-1} - t_k\Phi^T(\Phi \mathbf{x}_{k-1} - \mathbf{y}))
+    \mathbf{x}_k &= \mathcal{T}_{\lambda t_k}(\mathbf{x}_{k-1} - t_k\mathbf{\Phi}^T(\mathbf{\Phi} \mathbf{x}_{k-1} - \mathbf{y}))
 \end{align}
