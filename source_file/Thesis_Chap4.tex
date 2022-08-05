@@ -142,9 +142,9 @@ To exploit the temporal coherence of the MIMO channel, we propose to construct a
 \end{align}
 For compressed sensing approaches, the measurement matrix is analogous to the `encoder' of autoencoder approaches, i.e., $f(x)=\mathbf\Phi x$. The `decoder' consists of $K$ iterations of the following update steps,
 \begin{align}
-    \mathbf{r}^{(k)} &= \mathbf{x}^{(k-1)}-\rho^{(k)}\mathbf{\Phi}^\top(\mathbf{\Phi}\mathbf x^{(k-1)}-\mathbf y) \\
+    \mathbf{r}^{(k)} &= \mathbf{x}^{(k-1)}-\rho^{(k)}\mathbf{\Phi}^\top(\mathbf{\Phi}\mathbf x^{(k-1)}-\mathbf y) \label{eq:istanet-grad} \\
     % \mathbf x^{(k)} &= \tilde{\mathcal{F}}^{(k)}\left(\text{soft}\left(\mathcal{F}^{(k)}(\mathbf{r}^{(k)}), \theta^{(k)}\right)\right)
-    \mathbf x^{(k)} &= \mathbf{r}^{(k)} + \mathcal{G}^{(k)}\left(\tilde{\mathcal{H}}^{(k)}\left(\text{soft}\left(\mathcal{H}^{(k)}(\mathcal{D}^{(k)}(\mathbf{r}^{(k)}), \theta^{(k)}\right)\right)\right)
+    \mathbf x^{(k)} &= \mathbf{r}^{(k)} + \mathcal{G}^{(k)}\left(\tilde{\mathcal{H}}^{(k)}\left(\text{soft}\left(\mathcal{H}^{(k)}(\mathcal{D}^{(k)}(\mathbf{r}^{(k)}), \theta^{(k)}\right)\right)\right) \label{eq:istanet-prox}
 \end{align}
 where $\mathbf y=\mathbf{\Phi} \mathbf x$, $\mathbf x^{(0)}=\mathbf{R}_{\text{init}}\mathbf{y}$, and $\mathbf R_{\text{init}}=\mathbf {XY}(\mathbf{YY}^\top)^{-1}$ is the initialization matrix for the training data matrix $\mathbf X = \left[\mathbf{x}_1, \mathbf{x}_2,\dots, \mathbf{x}_{N_{\text{train}}}\right]$ and the training measurement matrix $\mathbf Y = \left[\mathbf{y}_1, \mathbf{y}_2,\dots, \mathbf{y}_{N_{\text{train}}}\right]$. `soft($\cdot$)' denotes the soft threshold function,
 \begin{align}
