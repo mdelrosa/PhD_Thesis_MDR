@@ -47,3 +47,8 @@ When this gradient method is applied to the compressed sensing problem, we have 
 \begin{align}
     \mathbf{x}_k &= \mathcal{T}_{\lambda t_k}(\mathbf{x}_{k-1} - t_k\mathbf{\Phi}^T(\mathbf{\Phi} \mathbf{x}_{k-1} - \mathbf{y}))
 \end{align}
+These iterations of the ISTA algorithm correspond to the gradient step and the proximal step of (\ref{eq:istanet-grad}) and (\ref{eq:istanet-prox}) for ISTANet+ (see Chapter~\ref{chap:p2d}, Section~\ref{sect:hetero-markov}). Note that ISTANet+ differs from the vanilla formulation of ISTA in a few key ways, namely:
+\begin{itemize}
+    \item \textbf{Learnable sparse basis}: ISTANet+ assumes that the $\ell_1$ penalty term is imposed on a sparse transform of the input data (i.e., $\|\mathbf{\Psi}\mathbf{x}\|_1$). Furthermore, the sparse transform and its inverse (i.e., $\mathbf{Psi}$ and $\mathbf{\Psi}^{-1}$) are learned using convolutional layers (i.e., $\mathcal{G} and \tilde{\mathcal{G}}$), and the `soft' operator is applied to sparse transform.
+    \item \textbf{Residual connections}: ISTANet+ uses the sparse transform and the `soft' operator on the residual of the estimate rather than the estimate itself.
+\end{itemize}
