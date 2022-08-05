@@ -1,0 +1,78 @@
+%% Creator: Inkscape inkscape 0.92.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'cnns-venn-diagram-contrib-final.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{396.97898564bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.57526678)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{cnns-venn-diagram-contrib-final.pdf}}%
+    \put(0.4777109,0.48602769){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}CsiNet\end{tabular}}}}%
+    \put(0.50137594,0.51735691){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{CNNs for CSI Compression/Feedback}\end{tabular}}}}%
+    \put(0.5018335,0.26577108){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{CNN Architecture}\\\textit{Optimization}\end{tabular}}}}%
+    \put(0.47822256,0.20082723){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}CRNet\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{cnns-venn-diagram-contrib-final.pdf}}%
+    \put(0.53059361,0.33004349){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}MarkovNet \cite{ref:Liu2020MarkovNet}\end{tabular}}}}%
+    \put(0.29224215,0.24205735){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SphNet \cite{ref:liu2020sphnet}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{cnns-venn-diagram-contrib-final.pdf}}%
+    \put(0.12617542,0.23246344){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Normalization}\\\textit{Techniques}\end{tabular}}}}%
+    \put(0.86459896,0.55199829){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Red = Our Contribution\end{tabular}}}}%
+    \put(0.66325822,0.33186518){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}CsiNet-LSTM\end{tabular}}}}%
+    \put(0.79788507,0.41649695){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Temporal}\\\textit{Correlation}\end{tabular}}}}%
+    \put(0.14220717,0.39098217){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Differential}\\\textit{Encoding}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{cnns-venn-diagram-contrib-final.pdf}}%
+    \put(0.31482457,0.4237136){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Hetergeneous}\\\textit{Networks}\end{tabular}}}}%
+    \put(0.51168243,0.38365836){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}MarkovNet-ISTA-ENet \cite{ref:delRosario2022p2d}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{cnns-venn-diagram-contrib-final.pdf}}%
+    \put(0.64108024,0.13676017){\color[rgb]{0.90588235,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}P2DE \cite{ref:delRosario2022p2d}\end{tabular}}}}%
+    \put(0.79757043,0.14744636){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Pilot-based}\\\textit{Delay Domain CSI}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{cnns-venn-diagram-contrib-final.pdf}}%
+  \end{picture}%
+\endgroup%
