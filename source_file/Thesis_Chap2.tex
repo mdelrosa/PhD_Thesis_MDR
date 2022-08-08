@@ -24,9 +24,9 @@ A common architecture for deep unsupervised learning is the \emph{autoencoder} (
 \begin{align*}
 \underset{\theta_e, \theta_d}{\text{argmin}}\; \frac 1N \sum_{i=1}^N\Arrowvert \mathbf H_i - g(f(\mathbf H_i, \theta_e), \theta_d) \Arrowvert^2.
 \end{align*}
-We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent, ADAM).
+We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent or Adam).
 
-The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:csinet}. Figure~\ref{fig:csinet} shows the architecture of CsiNet, where the encoder is deployed at the UE and the decoder is deployed at the BS. The encoder uses a convolutional layer and a linear layer to find a compressed representation of the input CSI, and the decoder uses a linear layer to expand the dimension of the feedback and two ``refine blocks'' with an output convolutional layer to refine the CSI estimate. After the CsiNet paper, many works attempted to bolster the performance of CNN autoencoders for CSI estimation by incorporating \emph{domain knowledge}. This Chapter details several such works, and in Section\ref{sect:sparse-csi}, we will discuss one such area of domain knowledge about CSI data: the sparse basis of the CSI data utilized in CsiNet. 
+The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:csinet}. Figure~\ref{fig:csinet} shows the architecture of CsiNet, where the encoder is deployed at the UE and the decoder is deployed at the BS. The encoder uses a convolutional layer and a linear layer to find a compressed representation of the input CSI, and the decoder uses a linear layer to expand the dimension of the feedback followed by two ``refine blocks'' and an output convolutional layer to refine the CSI estimate. After the CsiNet paper, many works attempted to bolster the performance of CNN autoencoders for CSI estimation by incorporating \emph{domain knowledge}. This Chapter details several such works, and in Section\ref{sect:sparse-csi}, we will discuss one such area of domain knowledge about CSI data: the sparse basis of the CSI data utilized in CsiNet. 
 
 \begin{figure}[htb]
 	\centering
