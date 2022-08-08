@@ -122,13 +122,13 @@ We compare MarkovNet with CsiNet-LSTM \cite{ref:Wang2019CsiNetLSTM} on the indoo
 
 Figure~\ref{fig:diffnet_result} shows the NMSE of MarkovNet and CsiNet-LSTM for four different compression ratios. For the indoor network, all instances of MarkovNet achieve lower NMSE than all instances of CsiNet-LSTM. In the outdoor scenario, each CR for MarkovNet demonstrates lower NMSE than the corresponding CR for CsiNet-LSTM. Between both channel scenarios, MarkovNet shows gradual improvement for subsequent timeslots if the CR is high enough while CsiNet-LSTM only improves gradually in the outdoor environment for CR$=\frac 14$.
 \begin{figure}[!hbtp] \centering 
-	\begin{subfigure}[t]{.45\textwidth}
+	\begin{subfigure}[t]{.48\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{MarkovNet_truncated_Indoor_10slots.pdf}
 		\caption{Indoor}
 		\label{fig:diffnet_indoor} 
 	\end{subfigure}
-	\begin{subfigure}[t]{.45\textwidth}
+	\begin{subfigure}[t]{.48\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{MarkovNet_truncated_Outdoor_10slots.pdf}
 		\caption{Outdoor}
