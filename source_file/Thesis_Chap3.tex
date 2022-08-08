@@ -78,7 +78,7 @@ The MMSE estimator based on the sample correlation matrices is written as
 \begin{align*}
 	\hat{\mathbf W} &= \hat{\mathbf R}_0^{-1} \hat{\mathbf R}_1.
 \end{align*}
-In Appendix~\ref{appdx:autoregressive}, we describe the general multivariate autoregressive model which depends on $\hat{\mathbf{W}}$\footnote{Furthermore, Appendix~\ref{appdx:autoregressive} discusses this multivariate model for the $p$-step case, i.e. using $p$ previous timeslots rather than a single timeslot as described in this section. However, based on experimental results, models with more than one previous timeslot provided only marginal improvements over the one-step model.}. However, we can simplify this model to use a scalar coefficient, $\gamma \in \mathbb R$, as
+In Appendix~\ref{appdx:autoregressive}, we describe the general multivariate autoregressive model which depends on $\hat{\mathbf{W}}$\footnote{Furthermore, Appendix~\ref{appdx:autoregressive} discusses this multivariate model for the $p$-step case, i.e. using $p$ previous timeslots rather than a single timeslot as described in this section. However, based on experimental results, models with more than one previous timeslot provided only marginal improvements over the one-step model.}. However, we can simplify this model to use a scalar coefficient, $\hat\gamma \in \mathbb R$, as
 % \begin{align*}
 %   \hat \gamma &= \frac{\sum_{i=1}^N\text{Trace}(\left[\mathbf H_{t-1}^H(i)\mathbf H_{t}(i)\right])}{\sum_{i=1}^N\Arrowvert\mathbf H_t^H(i) \mathbf H_t(i)\Arrowvert^2},
 % \end{align*}
@@ -93,7 +93,7 @@ Under the estimator $\gamma$, we proposed to encode the error, $\mathbf E_t$, us
 \begin{align*}
 	\hat{\mathbf E}_i &= g(f(\mathbf E_i, \vec\theta_e), \vec\theta_d),
 \end{align*}
-where $\mathbf E_i = \mathbf H_i - \gamma\hat{\mathbf H}_{i-1}$. The base station has access to the estimators $\gamma$ and $\hat{\mathbf H}_{i-1}$, and the resulting CSI estimate at $t_i$ is
+where $\mathbf E_i = \mathbf H_i - \hat\gamma\hat{\mathbf H}_{i-1}$. The base station has access to the estimators $\hat\gamma$ and $\hat{\mathbf H}_{i-1}$, and the resulting CSI estimate at $t_i$ is
 \begin{align}
 	\hat{\mathbf H}_i &= \hat\gamma \hat{\mathbf H}_{i-1} + \hat{\mathbf{E}}_i \label{eq:diff-estim}
 \end{align}
