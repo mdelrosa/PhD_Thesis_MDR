@@ -113,34 +113,12 @@ In \cite{ref:Liu2020MarkovNet}, we proposed MarkovNet, a deep differential autoe
     \label{fig:markovnet_schema}
 \end{figure}
 
-The resulting network requires no recurrent layers, resulting in a substantial reduction in computational complexity. Table~\ref{tab:comp-complex} shows the number of parameters and FLOPs per timeslot for CsiNet-LSTM, MarkovNet, and CsiNet. The parameter count of MarkovNet is on par with CsiNet, and CsiNet-LSTM requires orders of magnitude more parameters. While the number of FLOPs for MarkovNet is nearly 10 times smaller than CsiNet-LSTM, MarkovNet requires 5 to 10 times more FLOPs than CsiNet due to the increased kernel size of CsiNet-Pro.
-
-\begin{table}[htb]
-  \renewcommand{\arraystretch}{1}
-  \begin{center}
-  % \caption{Table II: Model size \& computational complexity comparison. M: million, K: thousand.}
-  \caption{Model size/computational complexity of tested temporal networks (CsiNet-LSTM, MarkovNet) and comparable non-temporal network (CsiNet). M: million.}
-  \label{tab:comp-complex} 
-  % \resizebox{\linewidth}{15mm}
-  \footnotesize{
-	  \begin{tabular}{|l|c|c|c|c|c|c|}
-	  \hline
-	                              & \multicolumn{3}{c|}{\textbf{Parameters}} & \multicolumn{3}{c|}{\textbf{FLOPs}} \\ \hline
-	                              & \textbf{CsiNet-LSTM} & \textbf{MarkovNet} & \textbf{CsiNet} & \textbf{CsiNet-LSTM} & \textbf{MarkovNet} & \textbf{CsiNet} \\ \hline
-	  \textbf{CR=$1/4$}  		  & 132.7 M              & 2.1 M              & 2.1 M  			& 412.9 M              & 44.5 M             & 7.8 M           \\ \hline
-	  \textbf{CR=$1/8$}  		  & 123.2 M              & 1.1 M              & 1.1 M  			& 410.8 M              & 42.	4 M             & 5.7 M           \\ \hline
-	  \textbf{CR=$1/16$} 		  & 118.5 M              & 0.5 M              & 0.5 M 			& 409.8 M              & 41.3 M             & 4.7 M           \\ \hline
-	  \textbf{CR=$1/32$} 		  & 116.1 M              & 0.3 M              & 0.3 M           & 409.2 M              & 40.8 M             & 4.1 M           \\ \hline
-	  \textbf{CR=$1/64$} 		  & 115.0 M              & 0.1 M              & 0.1 M 			& 409.0 M              & 40.5 M             & 3.9 M           \\ \hline
-	  \end{tabular}
-  }
-  \end{center}
-\end{table} 
-
-\subsection{Results} \label{sec:markov-results}
+\section{Results} \label{sec:markov-results}
 
 We compare MarkovNet with CsiNet-LSTM \cite{ref:Wang2019CsiNetLSTM} on the indoor and outdoor COST2100 datasets (for details, see Section~\ref{sect:channel_model}). For MarkovNet, we train the network at the first timeslot for 1000 epochs. In each subsequent timeslot, we initialize the network using the weights from the previous timeslot and train for 200 epochs. We use a batch size of 200. We perform a training/testing split of 75k/25k samples, and we estimate $\hat\gamma$ using the training set. To compare the estimation accuracy of each network, we report the NMSE.
 %estimate of the previous timeslot with the scalar MMSE estimator, $\gamma$, to produce the error term $\mathbf E_t = \mathbf H_t - \gamma\hat{\mathbf H}_{t-1}$.
+
+\subsection{Network Comparison}
 
 Figure~\ref{fig:diffnet_result} shows the NMSE of MarkovNet and CsiNet-LSTM for four different compression ratios. For the indoor network, all instances of MarkovNet achieve lower NMSE than all instances of CsiNet-LSTM. In the outdoor scenario, each CR for MarkovNet demonstrates lower NMSE than the corresponding CR for CsiNet-LSTM. Between both channel scenarios, MarkovNet shows gradual improvement for subsequent timeslots if the CR is high enough while CsiNet-LSTM only improves gradually in the outdoor environment for CR$=\frac 14$.
 \begin{figure}[!hbtp] \centering 
@@ -169,6 +147,8 @@ using $\text{CR}=\frac 14$.}
 	\label{fig:csi_image} 
 \end{figure}
 
+\subsection{Performance under Quantization}
+
 To understand the effect of quantization on the network performance, we choose to use $\mu$-law companding and uniform quantization on the latent feedback elements. We begin by performing a logarithmic scaling on the feedback elements, $x$,
 \begin{align}
 	f(x) = \frac{\text{sign}(x)\ln\left(1 + \mu|x|\right)}{\ln\left(1 + \mu\right)} , \; 0 \leq |x| \leq 1. \label{eq:mu-forward}
@@ -196,3 +176,29 @@ In the Outdoor scenario, the performance of each network at each compression rat
     \caption{NMSE comparison of MarkovNet and CsiNet-LSTM for the Outdoor scenario with feedback subject to $\mu$-law quantization using fixed step size, $\Delta=2^{-(b-1)}$, for $b$ bits.}
 	\label{fig:feedback_quant_outdoor} \vspace*{-6mm}
 \end{figure}
+
+\subsection{Computational Complexity}
+
+The resulting network requires no recurrent layers, resulting in a substantial reduction in computational complexity. Table~\ref{tab:comp-complex} shows the number of parameters and FLOPs per timeslot for CsiNet-LSTM, MarkovNet, and CsiNet. The parameter count of MarkovNet is on par with CsiNet, and CsiNet-LSTM requires orders of magnitude more parameters. While the number of FLOPs for MarkovNet is nearly 10 times smaller than CsiNet-LSTM, MarkovNet requires 5 to 10 times more FLOPs than CsiNet due to the increased kernel size of CsiNet-Pro.
+
+\begin{table}[htb]
+  \renewcommand{\arraystretch}{1}
+  \begin{center}
+  % \caption{Table II: Model size \& computational complexity comparison. M: million, K: thousand.}
+  \caption{Model size/computational complexity of tested temporal networks (CsiNet-LSTM, MarkovNet) and comparable non-temporal network (CsiNet). M: million.}
+  \label{tab:comp-complex} 
+  % \resizebox{\linewidth}{15mm}
+  \footnotesize{
+	  \begin{tabular}{|l|c|c|c|c|c|c|}
+	  \hline
+	                              & \multicolumn{3}{c|}{\textbf{Parameters}} & \multicolumn{3}{c|}{\textbf{FLOPs}} \\ \hline
+	                              & \textbf{CsiNet-LSTM} & \textbf{MarkovNet} & \textbf{CsiNet} & \textbf{CsiNet-LSTM} & \textbf{MarkovNet} & \textbf{CsiNet} \\ \hline
+	  \textbf{CR=$1/4$}  		  & 132.7 M              & 2.1 M              & 2.1 M  			& 412.9 M              & 44.5 M             & 7.8 M           \\ \hline
+	  \textbf{CR=$1/8$}  		  & 123.2 M              & 1.1 M              & 1.1 M  			& 410.8 M              & 42.	4 M             & 5.7 M           \\ \hline
+	  \textbf{CR=$1/16$} 		  & 118.5 M              & 0.5 M              & 0.5 M 			& 409.8 M              & 41.3 M             & 4.7 M           \\ \hline
+	  \textbf{CR=$1/32$} 		  & 116.1 M              & 0.3 M              & 0.3 M           & 409.2 M              & 40.8 M             & 4.1 M           \\ \hline
+	  \textbf{CR=$1/64$} 		  & 115.0 M              & 0.1 M              & 0.1 M 			& 409.0 M              & 40.5 M             & 3.9 M           \\ \hline
+	  \end{tabular}
+  }
+  \end{center}
+\end{table} 
