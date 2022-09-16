@@ -2,6 +2,46 @@
 \label{appdx:complexity}
 Based on the measures of computational complexity in Chapter~\ref{chap:sph_norm} Section~\ref{sect:dl_overview}, i.e. FLOPs and parameters, we provide the corresponding formulas for common layers and operations used in the networks described in this thesis. Note that any arithmetic operation (e.g., addition, multiplication) or non-linearity consumes a single FLOP, and certain non-linearities require a single parameter (e.g., the negative slope of a Leaky ReLU).
 
+\section{Matrix Multiplication} \label{appdx:complexity-matmul}
+
+Denote two matrices $\mathbf{A} \in \mathbb{R}^{M \times P}$ and $\mathbf{B} \in \mathbb{R}^{P \times N}$. Matrix multiplication between $\mathbf{A}$ and $\mathbf{B}$ is denoted as
+\begin{align*}
+	\mathbf{C} &= \mathbf{A}\mathbf{B} \in \mathbb{R}^{M\times N}, \; c_{ij} = \sum_{k=1}^P a_{ik}b_{kj} \; \forall \; i\in [1,\dots,M], i\in [1,\dots,N].
+\end{align*}
+\textbf{FLOPs}: Each element in $\mathbf{C}$ involves $P$ multiplications and $P-1$ additions, and $\mathbf{C}$ includes $M \times N$ elements. Thus, the amount of FLOPs involved in matrix multiplication is
+\begin{align*}
+	\text{FLOPs}_{\text{matmul}} &= (2P-1)MN
+\end{align*}
+
+\textbf{Parameters}: The number of `parameters' in matrix multiplicatiion depends on which matrix is considered the parameter matrix. If $\mathbf{A}$ is the parameter matrix, then the number of parameters is
+\begin{align*}
+	P_{\text{matmul}} &= MP.
+\end{align*}
+Alternatively, if $\mathbf{B}$ is the parameter matrix, then the number of parameters is
+\begin{align*}
+	P_{\text{matmul}} &= PN.
+\end{align*}
+
+\section{Complex Matrix Multiplication}  \label{appdx:complexity-matmul-comp}
+
+Denote two complex matrices $\mathbf{A} \in \mathbb{C}^{M \times P}$ and $\mathbf{B} \in \mathbb{C}^{P \times N}$. Complex matrix multiplication between $\mathbf{A}$ and $\mathbf{B}$ is denoted as
+\begin{align*}
+	\mathbf{C} &= \mathbf{A}\mathbf{B} \in \mathbb{R}^{M\times N},\\ \; c_{ij} &= \sum_{k=1}^P [\text{Re}(a_{ik})\text{Re}(b_{kj}) - \text{Im}(a_{ik})\text{Im}(b_{kj})] \\ &\phantom{\sum} + j[\text{Re}(a_{ik})\text{Im}(b_{kj}) + \text{Im}(a_{ik})\text{Re}(b_{kj})] \\ &\phantom{\sum} \forall \; i\in [1,\dots,M], i\in [1,\dots,N].
+\end{align*}
+\textbf{FLOPs}: Each element in $\mathbf{C}$ involves $P$ complex multiplications and $P-1$ complex additions. Complex multiplication involves 4 (real) multiplications and 2 (real) additions, totaling 6 FLOPs total. Complex addition involves 2 (real) additions. Since $\mathbf{C}$ includes $M \times N$ complex elements, the amount of FLOPs involved in matrix multiplication is
+\begin{align*}
+	\text{FLOPs}_{\text{matmul}} &= (8P-2)MN % (6P + 2(P-1))MN
+\end{align*}
+
+\textbf{Parameters}: The number of parameters in complex matrix multiplication is identical to real matrix multiplication with a factor of 2. If $\mathbf{A}$ is the parameter matrix, then the number of parameters is
+\begin{align*}
+	P_{\text{matmul}} &= 2MP.
+\end{align*}
+Alternatively, if $\mathbf{B}$ is the parameter matrix, then the number of parameters is
+\begin{align*}
+	P_{\text{matmul}} &= 2PN.
+\end{align*}
+
 \section{Linear Layer} \label{appdx:complexity-linear}
 Denote parameter matrix $\mathbf{A}\in\mathbb{R}^{M\times N}$ and the input vector $\mathbf{b}\in\mathbb{R}^{N}$. The output of a linear layer, $\mathbf{o}\in\mathbb{R}^M$, is given as
 \begin{align*}
