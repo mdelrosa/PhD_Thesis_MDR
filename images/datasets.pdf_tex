@@ -56,10 +56,10 @@
     \put(0,0){\includegraphics[width=\unitlength,page=1]{datasets.pdf}}%
     \put(0.22996629,0.41250445){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}COST2100\end{tabular}}}}%
     \put(0.72395551,0.41291563){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}ImageNet\end{tabular}}}}%
-    \put(0.08311895,0.19803614){\color[rgb]{0,0,0}\transparent{0.94117647}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Real\end{tabular}}}}%
+    \put(0.08311895,0.19803614){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Real\end{tabular}}}}%
     \put(0.3745999,0.19934548){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Imaginary\end{tabular}}}}%
-    \put(0.53809194,0.19803614){\color[rgb]{0.92941176,0.22352941,0.18431373}\transparent{0.94117647}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Red\end{tabular}}}}%
-    \put(0.72375548,0.19814695){\color[rgb]{0.23921569,0.65490196,0.37254902}\transparent{0.94117647}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Green\end{tabular}}}}%
+    \put(0.53809194,0.19803614){\color[rgb]{0.92941176,0.22352941,0.18431373}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Red\end{tabular}}}}%
+    \put(0.72375548,0.19814695){\color[rgb]{0.23921569,0.65490196,0.37254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Green\end{tabular}}}}%
     \put(0.91348253,0.19803614){\color[rgb]{0.25098039,0.56470588,0.77254902}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Blue\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{datasets.pdf}}%
     \put(0.08311895,0.30076847){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$|\mathbf H|$\end{tabular}}}}%
