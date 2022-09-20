@@ -8,7 +8,6 @@ Section~\ref{sect:p2de} details our proposed pilots-to-delay estimator (P2DE), a
 \begin{figure}[!hbtp]
     \centering
     \includegraphics[width=\linewidth]{./images/00_downlink_p2d_feedback_horiz_diag.png}
-    % \input{figure/csinet_quant.pdf_tex}
     \caption{Compressive CSI estimation based on linear P2D estimator. First,
     we use downlink pilots to 
     generate a sparse, frequency domain CSI
@@ -44,7 +43,7 @@ Denote the delay-domain CSI vector, $\tilde{\boldeta}_i$, which is defined as
 \begin{equation}
 	\tilde{\boldeta}_{i}\mathbf{F} = \boldeta_i, \label{eq:dft}
 \end{equation}
-where $\mathbf{F}$ is the $\mathbf{C}^{N_f \times N_f}$ discrete Fourier transform (DFT) matrix. To relate the frequency domain pilots to the delay domain, we apply the pilot downsampling matrix $\mathbf{P}_i$ to both sides of \ref{eq:dft},
+where $\mathbf{F}$ is the $\mathbf{C}^{N_f \times N_f}$ discrete Fourier transform (DFT) matrix. To relate the frequency domain pilots to the delay domain, we apply the pilot downsampling matrix $\mathbf{P}_i$ to both sides of (\ref{eq:dft}),
 \begin{align}
 	\tilde{\boldeta}_{i}\mathbf{F}\mathbf{P}_i = \boldeta_i\mathbf{P}_i \nonumber \\
 	\tilde{\boldeta}_{i}\mathbf{Q}_i = \boldeta_{d,i} \label{eq:qmat}
