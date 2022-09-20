@@ -59,7 +59,7 @@
     \put(0.5018335,0.26577108){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{CNN Architecture}\\\textit{Optimization}\end{tabular}}}}%
     \put(0.47822256,0.20082723){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}CRNet\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{cnns-venn-diagram-contrib-final.pdf}}%
-    \put(0.53059361,0.33004349){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}MarkovNet \cite{ref:Liu2020MarkovNet}\end{tabular}}}}%
+    \put(0.53059361,0.33382203){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}MarkovNet \cite{ref:Liu2020MarkovNet}\end{tabular}}}}%
     \put(0.29224215,0.24205735){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SphNet \cite{ref:liu2020sphnet}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{cnns-venn-diagram-contrib-final.pdf}}%
     \put(0.12617542,0.23246344){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Normalization}\\\textit{Techniques}\end{tabular}}}}%
@@ -68,7 +68,7 @@
     \put(0.79788507,0.41649695){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Temporal}\\\textit{Correlation}\end{tabular}}}}%
     \put(0.14220717,0.39098217){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Differential}\\\textit{Encoding}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{cnns-venn-diagram-contrib-final.pdf}}%
-    \put(0.31482457,0.4237136){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Hetergeneous}\\\textit{Networks}\end{tabular}}}}%
+    \put(0.31482457,0.4237136){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Heterogeneous}\\\textit{Networks}\end{tabular}}}}%
     \put(0.51168243,0.38365836){\color[rgb]{1,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}MarkovNet-ISTA-ENet \cite{ref:delRosario2022p2d}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{cnns-venn-diagram-contrib-final.pdf}}%
     \put(0.64108024,0.13676017){\color[rgb]{0.90588235,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}P2DE \cite{ref:delRosario2022p2d}\end{tabular}}}}%
