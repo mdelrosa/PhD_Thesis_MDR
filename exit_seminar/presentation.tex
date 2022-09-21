@@ -1282,11 +1282,63 @@
   \end{frame}
   }
 
+  \nofoot{
   \begin{frame}{Heterogeneous Differential Encoding}
+    % \begin{columns}
+    %   \begin{column}{0.4\textwidth}
+    \footnotesize{
     \begin{itemize}
-      \item MarkovNet used the same network at each timeslot (SphNet). 
-      \item We propose to use different networks at each timeslot. Specifically, ...
+      \item \textbf{Homogeneous:} MarkovNet used the same network at each timeslot (CsiNet Pro). 
+      \item \textbf{Heterogeneous:} Use different networks at different timeslots.
     \end{itemize}
+    }
+      % \end{column}
+      % \begin{column}{0.6\textwidth}
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=0.8\linewidth]{arch-comparison.png}
+      % \caption{Compressive CSI estimation architectures used in this work. $f(x)$ denotes the encoder, and $g(x)$ denotes the decoder. $N_{\text{total}}=N_bN_t$ is the size of the real or imaginary channel. $N_l$ is the number of latent channels in a convolutional layer.}
+      \label{fig:arch_compare}
+    \end{figure}
+    %   \end{column}
+    % \end{columns}
+  \end{frame}
+  }
+
+  \nofoot{
+  \begin{frame}{P2DE Results: Compression Network Comparison}
+    \footnotesize{
+    \begin{columns}
+      \begin{column}{0.4\textwidth}
+          \begin{itemize}
+            \item Single timeslot performance of networks.
+            \item Deep CS network (ISTANet+) can outperform autoencoder approaches (ENet, CsiNet Pro)
+            \item ENet can outperform CsiNet Pro
+          \end{itemize}
+      \end{column}
+      \begin{column}{0.6\textwidth}
+        \begin{figure}[!hbtp]
+          \centering
+          \includegraphics[width=\columnwidth]{outdoor_net_compare.pdf}
+          \caption{Performance comparison for different feedback compression networks using P2D estimates ($\text{DF}_f=1/16, D=4$) for Outdoor COST2100 dataset.}% For all tested networks, we use $N_{\text{phase}}=4$, resulting in an augmented training set with $80$k samples.}
+          \label{fig:outdoor_net_ablation}
+        \end{figure}
+      \end{column}
+    \end{columns}
+    }
+  \end{frame}
+  }
+
+  \begin{frame}{Heterogeneous Differential Encoding}
+    \footnotesize{
+    Three different configurations:
+    \begin{itemize}
+      \item \textbf{MarkovNet-ISTA (MN-I):} MarkovNet using ISTANet+ at all timeslots ($t_1$, $t_2$, \dots, $t_T$). 
+      \item \textbf{MarkovNet-ENet (MN-E):} MarkovNet using ISTANet+ at all timeslots ($t_1$, $t_2$, \dots, $t_T$).
+      \item \textbf{MarkovNet-ISTA-ENet (MN-IE):} MarkovNet used the same network at each timeslot (CsiNet Pro). 
+      \item \textbf{Heterogeneous:} Use different networks at different timeslots.
+    \end{itemize}
+    }
   \end{frame}
 
 \section{Current Work: Pilot Feedback and Model Re-use}
