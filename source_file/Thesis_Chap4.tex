@@ -111,7 +111,6 @@ Algorithm~\ref{alg:p2d-diag} shows the process for acquiring the delay domain P2
     \end{algorithmic} 
 \end{algorithm}
 
-
 \section{Heterogeneous Differential Encoding with P2DE}
 \label{sect:hetero-markov}
 
@@ -168,8 +167,6 @@ Denote the parameters for ISTANet+ in the $t_i$-th timeslot as $\mathbf{\Theta}_
     L_{\text{sym}} &= \frac{1}{N_{\text{batch}}N_{\text{total}}}\sum_{i=1}^{N_{\text{batch}}}\sum_{k=1}^{K} \|\tilde{\mathcal{H}}^{(k)}(\mathcal{H}^{(k)}(\mathbf{x}_i)) - \mathbf{x}_i)\|_2^2
 \end{align}
 where $N_{\text{total}}=N_bN_t$ is the size of the truncated CSI matrix, $K$ is the number of iterations in ISTANet+, and $N_{\text{batch}}$ is the batch size used during training. As denoted in equations (\ref{eq:t1_vec}) and (\ref{eq:ti_vec}), the vectors $\mathbf{x}_i$ depend on the timeslot.
-
-
 
 \begin{figure}[!hbtp]
     \centering
@@ -271,7 +268,7 @@ We assess the computational complexity (as defined in Chapter~\ref{chap:sph_norm
 \multicolumn{2}{|c|}{\multirow{2}{*}{}}                    & \multicolumn{4}{c|}{Parameters (M)}                                                                                          & \multicolumn{2}{c|}{\multirow{2}{*}{FLOPs (M)}}     \\ \cline{3-6}
 \multicolumn{2}{|c|}{}                                     & \multicolumn{2}{c|}{Trainable}                                          & \multicolumn{2}{c|}{All}                           & \multicolumn{2}{c|}{}                               \\ \hline
 \multicolumn{1}{|c|}{}                            & CR     & \multicolumn{1}{c|}{Enc}           & \multicolumn{1}{c|}{Dec}           & \multicolumn{1}{c|}{Enc}           & Dec           & \multicolumn{1}{c|}{Enc}           & Dec            \\ \hline
-\multicolumn{1}{|c|}{\multirow{4}{*}{ISTANet}}    & $1/2$  & \multicolumn{1}{c|}{\textbf{0.00}} & \multicolumn{1}{c|}{\textbf{0.34}} & \multicolumn{1}{c|}{2.10}          & 4.54          & \multicolumn{1}{c|}{\textbf{2.10}} & 393.78         \\ \cline{2-8} 
+\multicolumn{1}{|c|}{\multirow{4}{*}{ISTANet+}}    & $1/2$  & \multicolumn{1}{c|}{\textbf{0.00}} & \multicolumn{1}{c|}{\textbf{0.34}} & \multicolumn{1}{c|}{2.10}          & 4.54          & \multicolumn{1}{c|}{\textbf{2.10}} & 393.78         \\ \cline{2-8} 
 \multicolumn{1}{|c|}{}                            & $1/4$  & \multicolumn{1}{c|}{\textbf{0.00}} & \multicolumn{1}{c|}{0.34}          & \multicolumn{1}{c|}{1.05}          & 2.44          & \multicolumn{1}{c|}{\textbf{1.05}} & 373.85         \\ \cline{2-8} 
 \multicolumn{1}{|c|}{}                            & $1/8$  & \multicolumn{1}{c|}{\textbf{0.00}} & \multicolumn{1}{c|}{0.34}          & \multicolumn{1}{c|}{0.52}          & 1.39          & \multicolumn{1}{c|}{\textbf{0.52}} & 363.89         \\ \cline{2-8} 
 \multicolumn{1}{|c|}{}                            & $1/16$ & \multicolumn{1}{c|}{\textbf{0.00}} & \multicolumn{1}{c|}{0.34}          & \multicolumn{1}{c|}{0.26}          & 0.87          & \multicolumn{1}{c|}{\textbf{0.26}} & 358.91         \\ \hline
