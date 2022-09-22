@@ -1146,7 +1146,20 @@
     \begin{equation}
       \boldeta_{d,i} = \boldeta_i \mathbf{P}_i \; \forall \; i \in [1, \dots, N_b],
     \end{equation}
-    where $\mathbf{P}_i$ is chosen to conform with 3GPP-defined pilot allocation.
+    where $\mathbf{P}_i$ (matrix of one-hot vectors) is chosen to conform with 3GPP-defined pilot allocation.
+  \end{frame}
+
+  \begin{frame}{Pilots to Delay Domain}
+    \begin{figure}[!hbtp]
+    \centering
+    {
+      \fontsize{6pt}{6pt}
+      \def\svgwidth{0.8\columnwidth}
+      \input{../images/pilot_downsampling_process.pdf_tex}
+    }
+    % \caption{MarkovNet architecture. Networks at $t \geq 2$ predict estimation error, $\hat{\mathbf E}_t$.}
+    \label{fig:pilot_downsampling}
+    \end{figure}
   \end{frame}
 
   \begin{frame}{Pilots to Delay Domain}
@@ -1394,6 +1407,17 @@
   \end{frame}
   }
 
+  \begin{frame}{Heterogeneous Differential Encoding: Conclusions}
+    \begin{itemize}
+      \item Deep CS network (ISTANet+) can provide superior initial estimate with slightly more complexity.
+      \item Autoencoder network (ENet) can provide good error compression/estimation.
+      \begin{itemize}
+        \item Fewer encoder/decoder parameters
+        \item More encoder FLOPs, less decoder FLLOPs
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+
 \section{Current Work: Pilot Feedback and Model Re-use}
 
   % Background section frame 
@@ -1409,24 +1433,110 @@
     \vfill
   \end{frame}
 
+
   \nofoot{
-  \begin{frame}{P2DE: Where does computation happen?}
-    % \begin{figure}[!hbtp]
-    % \centering
-    % {
-    %   \fontsize{6pt}{8pt}
-    %   \def\svgwidth{0.8\columnwidth}
-    %   \input{../images/autoencoder_real_latent.pdf_tex}
-    % }
-    % \caption{Autoencoder architecture with $r$-dimensional real-valued latent feedback elements.}
-    % \label{fig:real_latent}
-    % \end{figure}
-    % \pause
-    \textbf{Problem:} Computation due to encoder at UE. Can we reduce this?
+  \begin{frame}{P2DE: UE-side Computation}
+    \footnotesize{
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=\linewidth]{../images/00_downlink_p2d_feedback_horiz_diag.png}
+      \label{fig:p2d}
+    \end{figure}
+    \textbf{Problem:} Encoder computation at (low-resourced) UE. Can we reduce this?
+    }
   \end{frame}
   }
 
-  % TODO: finish these slides
+  \begin{frame}{P2DE: UE-side Computation}
+    \begin{table}[!h]
+      \caption{Computational complexity of P2DE for $D=1$ (diagonal pattern size), $N_f=1024$ (number of subcarriers), and $N_b=32$ (\# antennas in ULA).}
+      \begin{center}
+      \label{tab:p2de-comp} 
+      \begin{tabular}{|r|c|c|c|}
+      \hline
+      $\mathbf{M_f}$      & $\mathbf{32}$      & $\mathbf{64}$       & $\mathbf{128}$     \\ \hline
+      \textbf{FLOPs}      & $1.05\cdot 10^{6}$ & $2.10\cdot 10^{6}$  & $4.19\cdot 10^{6}$ \\ \hline
+      \textbf{Parameters} & $6.55\cdot 10^{4}$ & $1.31\cdot 10^{5}$  & $2.62\cdot 10^{5}$  \\ \hline
+      \end{tabular}
+      \end{center}
+      \vspace*{-0.3mm}
+    \end{table}
+  \end{frame}
+
+  \begin{frame}{Pilot-based Feedback}
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=\linewidth]{01_downlink_p2d_direct_feedback_horiz_diag.png}
+      \caption{Compressive CSI estimation based on linear P2D estimator on BS side. 
+      % First, we use downlink pilots to 
+      % generate a sparse, frequency domain CSI
+      % estimate 
+      % of size $M_f << N_f$. This downsampled frequency domain CSI estimate is compressed at the UE
+      % and fed back to the BS.
+      % At the BS, we apply
+      % the P2D estimator, $\mathbf{Q}^{\#}_{N_t}$ \cite{ref:delRosario2022p2d} to acquire 
+      % the truncated
+      % delay domain CSI estimate.
+      % We train a
+      % learnable encoder, 
+      % $f(x)$,
+      % and decoder, $g(x)$, to compress and decode the feedback, respectively. The 
+      % BS recovers
+      % the frequency domain
+      % CSI from 
+      % the decoded 
+      % delay domain CSI estimate.
+      }
+      \label{fig:p2d_direct}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Model Re-use}
+    \begin{figure}
+      \centering
+      {
+        \fontsize{8pt}{8pt}
+        \def\svgwidth{1.0\linewidth}
+        \input{../images/02_per_K_subc.pdf_tex}
+      }
+      \caption{Compressive CSI estimation with model re-
+      use. % Rather than compressing the entire input, $\mathbf{H}_d$,
+      The encoder compresses $K$ contiguous subcarriers
+      from the input, resulting in $\frac{M_f}{K}$ payloads of feedback
+      (shown in different colors above). 
+      % Meanwhile at the
+      % BS, the decoder recovers each set of $K$ contiguous
+      % subcarriers based on the $\frac{M_f}{K}$ payloads, and the
+      % decoded payloads are combined to generate the full
+      % frequency domain estimate.
+      }
+      \label{fig:model_reuse}
+    \end{figure}
+  \end{frame}
+
+  \nofoot{
+  \begin{frame}{Direct+Re-use Results}
+    \footnotesize{
+      \begin{itemize}
+        \item Outdoor (top) and Indoor (bottom) results (NMSE vs. complexity) using different number of pilot subcarriers ($M_f$).
+        \item Compare with P2DE at UE and no model re-use ({\color{red}red}).
+      \end{itemize}
+    }
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=0.65\linewidth]{outdoor_subc_sweep_line.pdf}
+      % \caption{NMSE vs. encoder complexity of shared model architectures (i.e., complexity is w.r.t. FLOPs and parameters at UE). Outdoor COST2100 model.}
+      \label{fig:outdoor_nmse_vs_complexity}
+    \end{figure}
+
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=0.65\linewidth]{indoor_subc_sweep_line.pdf}
+      % \caption{NMSE vs. encoder complexity for shared model architectures (i.e., complexity is w.r.t. FLOPs and parameters at UE). Indoor COST2100 model.}
+      \label{fig:indoor_nmse_vs_complexity}
+    \end{figure}
+  \end{frame}
+  }
 
   \begin{frame}{Papers}
     \footnotesize{
