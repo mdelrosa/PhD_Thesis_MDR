@@ -1514,14 +1514,56 @@
     \end{figure}
   \end{frame}
 
+  \begin{frame}{Model Re-use}
+    We use ISTANet+ \cite{ref:zhang2018ista}.
+    which compresses CSI at the UE by matrix multiplication, 
+    \begin{align}
+        f(x) &= \mathbf{\Phi}\mathbf{x}
+    \end{align}
+    for the measurement matrix $\mathbf{\Phi}$ and 
+    $\mathbf{x}$ is the flattened CSI matrix of $K$ contiguous subcarriers across
+    all angular indices, i.e.,
+    \begin{itemize}
+      \item $\mathbf{x} \in \mathbb{R}^{N_K}$
+      \item $\mathbf{\Phi} \in \mathbb{R}^{\text{CR} K  \times K}$ 
+    \end{itemize}
+    where $N_K = 2 K N_b$ is the dimension of
+    the $K$ subcarriers from the CSI matrix.
+  \end{frame}
+
   \nofoot{
   \begin{frame}{Direct+Re-use Results}
     \footnotesize{
       \begin{itemize}
-        \item Outdoor (top) and Indoor (bottom) results (NMSE vs. complexity) using different number of pilot subcarriers ($M_f$).
+        \item Outdoor (top) and Indoor (bottom) results w.r.t. NMSE vs. complexity (log(FLOPs) on left, parameters on right) using different number of pilot subcarriers ($M_f$).
         \item Compare with P2DE at UE and no model re-use ({\color{red}red}).
       \end{itemize}
     }
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=0.65\linewidth]{outdoor_subc_sweep_line.pdf}
+      % \caption{NMSE vs. encoder complexity of shared model architectures (i.e., complexity is w.r.t. FLOPs and parameters at UE). Outdoor COST2100 model.}
+      \label{fig:outdoor_nmse_vs_complexity}
+    \end{figure}
+
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=0.65\linewidth]{indoor_subc_sweep_line.pdf}
+      % \caption{NMSE vs. encoder complexity for shared model architectures (i.e., complexity is w.r.t. FLOPs and parameters at UE). Indoor COST2100 model.}
+      \label{fig:indoor_nmse_vs_complexity}
+    \end{figure}
+  \end{frame}
+  }
+
+  \nofoot{
+  \begin{frame}{Pilot Feedback + Model Reuse: Conclusions}
+    \footnotesize{
+    \begin{itemize}
+      \item Indoor: Can maintain same NMSE with 10-fold reduction in FLOPs
+      \item Outdoor: NMSE increase of 2.5dB with 10-fold reduction in FLOPs, $10^6$ reduction in parameters
+    \end{itemize}
+    }
+
     \begin{figure}[!hbtp]
       \centering
       \includegraphics[width=0.65\linewidth]{outdoor_subc_sweep_line.pdf}
