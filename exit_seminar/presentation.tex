@@ -1266,24 +1266,6 @@
   }
 
   \nofoot{
-  \begin{frame}{P2DE Results: Sensitivity to Pilot Estimation Error}
-    \footnotesize{
-    To simulate pilot estimation error, we use additive Gaussian noise,
-    \begin{align*}
-        \hat{\mathbf{H}}_d &= \mathbf{H}_d + \mathbf{N}_d
-    \end{align*}
-    where $\mathbf{N}_d(i,j) \sim \mathcal{N}(0, \sigma^2)$ for $i \in \left[1,2,\dots, N_b\right], j \in \left[1,2,\dots, M_f\right]$. We show the accuracy of the P2DE for different values of $\sigma^2$ ($D=4, \text{DR}_f=\frac{1}{32}$).
-    }
-    \begin{figure}[!hbtp]
-      \centering
-      \includegraphics[width=0.65\linewidth]{outdoor_snr_sweep_delta_D4_sz32.pdf}
-      % \caption{Accuracy of P2DE output, $\mathbf{H}_{\tau}$, assuming noisy pilots, $\hat{\mathbf{H}}_d$. Additive Gaussian noise is used to model the error inherent in pilot estimation. Here, $D=4, \text{DR}_f=\frac{1}{32}$.}
-      \label{fig:snr_sweep}
-    \end{figure}
-  \end{frame}
-  }
-
-  \nofoot{
   \begin{frame}{P2DE with Differential Encoding}
     Differential encoding network using P2DE at the UE.
     \begin{figure}[!hbtp]
@@ -1501,7 +1483,7 @@
       }
       \caption{Compressive CSI estimation with model re-
       use. % Rather than compressing the entire input, $\mathbf{H}_d$,
-      The encoder compresses $K$ contiguous subcarriers
+      The encoder compresses $K$ contiguous pilot subcarriers
       from the input, resulting in $\frac{M_f}{K}$ payloads of feedback
       (shown in different colors above). 
       % Meanwhile at the
@@ -1515,24 +1497,31 @@
   \end{frame}
 
   \begin{frame}{Model Re-use}
-    We use ISTANet+ \cite{ref:zhang2018ista}.
-    which compresses CSI at the UE by matrix multiplication, 
+    \begin{figure}
+      \centering
+      {
+        \fontsize{8pt}{8pt}
+        \def\svgwidth{1.0\linewidth}
+        \input{../images/03_per_K_subc_w_flat.pdf_tex}
+      }
+      % \caption{ISTANet+ with model re-
+      % use. % Rather than compressing the entire input, $\mathbf{H}_d$,
+      % The $\Phi$ $K$ contiguous pilot subcarriers
+      % from the input, resulting in $\frac{M_f}{K}$ payloads of feedback
+      % (shown in different colors above). 
+      % }
+      \label{fig:model_reuse_w_flat}
+    \end{figure}
+    We use ISTANet+ \cite{ref:zhang2018ista},
+    which compresses CSI at UE via, 
     \begin{align}
         f(x) &= \mathbf{\Phi}\mathbf{x}
     \end{align}
-    for the measurement matrix $\mathbf{\Phi}$ and 
-    $\mathbf{x}$ is the flattened CSI matrix of $K$ contiguous subcarriers across
-    all angular indices, i.e.,
-    \begin{itemize}
-      \item $\mathbf{x} \in \mathbb{R}^{N_K}$
-      \item $\mathbf{\Phi} \in \mathbb{R}^{\text{CR} K  \times K}$ 
-    \end{itemize}
-    where $N_K = 2 K N_b$ is the dimension of
-    the $K$ subcarriers from the CSI matrix.
+    for $\mathbf{x} \in \mathbb{R}^{N_K}$ and $\mathbf{\Phi} \in \mathbb{R}^{\text{CR} N_K  \times N_K}$ where $N_K = 2 K N_b$
   \end{frame}
 
   \nofoot{
-  \begin{frame}{Direct+Re-use Results}
+  \begin{frame}{Pilot Feedback + Model Re-use: Results}
     \footnotesize{
       \begin{itemize}
         \item Outdoor (top) and Indoor (bottom) results w.r.t. NMSE vs. complexity (log(FLOPs) on left, parameters on right) using different number of pilot subcarriers ($M_f$).
@@ -1556,7 +1545,7 @@
   }
 
   \nofoot{
-  \begin{frame}{Pilot Feedback + Model Reuse: Conclusions}
+  \begin{frame}{Pilot Feedback + Model Re-use: Conclusions}
     \footnotesize{
     \begin{itemize}
       \item Indoor: Can maintain same NMSE with 10-fold reduction in FLOPs
@@ -1586,6 +1575,7 @@
       \item \bibentry{ref:liu2020sphnet}
       \item \bibentry{ref:Liu2020MarkovNet}
       \item \bibentry{ref:delRosario2022p2d}
+      \item \bibentry{ref:delRosario2022directreuse}
     \end{itemize}
     }
   \end{frame}
@@ -1927,5 +1917,27 @@
       \label{fig:diffnet_result} \vspace*{-2mm}
     \end{figure}  
   \end{frame}
+
+  \begin{frame}{Off-diagonal Regularization}
+  \textbf{TO-DO}
+  \end{frame}
+
+  \nofoot{
+  \begin{frame}{P2DE Results: Sensitivity to Pilot Estimation Error}
+    \footnotesize{
+    To simulate pilot estimation error, we use additive Gaussian noise,
+    \begin{align*}
+        \hat{\mathbf{H}}_d &= \mathbf{H}_d + \mathbf{N}_d
+    \end{align*}
+    where $\mathbf{N}_d(i,j) \sim \mathcal{N}(0, \sigma^2)$ for $i \in \left[1,2,\dots, N_b\right], j \in \left[1,2,\dots, M_f\right]$. We show the accuracy of the P2DE for different values of $\sigma^2$ ($D=4, \text{DR}_f=\frac{1}{32}$).
+    }
+    \begin{figure}[!hbtp]
+      \centering
+      \includegraphics[width=0.65\linewidth]{outdoor_snr_sweep_delta_D4_sz32.pdf}
+      % \caption{Accuracy of P2DE output, $\mathbf{H}_{\tau}$, assuming noisy pilots, $\hat{\mathbf{H}}_d$. Additive Gaussian noise is used to model the error inherent in pilot estimation. Here, $D=4, \text{DR}_f=\frac{1}{32}$.}
+      \label{fig:snr_sweep}
+    \end{figure}
+  \end{frame}
+  }
 
 \end{document}
