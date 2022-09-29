@@ -297,6 +297,7 @@
           \min \|\hat{\mathbf h}\|_p \; \text{subject to} \; \|\mathbf{y}-\mathbf A\hat{\mathbf h}\|_2^2 < \epsilon.
         \end{align*}
       \end{enumerate} 
+      where typically $p=1$.
       % \blfootnote{\bibentry{ref:Marques2018CSForWidebandHFChannelEstimation}}
       \pause
       \textbf{Problems:} 
@@ -463,32 +464,6 @@
   \end{frame}
   }
 
-  \nofoot{
-  \begin{frame}{COST2100: Minmax Normalization}
-    % Tanh normalization $\to$ larger variance. 
-    \begin{figure}[htb]    
-      \subfigure[Indoor] {\label{fig:dist_indoor} 
-      \includegraphics[width=.6\textwidth]{cost2100_indoor_dist.pdf}
-      }
-      \subfigure[Outdoor] {\label{fig:dist_outdoor} 
-      \includegraphics[width=.6\textwidth]{cost2100_outdoor_dist.pdf}
-      }
-      \caption{Distribution/variance of COST2100 real/imaginary channels under minmax normalization ($N=10^5$).}
-      \label{fig:cost_dist}
-    \end{figure}
-  \end{frame} 
-  }  
-
-  \begin{frame}{ImageNet: Minmax Normalization}
-    \begin{figure}[htb]
-      \centering
-      \includegraphics[width=.9\textwidth]{imagenet_rgb_dist.pdf}
-      \medskip
-      \caption{Distribution and variance of minmax-normalized ImageNet RGB channels ($N=50000$).}
-      \label{fig:imagenet_dist}
-    \end{figure}
-  \end{frame}
-
   \begin{frame}{Comparison: Minmax Normalization}
     Difference of \textbf{four orders of magnitude}.
     \footnotesize{
@@ -542,22 +517,6 @@
     \end{align}
     Then apply minmax scaling to the entire dataset.
   \end{frame}
-
-  \nofoot{
-  \begin{frame}{COST2100: Spherical Normalization}
-    % Tanh normalization $\to$ larger variance. 
-    \begin{figure}[htb]    
-      \subfigure[Indoor] {\label{fig:sph_dist_indoor} 
-      \includegraphics[width=.6\textwidth]{cost2100_indoor_sph_dist.pdf}
-      }
-      \subfigure[Outdoor] {\label{fig:sph_dist_outdoor} 
-      \includegraphics[width=.6\textwidth]{cost2100_outdoor_sph_dist.pdf}
-      }
-      \caption{Distribution/variance of COST2100 real/imaginary channels under spherical normalization ($N=10^5$).}
-      \label{fig:cost_sph_dist}
-    \end{figure}
-  \end{frame} 
-  }   
 
   % \begin{frame}{COST2100 (Indoor): Spherical Normalization}
   %   Spherical normalization $\to$ larger variance. 
@@ -1628,6 +1587,48 @@
       \end{align*}
     \end{itemize}
   \end{frame}
+
+  \nofoot{
+  \begin{frame}{COST2100: Minmax Normalization}
+    % Tanh normalization $\to$ larger variance. 
+    \begin{figure}[htb]    
+      \subfigure[Indoor] {\label{fig:dist_indoor} 
+      \includegraphics[width=.6\textwidth]{cost2100_indoor_dist.pdf}
+      }
+      \subfigure[Outdoor] {\label{fig:dist_outdoor} 
+      \includegraphics[width=.6\textwidth]{cost2100_outdoor_dist.pdf}
+      }
+      \caption{Distribution/variance of COST2100 real/imaginary channels under minmax normalization ($N=10^5$).}
+      \label{fig:cost_dist}
+    \end{figure}
+  \end{frame} 
+  }  
+
+  \begin{frame}{ImageNet: Minmax Normalization}
+    \begin{figure}[htb]
+      \centering
+      \includegraphics[width=.9\textwidth]{imagenet_rgb_dist.pdf}
+      \medskip
+      \caption{Distribution and variance of minmax-normalized ImageNet RGB channels ($N=50000$).}
+      \label{fig:imagenet_dist}
+    \end{figure}
+  \end{frame}
+  
+  \nofoot{
+  \begin{frame}{COST2100: Spherical Normalization}
+    % Tanh normalization $\to$ larger variance. 
+    \begin{figure}[htb]    
+      \subfigure[Indoor] {\label{fig:sph_dist_indoor} 
+      \includegraphics[width=.6\textwidth]{cost2100_indoor_sph_dist.pdf}
+      }
+      \subfigure[Outdoor] {\label{fig:sph_dist_outdoor} 
+      \includegraphics[width=.6\textwidth]{cost2100_outdoor_sph_dist.pdf}
+      }
+      \caption{Distribution/variance of COST2100 real/imaginary channels under spherical normalization ($N=10^5$).}
+      \label{fig:cost_sph_dist}
+    \end{figure}
+  \end{frame} 
+  }   
 
   \begin{frame}{Training Hyperparameters}
     \footnotesize{
