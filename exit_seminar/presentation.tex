@@ -23,6 +23,8 @@
 % \usepackage[perpage]{footmisc}
 \usetheme{oxonian}
 
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+
 \newcommand{\fignocap}[2]{
 	\begin{figure}[!hbtp]
 	    \centering
@@ -256,7 +258,7 @@
     \begin{frame}{CSI Estimation Methods}
        \begin{enumerate}
        \item Compressed Sensing (Conventional)
-       \item Convolutional Neural Networks (This proposal)
+       \item Convolutional Neural Networks (This thesis)
       \end{enumerate} 
     \end{frame}
 
@@ -318,7 +320,7 @@
         \item State-of-the art performance in image processing
         \fignocap{0.35}{filt1.JPEG}
         \pause
-        \item No assumptions on sparsity/RIP. Instantaneous decoding.
+        \item Instantaneous decoding (non-iterative). % No assumptions on sparsity/RIP.
       \end{itemize}
       \blfootnote{A. Karpathy, ``Visualizing What ConvNets Learn,"  \url{http://cs231n.github.io/understanding-cnn/}. Accessed: Feb 24, 2020.}
     \end{frame}
@@ -784,7 +786,7 @@
         \begin{tabular}{|l|c|c|}
           \hline 
           \textbf{Environment}      & \textbf{Indoor}  & \textbf{Outdoor} \\ \hline
-          Num. gNB Antennas ($N_b$) & \multicolumn{2}{c|}{32} \\ \hline
+          Num. BS Antennas ($N_b$) & \multicolumn{2}{c|}{32} \\ \hline
           Num. Subcarriers ($N_f$)  & \multicolumn{2}{c|}{1024} \\ \hline
           Truncation Value ($R_d$)  & \multicolumn{2}{c|}{32} \\ \hline
           Carrier Frequency         & 5.3 GHz            & 300 MHz \\ \hline
@@ -831,7 +833,7 @@
         \includegraphics[width=.45\textwidth]{nmse_slot1_outdoor.eps}
         \label{fig:slot1_outdoor} 
       }
-      \caption{Ablation study for CsiNet-Pro and spherical normalization \cite{ref:liu2020sphnet} (lower NMSE is better).}
+      \caption{Sensitivity study for CsiNet-Pro and spherical normalization \cite{ref:liu2020sphnet} (lower NMSE is better).}
       \label{fig:nmse_slot1} 
     \end{figure}
     \blfootnote{\bibentry{ref:liu2020sphnet}}
@@ -1104,15 +1106,22 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{Downsampled Frequency Domain CSI}
-    $\boldeta_{d,i}$ is related to $\boldeta_i$ by the downsampling matrix for the $i$-th antenna port, $\mathbf{P}_i$, as
-    \begin{equation}
-      \boldeta_{d,i} = \boldeta_i \mathbf{P}_i \; \forall \; i \in [1, \dots, N_b],
-    \end{equation}
-    where $\mathbf{P}_i$ (matrix of one-hot vectors) is chosen to conform with 3GPP-defined pilot allocation.
-  \end{frame}
+  % \begin{frame}{Downsampled Frequency Domain CSI}
+  %   $\boldeta_{d,i}$ related to $\boldeta_i$ by pilot matrix, $\mathbf{P}_i$, as
+  %   \begin{equation}
+  %     \boldeta_{d,i} = \boldeta_i \mathbf{P}_i \; \forall \; i \in [1, \dots, N_b],
+  %   \end{equation}
+  %   for $i$-th antenna port.
 
-  \begin{frame}{Pilots to Delay Domain}
+  %   $\mathbf{P}_i =$ matrix of one-hot vectors -- conforms with 3GPP-defined pilot allocation.
+  % \end{frame}
+
+  \nofoot{
+  \begin{frame}{Downsampled Frequency Domain CSI}
+    \begin{itemize}
+      \item $M_f = $ \# downsampled subcarriers 
+      \item $\text{DR}_f = \frac{M_f}{N_f}$ (frequency downsampling ratio)
+    \end{itemize}
     \begin{figure}[!hbtp]
     \centering
     {
@@ -1124,39 +1133,7 @@
     \label{fig:pilot_downsampling}
     \end{figure}
   \end{frame}
-
-  \begin{frame}{Pilots to Delay Domain}
-    Denote the delay-domain CSI vector, $\tilde{\boldeta}_i$, which is defined as
-    \begin{equation}
-      \tilde{\boldeta}_{i}\mathbf{F} = \boldeta_i, \label{eq:dft}
-    \end{equation}
-    where $\mathbf{F}$ is the $\mathbf{C}^{N_f \times N_f}$ discrete Fourier transform (DFT) matrix.
-  \end{frame}
-
-  \begin{frame}{Pilots to Delay Domain}
-    Apply the pilot downsampling matrix $\mathbf{P}_i$ to both sides of (\ref{eq:dft}),
-    \begin{align}
-      \tilde{\boldeta}_{i}\mathbf{F}\mathbf{P}_i = \boldeta_i\mathbf{P}_i \nonumber \\
-      \tilde{\boldeta}_{i}\mathbf{Q}_i = \boldeta_{d,i} \label{eq:qmat}
-    \end{align}
-    where $\mathbf{Q}_i=\mathbf{F}\mathbf{P}_i\in\mathbb{C}^{N_f\times M_f}$ is the downsampled DFT matrix.
-  \end{frame}
-
-  \begin{frame}{Pilots to Delay Domain}
-    \begin{itemize}    
-      \item \textbf{Recall our goal:} To feed back and compress the truncated delay domain vectors, $\tilde{\boldeta}_{c,i}\in\mathbb{C}^{N_t}$.
-      \item Denote the zero-padded vector $\tilde{\boldeta}_{i}$ as
-      \begin{align} 
-        \tilde{\boldeta}_{i} = \left[\tilde{\boldeta}_{c,i}, \mathbf{0}_{N_f - N_t}\right]. \label{eq:p2d_short}
-      \end{align}
-      \item Based on $\mathbf{Q}_i$ of (\ref{eq:qmat}), the delay domain is related to the pilots by the pseudoinverse,
-      \begin{align}
-        \tilde{\boldeta}_{i}\mathbf{Q}_i\mathbf{Q}_i^T &= \boldeta_{d,i}\mathbf{Q}_i^T \nonumber \\
-        \tilde{\boldeta}_{i} &= \boldeta_{d,i}\mathbf{Q}_i^T\left(\mathbf{Q}_i\mathbf{Q}_i^T\right)^{-1} \nonumber \\
-        &= \boldeta_{d,i}\mathbf{Q}_i^{\#}. \label{eq:p2d}
-      \end{align}
-    \end{itemize}
-  \end{frame}
+  }
 
   \nofoot{
   \begin{frame}{Pilot Pattern Design}
@@ -1174,6 +1151,39 @@
     }
   \end{frame}
   }
+
+  \begin{frame}{Pilots to Delay Domain}
+    Denote delay-domain CSI vector, $\tilde{\boldeta}_i$, which is defined as
+    \begin{equation}
+      \tilde{\boldeta}_{i}\mathbf{F} = \boldeta_i, \label{eq:dft}
+    \end{equation}
+    for $\mathbf{F} \in \mathbf{C}^{N_f \times N_f}$ is the discrete Fourier transform (DFT) matrix.
+  \end{frame}
+
+  \begin{frame}{Pilots to Delay Domain}
+    Apply the pilot downsampling matrix $\mathbf{P}_i$ to both sides of (\ref{eq:dft}),
+    \begin{align}
+      \tilde{\boldeta}_{i}\mathbf{F}\mathbf{P}_i = \boldeta_i\mathbf{P}_i \nonumber \\
+      \tilde{\boldeta}_{i}\mathbf{Q}_i = \boldeta_{d,i} \label{eq:qmat}
+    \end{align}
+    where $\mathbf{Q}_i=\mathbf{F}\mathbf{P}_i\in\mathbb{C}^{N_f\times M_f}$ is the downsampled DFT matrix.
+  \end{frame}
+
+  \begin{frame}{Pilots to Delay Domain}
+    \begin{itemize}    
+      \item \textbf{Goal:} Feed back/compress truncated delay domain vectors, $\tilde{\boldeta}_{c,i}\in\mathbb{C}^{N_t}$.
+      \item Denote zero-padded vector $\tilde{\boldeta}_{i}$ as
+      \begin{align} 
+        \tilde{\boldeta}_{i} = \left[\tilde{\boldeta}_{c,i}, \mathbf{0}_{N_f - N_t}\right]. \label{eq:p2d_short}
+      \end{align}
+      \item Based on $\mathbf{Q}_i$ of (\ref{eq:qmat}), the delay domain is related to the pilots by the pseudoinverse,
+      \begin{align}
+        \tilde{\boldeta}_{i}\mathbf{Q}_i\mathbf{Q}_i^T &= \boldeta_{d,i}\mathbf{Q}_i^T \nonumber \\
+        \tilde{\boldeta}_{i} &= \boldeta_{d,i}\mathbf{Q}_i^T\left(\mathbf{Q}_i\mathbf{Q}_i^T\right)^{-1} \nonumber \\
+        &= \boldeta_{d,i}\mathbf{Q}_i^{\#}. \label{eq:p2d}
+      \end{align}
+    \end{itemize}
+  \end{frame}
 
   \nofoot{
   \begin{frame}{Pilots-to-Delay Estimator (P2DE)}
@@ -1218,7 +1228,7 @@
 
   \nofoot{
   \begin{frame}{P2DE Results: Frequency Downsampling Rate}
-    Assess the accuracy of the P2DE at the UE (i.e., before compression and feedback) for different frequency downsampling ratios.
+    Accuracy of the P2DE at the UE (i.e., before compression and feedback) for different $\text{DR}_f$.
     \begin{figure}[!hbtp]
         \centering
         \includegraphics[width=0.8\linewidth]{../images/outdoor_p2d_diag.pdf}
@@ -1300,25 +1310,23 @@
 
   \nofoot{
   \begin{frame}{Heterogeneous Differential Encoding: Results}
-    \footnotesize{
-    % \begin{columns}
-    %   \begin{column}{0.4\textwidth}
-    %       \begin{itemize}
-    %         \item Homogeneous 
-    %         \item Deep CS network (ISTANet+) can outperform autoencoder approaches (ENet, CsiNet Pro)
-    %         \item ENet can outperform CsiNet Pro
-    %       \end{itemize}
-    %   \end{column}
-    %   \begin{column}{0.6\textwidth}
-        \begin{figure}[!hbtp]
-          \centering
-          \includegraphics[width=\linewidth]{outdoor_markov_sweep_v2.pdf}
-          \caption{Compressive CSI estimation using differential encoding and linear P2D estimator ($M_f=128, \text{DR}_f=\frac{1}{8}, D=4$). MarkovNet-ISTA (MN-I), MarkovNet-ENet (MN-E), and MarkovNet-ISTA-ENet (MN-IE) are tested using two different compression ratios in the first timeslot, $\text{CR}_{t_1}\in\left[\frac{1}{2},\frac{1}{4}\right]$.}
-          \label{fig:markov-p2d-results}
-        \end{figure}
-    %   \end{column}
-    % \end{columns}
-    }
+  \footnotesize{
+  \begin{itemize}
+    \item {\color{red}\textbf{MN-ISTANet+}}: Better performance in first timeslot.
+    \item {\color{darkgreen}\textbf{MN-ENet}}: Better performance in error timeslots.
+    \item {\color{blue}\textbf{MN-IE}}: Enjoys both of the above benefits.
+  \end{itemize}
+  \vspace{-2mm}
+  \begin{figure}[!hbtp]
+    \centering
+    \includegraphics[width=\linewidth]{outdoor_markov_sweep_v2.pdf}
+    \caption{Differential encoding networks with linear P2DE as input ($M_f=128, \text{DR}_f=\frac{1}{8}, D=4$).}
+    % \caption{Compressive CSI estimation using differential encoding and linear P2D estimator ($M_f=128, \text{DR}_f=\frac{1}{8}, D=4$). MarkovNet-ISTA (MN-I), MarkovNet-ENet (MN-E), and MarkovNet-ISTA-ENet (MN-IE) are tested using two different compression ratios in the first timeslot, $\text{CR}_{t_1}\in\left[\frac{1}{2},\frac{1}{4}\right]$.}
+    \label{fig:markov-p2d-results}
+  \end{figure}
+%   \end{column}
+% \end{columns}
+  }
   \end{frame}
   }
 
