@@ -1,0 +1,80 @@
+%% Creator: Inkscape inkscape 0.92.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'p2de_process.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{450.39455624bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.63123226)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{p2de_process.pdf}}%
+    \put(0.06390378,0.36735321){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf{H}_d$\end{tabular}}}}%
+    \put(0.40601815,0.5984122){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Pilots-to-Delay Estimator (P2DE)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{p2de_process.pdf}}%
+    \put(0.74779555,0.35736191){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\hat{\mathbf{H}}_{\tau}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{p2de_process.pdf}}%
+    \put(0.04633246,0.57825626){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\boldsymbol{\eta}_{d,i}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{p2de_process.pdf}}%
+    \put(0.7311437,0.57825626){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\tilde{\boldsymbol{\eta}}_{c,i}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{p2de_process.pdf}}%
+    \put(0.39617182,0.45297678){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf{Q}_{c,j}^\#$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{p2de_process.pdf}}%
+    \put(0.4857363,0.45283791){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$=$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{p2de_process.pdf}}%
+    \put(0.39904502,0.24748587){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf{Q}_{c,j}$\end{tabular}}}}%
+    \put(0.64360704,0.15262631){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\mathbf{Q}_{j}=\mathbf{F}\mathbf{P}_j$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{p2de_process.pdf}}%
+    \put(0.89038187,0.57684461){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\tilde{\boldsymbol{\eta}}_i$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{p2de_process.pdf}}%
+    \put(0.39901918,0.5508279){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$\boldsymbol{\eta}_{d,i}\mathbf{Q}_{c,j}^\#=\tilde{\boldsymbol{\eta}}_{c,i}$\end{tabular}}}}%
+    \put(0.49165719,0.3461263){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}pseudoinverse\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{p2de_process.pdf}}%
+    \put(0.99250843,0.01525944){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}(Full derivation in Appendix)\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

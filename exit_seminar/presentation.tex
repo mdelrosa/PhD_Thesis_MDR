@@ -297,7 +297,7 @@
           \min \|\hat{\mathbf h}\|_p \; \text{subject to} \; \|\mathbf{y}-\mathbf A\hat{\mathbf h}\|_2^2 < \epsilon.
         \end{align*}
       \end{enumerate} 
-      where typically $p=1$.
+      where usually $p=1$. \\
       % \blfootnote{\bibentry{ref:Marques2018CSForWidebandHFChannelEstimation}}
       \pause
       \textbf{Problems:} 
@@ -569,22 +569,6 @@
   %   \end{table}
   % \end{frame}
 
-  \begin{frame}{MSE/NMSE equivalence}
-    \footnotesize{
-    Spherical normalization $\to$ MSE equivalent to NMSE.
-    \begin{align*}
-      \text{MSE}=\frac 1N \sum_{k=1}^N\Arrowvert\mathbf H_k - \hat{\mathbf H}_k\Arrowvert^2,\quad \text{NMSE} =\frac 1N \sum_{k=1}^N\frac{\Arrowvert\mathbf H_k - \hat{\mathbf H}_k\Arrowvert^2}{\Arrowvert\mathbf H_k\Arrowvert} \\        
-    \end{align*}
-    \pause
-    MSE of spherically normalized estimator yields,
-    \begin{align*}
-      \text{MSE}_{\text{Sph}} &= \frac 1N \sum_{k=1}^N\Arrowvert\check{\mathbf H}_k - \hat{\check{\mathbf H}}_k\Arrowvert^2 \\
-      &= \frac 1N \sum_{k=1}^N\left\Arrowvert \frac{\mathbf H_k}{\Arrowvert\mathbf H_k\Arrowvert} - \frac{\hat{\mathbf H}_k}{\Arrowvert\mathbf H_k\Arrowvert}\right\Arrowvert^2 \\
-      &= \frac 1N \sum_{k=1}^N\frac{\Arrowvert\mathbf H_k - \hat{\mathbf H}_k\Arrowvert^2}{\Arrowvert\mathbf H_k\Arrowvert}.
-      % &= \text{NMSE} \; \Box
-    \end{align*}
-    }
-\end{frame}
   % \begin{frame}{Spherical Normalization}
   %   CSI matrices are sparse in 2D (angular) delay domain.
   %   \begin{figure}[ht]
@@ -1111,37 +1095,16 @@
   \end{frame}
   }
 
-  \begin{frame}{Pilots to Delay Domain}
-    Denote delay-domain CSI vector, $\tilde{\boldeta}_i$, which is defined as
-    \begin{equation}
-      \tilde{\boldeta}_{i}\mathbf{F} = \boldeta_i, \label{eq:dft}
-    \end{equation}
-    for $\mathbf{F} \in \mathbf{C}^{N_f \times N_f}$ is the discrete Fourier transform (DFT) matrix.
-  \end{frame}
-
-  \begin{frame}{Pilots to Delay Domain}
-    Apply the pilot downsampling matrix $\mathbf{P}_i$ to both sides of (\ref{eq:dft}),
-    \begin{align}
-      \tilde{\boldeta}_{i}\mathbf{F}\mathbf{P}_i = \boldeta_i\mathbf{P}_i \nonumber \\
-      \tilde{\boldeta}_{i}\mathbf{Q}_i = \boldeta_{d,i} \label{eq:qmat}
-    \end{align}
-    where $\mathbf{Q}_i=\mathbf{F}\mathbf{P}_i\in\mathbb{C}^{N_f\times M_f}$ is the downsampled DFT matrix.
-  \end{frame}
-
-  \begin{frame}{Pilots to Delay Domain}
-    \begin{itemize}    
-      \item \textbf{Goal:} Feed back/compress truncated delay domain vectors, $\tilde{\boldeta}_{c,i}\in\mathbb{C}^{N_t}$.
-      \item Denote zero-padded vector $\tilde{\boldeta}_{i}$ as
-      \begin{align} 
-        \tilde{\boldeta}_{i} = \left[\tilde{\boldeta}_{c,i}, \mathbf{0}_{N_f - N_t}\right]. \label{eq:p2d_short}
-      \end{align}
-      \item Based on $\mathbf{Q}_i$ of (\ref{eq:qmat}), the delay domain is related to the pilots by the pseudoinverse,
-      \begin{align}
-        \tilde{\boldeta}_{i}\mathbf{Q}_i\mathbf{Q}_i^T &= \boldeta_{d,i}\mathbf{Q}_i^T \nonumber \\
-        \tilde{\boldeta}_{i} &= \boldeta_{d,i}\mathbf{Q}_i^T\left(\mathbf{Q}_i\mathbf{Q}_i^T\right)^{-1} \nonumber \\
-        &= \boldeta_{d,i}\mathbf{Q}_i^{\#}. \label{eq:p2d}
-      \end{align}
-    \end{itemize}
+  \begin{frame}{Pilots-to-Delay Estimator (P2DE)}
+  \begin{figure}[!hbtp]
+    \centering
+    {
+      \fontsize{8pt}{8pt}
+      \def\svgwidth{1.0\columnwidth}
+      \input{../images/p2de_process.pdf_tex}
+    }
+    \label{fig:p2de_process}
+  \end{figure}
   \end{frame}
 
   \nofoot{
@@ -1325,7 +1288,7 @@
       \item Autoencoder network (ENet) can provide good error compression/estimation.
       \begin{itemize}
         \item Fewer encoder/decoder parameters
-        \item More encoder FLOPs, less decoder FLLOPs
+        \item More encoder FLOPs, less decoder FLOPs
       \end{itemize}
     \end{itemize}
   \end{frame}
@@ -1613,7 +1576,7 @@
       \label{fig:imagenet_dist}
     \end{figure}
   \end{frame}
-  
+
   \nofoot{
   \begin{frame}{COST2100: Spherical Normalization}
     % Tanh normalization $\to$ larger variance. 
@@ -1755,6 +1718,23 @@
     \end{figure}
   \end{frame} 
   }  
+
+  \begin{frame}{MSE/NMSE equivalence}
+    \footnotesize{
+    Spherical normalization $\to$ MSE equivalent to NMSE.
+    \begin{align*}
+      \text{MSE}=\frac 1N \sum_{k=1}^N\Arrowvert\mathbf H_k - \hat{\mathbf H}_k\Arrowvert^2,\quad \text{NMSE} =\frac 1N \sum_{k=1}^N\frac{\Arrowvert\mathbf H_k - \hat{\mathbf H}_k\Arrowvert^2}{\Arrowvert\mathbf H_k\Arrowvert} \\        
+    \end{align*}
+    \pause
+    MSE of spherically normalized estimator yields,
+    \begin{align*}
+      \text{MSE}_{\text{Sph}} &= \frac 1N \sum_{k=1}^N\Arrowvert\check{\mathbf H}_k - \hat{\check{\mathbf H}}_k\Arrowvert^2 \\
+      &= \frac 1N \sum_{k=1}^N\left\Arrowvert \frac{\mathbf H_k}{\Arrowvert\mathbf H_k\Arrowvert} - \frac{\hat{\mathbf H}_k}{\Arrowvert\mathbf H_k\Arrowvert}\right\Arrowvert^2 \\
+      &= \frac 1N \sum_{k=1}^N\frac{\Arrowvert\mathbf H_k - \hat{\mathbf H}_k\Arrowvert^2}{\Arrowvert\mathbf H_k\Arrowvert}.
+      % &= \text{NMSE} \; \Box
+    \end{align*}
+    }
+  \end{frame}
 
   \begin{frame}{Multivariate Autoregression (MAR)}
     Rather than scalar $\hat\gamma \in \mathbb R^+$, we can derive a multivariate $p$-step predictor, $\mathbf W_1, \dots, \mathbf W_p$.
@@ -1904,6 +1884,39 @@
     \end{figure}  
   \end{frame}
 
+  \begin{frame}{Pilots-to-Delay Estimator}
+    Denote delay-domain CSI vector, $\tilde{\boldeta}_i$, which is defined as
+    \begin{equation}
+      \tilde{\boldeta}_{i}\mathbf{F} = \boldeta_i, \label{eq:dft}
+    \end{equation}
+    for $\mathbf{F} \in \mathbf{C}^{N_f \times N_f}$ is the discrete Fourier transform (DFT) matrix.
+  \end{frame}
+
+  \begin{frame}{Pilots-to-Delay Estimator}
+    Apply the pilot downsampling matrix $\mathbf{P}_i$ to both sides of (\ref{eq:dft}),
+    \begin{align}
+      \tilde{\boldeta}_{i}\mathbf{F}\mathbf{P}_i = \boldeta_i\mathbf{P}_i \nonumber \\
+      \tilde{\boldeta}_{i}\mathbf{Q}_i = \boldeta_{d,i} \label{eq:qmat}
+    \end{align}
+    where $\mathbf{Q}_i=\mathbf{F}\mathbf{P}_i\in\mathbb{C}^{N_f\times M_f}$ is the downsampled DFT matrix.
+  \end{frame}
+
+  \begin{frame}{Pilots-to-Delay Estimator}
+    \begin{itemize}    
+      \item \textbf{Goal:} Feed back/compress truncated delay domain vectors, $\tilde{\boldeta}_{c,i}\in\mathbb{C}^{N_t}$.
+      \item Denote zero-padded vector $\tilde{\boldeta}_{i}$ as
+      \begin{align} 
+        \tilde{\boldeta}_{i} = \left[\tilde{\boldeta}_{c,i}, \mathbf{0}_{N_f - N_t}\right]. \label{eq:p2d_short}
+      \end{align}
+      \item Based on $\mathbf{Q}_i$ of (\ref{eq:qmat}), the delay domain is related to the pilots by the pseudoinverse,
+      \begin{align}
+        \tilde{\boldeta}_{i}\mathbf{Q}_i\mathbf{Q}_i^T &= \boldeta_{d,i}\mathbf{Q}_i^T \nonumber \\
+        \tilde{\boldeta}_{i} &= \boldeta_{d,i}\mathbf{Q}_i^T\left(\mathbf{Q}_i\mathbf{Q}_i^T\right)^{-1} \nonumber \\
+        &= \boldeta_{d,i}\mathbf{Q}_i^{\#}. \label{eq:p2d}
+      \end{align}
+    \end{itemize}
+  \end{frame}
+
   \begin{frame}{Off-diagonal Regularization}
   \textbf{TO-DO}
   \end{frame}
@@ -1925,5 +1938,57 @@
     \end{figure}
   \end{frame}
   }
+
+  \begin{frame}{ISTA: A Proximal Gradient Method for CS}
+    \begin{itemize}
+      \item \textbf{Iterative Shrinkage-Threshold Algorithm (ISTA)}: The solution to the proximal-gradient method for the LASSO.
+      \begin{align}
+        \text{\textbf{Gradient Step}:}\;\mathbf{r}^{(k)} &= \mathbf{x}^{(k-1)}-\rho\mathbf{\Phi}^\top (\mathbf{\Phi x}^{(k-1)}-\mathbf{y}) \\
+        \text{\textbf{Proximal Step}:}\;\mathbf{x}^{(k)} &= \mathbf \argmin_{\mathbf{x}} \frac 12 \|\mathbf{x} - \mathbf{r}^{(k)}\|_2^2+\lambda \|\mathbf{\Phi}\mathbf{x}\|_1
+      \end{align}
+      \item Solution to proximal step $=$ soft-threshold function,
+      \begin{align*}
+        \text{prox}_{\lambda\|\mathbf{\Psi}\|_1} (v) &= 
+          \begin{cases}
+            v - \lambda & \text{if } \lambda < v \\
+            0           & -\lambda < v < \lambda \\
+            v + \lambda & \text{if } v < -\lambda \\
+          \end{cases}
+      \end{align*}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Soft-Threshold Function}
+    \begin{align*}
+      \text{prox}_{\lambda\|\mathbf{\Psi}\|_1} (v) &= 
+        \begin{cases}
+          v - \lambda & \text{if } \lambda < v \\
+          0           & -\lambda < v < \lambda \\
+          v + \lambda & \text{if } v < -\lambda \\
+        \end{cases}
+    \end{align*}
+    \begin{figure}[htb]
+      \centering
+      \includegraphics[width=.5\textwidth]{soft-threshold.png}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{ISTA: Shortcomings}
+    \begin{enumerate}
+      \item Need to tune hyperparameters (step size $\rho$, soft-threshold $\lambda$)
+      \item Several iterations needed to reach convergence; unreliable timing for algorithm.
+    \end{enumerate}
+  \end{frame}
+
+  \begin{frame}{ISTANet: A Deep Unrolled Reconstruction Network}
+    \begin{itemize}
+      \item \textbf{Solution}: ``Unroll'' the iterations into finite, identical CNNs.
+      \item Trainable hyperparameters (i.e., step size, threshold) per-iteration
+    \end{itemize}
+    \begin{figure}[htb]
+      \centering
+      \includegraphics[width=.8\linewidth]{istanet-annotated.png}
+    \end{figure}
+  \end{frame}
 
 \end{document}
