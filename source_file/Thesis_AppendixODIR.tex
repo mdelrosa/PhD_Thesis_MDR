@@ -3,7 +3,7 @@
 
 In this dissertation, we encounter a few situations where we have a matrix to invert, $\mathbf{A}$, but the matrix $\mathbf{A}$ may be nearly singular. For example, in Section~\ref{sect:p2de} of Chapter~\ref{chap:p2d} we had the pseudoinverse $\mathbf{Q}_i^{\#} = \mathbf{Q}_i^T\left(\mathbf{Q}_i\mathbf{Q}_i^T\right)^{-1}$, where we would denote our matrix to invert as $\mathbf{A}=\mathbf{Q}_i\mathbf{Q}_i^T$.
 
-As another example from Appendix~\ref{appdx:autoregressive}, we discussed the multivariate, $p$-step Markov model for CSI which was a function of the correlation matrices, $\hat{\mathbf{R}}_i$. Per equation (\ref{eq:toep-sol-est}), the we would denote $\mathbf{A}$ as the Toeplitz matrix populated by the $\hat{\mathbf{R}}_i$ matrices.
+As another example from Appendix~\ref{appdx:autoregressive}, we discussed the multivariate, $p$-step Markov model for CSI which was a function of the correlation matrices, $\hat{\mathbf{R}}_i$. Per equation (\ref{eq:toep-sol-est}), we denote $\mathbf{A}$ as the Toeplitz matrix populated by the $\hat{\mathbf{R}}_i$ matrices.
 
 In either of the cases described above, the stability of the matrix inverse can be improved by regularizing the matrix. Here, we briefly describe one method for regularizing nearly singular matrices, off-diagonal regularization (ODIR).
 

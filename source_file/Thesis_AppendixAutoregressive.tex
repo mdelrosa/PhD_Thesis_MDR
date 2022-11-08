@@ -12,7 +12,7 @@ Given $p$ prior CSI samples, the mean-square optimal predictor $\hat{\mathbf{H}}
 \mathbf{\hat H}_{t} = \mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-p} \mathbf W_{p} + \mathbf E_t.
 \end{equation}
 
-Where $\mathbf{W}_{i}$ is the coefficient matrix foro the $i$-th timeslot with dimension $\mathbb{C}^{N_b \times N_b}$, and $\mathbf{E}_t$ is the error term at time $t$, which is uncorrelated with the CSI samples (i.e. $\mathbf H_{t-i}^H \mathbf E_t = 0$ for all $i \in [0, \dots, p]$). To solve for the matrices $\mathbf{W}_{t-1}, \dots, \mathbf{W}_{t-p}$, we first pre-multiply by $\mathbf H_{t-i}^H$,
+Where $\mathbf{W}_{i}$ is the coefficient matrix for the $i$-th timeslot with dimension $\mathbb{C}^{N_b \times N_b}$, and $\mathbf{E}_t$ is the error term at time $t$, which is uncorrelated with the CSI samples (i.e. $\mathbf H_{t-i}^H \mathbf E_t = 0$ for all $i \in [0, \dots, p]$). To solve for the matrices $\mathbf{W}_{t-1}, \dots, \mathbf{W}_{t-p}$, we first pre-multiply by $\mathbf H_{t-i}^H$,
 \begin{align}
 \mathbf{H}_{t-i}^H\mathbf{\hat H}_{t} &= \mathbf{H}_{t-i}^H\mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-i}^H\mathbf{H}_{t-p} \mathbf W_{p} + \mathbf{H}_{t-i}^H\mathbf E_t \nonumber \\
                     &= \mathbf{H}_{t-i}^H\mathbf{H}_{t-1} \mathbf W_{1} + \dots + \mathbf{H}_{t-i}^H\mathbf{H}_{t-p} \mathbf W_{p}. \label{eq:var-init}
