@@ -10,7 +10,7 @@ This section provides a brief overview of relevant deep learning concepts employ
 
 \textbf{Deep learning (DL)} is a subset of machine learning (ML), a broad class of algorithms which use data to ``fit'' models for prediction or classification tasks. The three predominant learning frameworks are supervised learning, unsupervised learning, and reinforcement learning. In the works proposed, we focus on \emph{unsupervised learning}, which seeks to find a compressed representation of the data without labels (see Chapter 14 of \cite{ref:Hastie2016Elements} for an overview).
 
-\textbf{Convolutional Neural Networks (CNNs)}: A neural network is a machine learning algorithm with multiple \emph{layers} of parameterized linear functions followed nonlinear functions (typically referred to as `activation' functions). The parameters for these layers can be updated via a stochastic optimizer (e.g., the Adam optimizer \cite{ref:Kingma2014ADAM}), and given enough layers, such networks can achieve arbitrarily accurate functional approximation \cite{ref:Hecht1992TheoryBackprop}. In recent years, neural networks with convolutional layers have established state-of-the-art performance in computer vision tasks such as image classification \cite{ref:Sabour2017Dynamic} and segmentation \cite{ref:He2017Mask}. While the concept of a CNN has been around since at least the early 80's \cite{ref:fukushima1980neocognitron}, CNNs did not see widespread adoption in computer vision until AlexNet \cite{ref:krizhevsky2012imagenet}. This recent proliferation of CNNs in computer vision has been enabled by hardware advances  such as graphical processing units (GPUs) and tensor processing units (TPUs)) which make parallel training on large-scale datasets possible.
+\textbf{Convolutional Neural Networks (CNNs)}: A neural network is a machine learning algorithm with multiple \emph{layers} of parameterized linear functions followed nonlinear functions (typically referred to as `activation' functions). The parameters for these layers can be updated via a stochastic optimizer (e.g., the Adam optimizer \cite{ref:Kingma2014ADAM}), and given enough layers, such networks can achieve arbitrarily accurate functional approximation \cite{ref:Hecht1992TheoryBackprop}. In recent years, neural networks with convolutional layers have established state-of-the-art performance in computer vision tasks such as image classification \cite{ref:Sabour2017Dynamic} and segmentation \cite{ref:He2017Mask}. While the concept of a CNN has been around since at least the early 80's \cite{ref:fukushima1980neocognitron}, CNNs did not see widespread adoption in computer vision until AlexNet \cite{ref:krizhevsky2012imagenet}. This recent proliferation of CNNs in computer vision has been enabled by hardware advances  such as graphical processing units (GPUs) and tensor processing units (TPUs) which make parallel training on large-scale datasets possible.
 
 \begin{figure}[!hbtp]
 \centering
@@ -22,11 +22,11 @@ This section provides a brief overview of relevant deep learning concepts employ
 
 A common architecture for deep unsupervised learning is the \emph{autoencoder} (see Fig.~\ref{fig:autoencoder_schematic} for a generic example). Trained end-to-end on input data, an autoencoder is comprised of an encoder and a decoder which jointly learn a compressed latent representation ($\mathbf Z$) and an estimate of the input ($\hat{\mathbf H}$). By choosing $\mathbf Z$ to have lower dimension than the input, the network is forced to learn a ``useful'' summary of the input data. The typical objective function for such a network is the mean squared error (MSE),
 \begin{align*}
-\underset{\theta_e, \theta_d}{\text{argmin}}\; \frac 1N \sum_{i=1}^N\Arrowvert \mathbf H_i - g(f(\mathbf H_i, \theta_e), \theta_d) \Arrowvert^2.
+\underset{\theta_e, \theta_d}{\text{argmin}}\; \frac 1N \sum_{i=1}^N\Arrowvert \mathbf H_i - g(f(\mathbf H_i, \vec\theta_e), \vec\theta_d) \Arrowvert^2.
 \end{align*}
 We optimize network parameters $\vec \theta_e, \vec \theta_d$ by backpropagation and a stochastic optimization algorithm (e.g., stochastic gradient descent or Adam).
 
-The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:csinet}. Figure~\ref{fig:csinet} shows the architecture of CsiNet, where the encoder is deployed at the UE and the decoder is deployed at the BS. The encoder uses a convolutional layer and a linear layer to find a compressed representation of the input CSI, and the decoder uses a linear layer to expand the dimension of the feedback followed by two ``refine blocks'' and an output convolutional layer to refine the CSI estimate. After the CsiNet paper, many works attempted to bolster the performance of CNN autoencoders for CSI estimation by incorporating \emph{domain knowledge}. This Chapter details several such works, and in Section\ref{sect:sparse-csi}, we will discuss one such area of domain knowledge about CSI data: the sparse basis of the CSI data utilized in CsiNet. 
+The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:csinet}. Figure~\ref{fig:csinet} shows the architecture of CsiNet, where the encoder is deployed at the UE and the decoder is deployed at the BS. The encoder uses a convolutional layer and a linear layer to find a compressed representation of the input CSI, and the decoder uses a linear layer to expand the dimension of the feedback followed by two ``refine blocks'' and an output convolutional layer to refine the CSI estimate. After the CsiNet paper, many works attempted to bolster the performance of CNN autoencoders for CSI estimation by incorporating \emph{domain knowledge}. This chapter details several such works, and in Section \ref{sect:sparse-csi}, we will discuss one such area of domain knowledge about CSI data: the sparse basis of the CSI data utilized in CsiNet. 
 
 \begin{figure}[htb]
 	\centering
@@ -38,7 +38,7 @@ The first CNN autoencoder used for the CSI estimation task was CsiNet \cite{ref:
 \textbf{Computational Complexity}: Given the number of layers and operations involved in any deep learning algorithm, measuring the \textbf{computational complexity} of these algorithms is important. Two metrics that are commonly used in deep learning literature are:
 
 \begin{enumerate}
-	\item \textbf{Floating point operations (FLOPs)}: FLOPs provide a measure of the compute consumed by a given layer or mathematical operation in a network. A single FLOP is defined as any arithmetic operation between floating point numbers (e.g., addition, multiplication) or any assignment of a floating point value.
+	\item \textbf{Floating point operations (FLOPs)}: FLOPs provide a measure of the computations used by a given layer or mathematical operation in a network. A single FLOP is defined as any arithmetic operation between floating point numbers (e.g., addition, multiplication) or any assignment of a floating point value.
 	\item \textbf{Parameters}: The number of parameters in a deep learning network determines the storage cost for inference\footnote{The size of the dataset will contribute towards the storage cost but only during training/evaluation.}. The number of parameters in a typical deep learning model can be anywhere from millions (e.g., ResNet architectures \cite{ref:he2016identity}) to billions (e.g., GPT-3 \cite{ref:brown2020language}).
 \end{enumerate}
 
@@ -122,9 +122,9 @@ However, for CSI matrices, minmax normalization is applied to the real and imagi
 
 In Section~\ref{sect:sph_norm}, we  will detail our proposed method for increasing the variance of CSI data and demonstrate that this method can improve the estimation accuracy of deep learning networks for CSI estimation.
 
-\section{Related Work}
+\subsection{Related Work}
 
-In image processing, several works have investigated normalization techniques such as batch normalization \cite{ref:ioffe2015batch}, instance normalization \cite{ref:huang2017instance}, layer normalization \cite{ref:ba2016layer}, and group normalization \cite{ref:wu2018group}. These normalization techniques scale the outputs of latent layers in neural networks, which helps to solve the problem of covariate shift \cite{ref:ioffe2015batch} where the mean and variance of changes between subsequent layers of the network.
+In image processing, several works have investigated normalization techniques such as batch normalization \cite{ref:ioffe2015batch}, instance normalization \cite{ref:huang2017instance}, layer normalization \cite{ref:ba2016layer}, and group normalization \cite{ref:wu2018group}. These normalization techniques scale the outputs of latent layers in neural networks, which helps to solve the problem of covariate shift \cite{ref:ioffe2015batch} where the mean and variance changes between subsequent layers of the network.
 
 Other works have studied normalization of the network's inputs. A number of works have investigated adaptive normalization techniques for time series estimation tasks \cite{ref:ogasawara2010adaptive, ref:nayak2014impact, ref:shao2015self}. In \cite{ref:passalis2019dain}, the authors proposed a trainable input network which learns to shift, scale, and filter the unnormalized data while training the target network for a time series prediction task.
 
@@ -136,7 +136,7 @@ Here, we discuss our work in spherical normalization (Section~\ref{sect:sph_norm
 \label{sect:sph_norm_method}
 Rather than apply minmax normalization, which results in a low variance distribution when applied to highly sparse CSI data, we propose spherical normalization. Before describing spherical normalization in detail, consider z-score normalization. Given a random variable, $x$, with mean $\mu$ and standard deviation $\sigma$. The z-score normalized version of this random variable is given as
 \begin{align}
-	z &= \frac{x - \mu}{\sigma^2}. \label{eq:zscore}
+	z &= \frac{x - \mu}{\sigma}. \label{eq:zscore}
 \end{align}
 Assuming $x$ is normally distributed, the resulting random variable, $z$, is a standard normal distribution such that $z \sim \mathcal N(0,1)$. Inspired by $z$-score normalization, we seek a normalization scheme which adjusts the range of each channel sample. Under spherical normalization, each sample in the dataset is scaled by its power. Denote the $n$-th downlink CSI matrix of the dataset as $\mathbf H_d^n$. The spherically normalized version of the downlink CSI is given as
 % TODO: Does this make sense? "For CSI matrices, we could choose to scale each element by it's mean and by the inverse covariance matrix."
