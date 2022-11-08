@@ -63,7 +63,7 @@ Based on \ref{eq:qmat}, the delay domain can be related directly to the pilots b
 
 % \subsection{Regularization of P2DE} \label{sect:odir}
 
-When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversion unstable. To compensate for this ill-conditioning, we propose to use off-diagonal regularization (ODIR) to condition the P2DE matrices. This form of regularization is described in more detail in Appendix~\ref{appdx:odir}. 
+When the pilot patterns $\mathbf{P}_i$ are equidistant and regularly spaced, the P2DE matrices $\mathbf{Q}_i\mathbf{Q}_i^T$ are typically well-conditioned. However, more irregular patterns can result in ill-conditioned matrices $\mathbf{Q}_i\mathbf{Q}_i^T$, making these matrix inversions unstable. To compensate for this ill-conditioning, we propose to use off-diagonal regularization (ODIR) to condition the P2DE matrices. This form of regularization is described in more detail in Appendix~\ref{appdx:odir}. 
 
 \begin{figure}[!hbtp]
     \centering
@@ -114,7 +114,7 @@ Algorithm~\ref{alg:p2d-diag} shows the process for acquiring the delay domain P2
 \section{Heterogeneous Differential Encoding with P2DE}
 \label{sect:hetero-markov}
 
-Chapter~\ref{chap:markovnet} introduced the concept of differential encoding for CSI feedback compression. The delay domain P2DE CSI introduced in this Chapter can also be used in the differential encoding framework. Figure~\ref{fig:markov-p2d} showcases the data path when utilizing the P2D estimates with a differential encoding network.
+Chapter~\ref{chap:markovnet} introduced the concept of differential encoding for CSI feedback compression. The delay domain P2DE CSI introduced in this chapter can also be used in the differential encoding framework. Figure~\ref{fig:markov-p2d} showcases the data path when utilizing the P2D estimates with a differential encoding network.
 
 The prior work proposed a differential encoding network that used an identical autoencoder at each timeslot. We refer to such a network as `homogeneous.' In contrast, we can consider a `heterogeneous' network, where we use different network architectures at different timeslots.
 
@@ -148,8 +148,14 @@ where $\mathbf y=\mathbf{\Phi} \mathbf x$, $\mathbf x^{(0)}=\mathbf{R}_{\text{in
 \begin{align}
     \text{soft}(x, \theta) &= \text{sign}(x)\text{ReLU}(|x|-\theta). \label{eq:soft}
 \end{align}
-$\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ indicate trainable nonlinear mappings (in this case, CNNs), and $\mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ are subject to the symmetry constraint $\mathcal H^{(k)}\circ \tilde{\mathcal H}^{(k)}=\mathbf I$.
-
+$\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ indicate trainable nonlinear mappings (in this case, CNNs), and $\mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ are subject to the symmetry constraint $\mathcal H^{(k)}\circ \tilde{\mathcal H}^{(k)}=\mathbf I$. The rectified linear unit (ReLU) is given as
+\begin{align*}
+    \text{ReLU}(x) &= 
+        \begin{cases}
+            x & x \geq 0 \\
+            0 & x < 0
+        \end{cases}
+\end{align*}
 In the proposed differential encoding scheme, we use an instance of ISTANet+ in the first timeslot, $t_1$, with a large compression ratio such that $\text{CR}_{t_1} \geq \text{CR}_{t_i}$ for all $i > 1$. This choice in compression ratio allows us to initialize the network with a high-quality estimate at the first timeslot. Notably, the training data matrix, $\mathbf X$, differs between timeslots. For the first timeslot, the data vectors $\mathbf{x}_i$ are vectorized versions of the CSI matrices,
 \begin{align}
     \mathbf{x}_j &= \text{vec}\left(\mathbf{H}^{(j)}_{\tau,1}\right) \text{ for } j\in[N_{\text{train}}]. 
@@ -160,7 +166,7 @@ However, the data vectors for all other timeslots are vectorized versions of the
     \mathbf{x}_j &= \text{vec}\left(\bar{\mathbf{E}}^{(j)}_{i}\right) \text{ for } j\in[N_{\text{train}}]. 
     \label{eq:ti_vec}
 \end{align}
-Denote the parameters for ISTANet+ in the $t_i$-th timeslot as $\mathbf{\Theta}_{t_i}=\{\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}\, \theta^{(k)}, \rho^{(k)}\}_{k=1}^{K}$. The loss function is a weighted sum of the MSE and the symmetry constraint, i.e.,
+Denote the parameters for ISTANet+ in the $t_i$-th timeslot as $\mathbf{\Theta}_{t_i}=\{\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}, \theta^{(k)}, \rho^{(k)}\}_{k=1}^{K}$. The loss function is a weighted sum of the MSE and the symmetry constraint, i.e.,
 \begin{align}
     L(\mathbf{\Theta}_{t_i}) &= L_{\text{MSE}} + \alpha L_{\text{sym}} \\
     L_{\text{MSE}} &= \frac{1}{N_{\text{batch}}N_{\text{total}}}\sum_{i=1}^{N_{\text{batch}}}\|\mathbf{x}_i^{(K)}-\mathbf{x}_i\|_2^2 \\
