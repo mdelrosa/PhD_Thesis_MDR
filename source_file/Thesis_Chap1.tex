@@ -73,7 +73,7 @@ To estimate the downlink CSI in wireless networks, transmitters allocate pilot r
     \label{fig:lte-vs-5g}
 \end{figure}
 
-For the UE to estimate the downlink channel state at the known pilot locations, the UE can use a straightforward least-squares estimator. Denote the pilot matrix $\mathbf{X}\in\mathbb{C}^{M_b \times \tau}$ where $\tau$ is a given number of timeslots that is less than the coherence interval of the channel. The received signal at the UE based on the transmitted pilots is,
+For the UE to estimate the downlink channel state at the known pilot locations, the UE can use a straightforward least-squares estimator. Denote the pilot matrix $\mathbf{X}\in\mathbb{C}^{M_b \times \tau}$ where $\tau$ is a given number of timeslots that is less than the coherence interval of the channel. The received signal at the UE ($\mathbf{y}_{\text{pilots}}\in\mathbb{C}^{1\times\tau}$) based on the transmitted pilots is,
 \begin{align}
 	\mathbf{y}_{\text{pilots}} &= \mathbf{h}_{\text{pilots}}\mathbf{X} + \mathbf{n},
 \end{align}

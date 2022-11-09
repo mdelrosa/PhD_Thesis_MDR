@@ -84,7 +84,7 @@ Mean percentage of energy in CSI matrix up to index is shown with 90\% confidenc
 
 The next type of pre-processing under consideration is a change of coordinates. Specifically, rather than utilizing a Cartesian representation (i.e., real-imaginary channels), we can consider a polar representation (i.e., magnitude-phase). As discussed in Section~\ref{sect:mimo_model}, the reciprocity of downlink and uplink channels is weak in FDD wireless networks when compared to TDD. Despite this, DL CSI estimation techniques have used uplink CSI to improve the reconstruction accuracy of downlink CSI at gNB. In \cite{ref:dualnet}, the authors demonstrate that the correlation between the magnitude of uplink and downlink CSI elements is strong. To exploit magnitude reciprocity, they propose DualNet, a CNN autoencoder which learns a feedback encoding for the downlink CSI magnitude and decodes the feedback with the magnitude of uplink CSI as side information. The downlink phase is separately quantized and fed back to gNB via magnitude-dependent phase quantization (MDPQ). The authors demonstrate that exploiting bidirectional reciprocity can substantially improve CSI estimation accuracy.
 
-\subsection{Minmax Normalization}
+\subsection{Minmax Data Normalization}
 
 The last pre-processing technique we discuss is normalization. Typical deep autoencoders require normalized data to ensure that the range of the input data matches the range of the autoencoder's output function, which is typically chosen as \texttt{sigmoid} or \texttt{tanh} as pictured in Figure~\ref{fig:ae_output_fx}. 
 \begin{figure}[htb]
@@ -122,7 +122,7 @@ However, for CSI matrices, minmax normalization is applied to the real and imagi
 
 In Section~\ref{sect:sph_norm}, we  will detail our proposed method for increasing the variance of CSI data and demonstrate that this method can improve the estimation accuracy of deep learning networks for CSI estimation.
 
-\subsection{Related Work}
+\subsection{Related Works}
 
 In image processing, several works have investigated normalization techniques such as batch normalization \cite{ref:ioffe2015batch}, instance normalization \cite{ref:huang2017instance}, layer normalization \cite{ref:ba2016layer}, and group normalization \cite{ref:wu2018group}. These normalization techniques scale the outputs of latent layers in neural networks, which helps to solve the problem of covariate shift \cite{ref:ioffe2015batch} where the mean and variance changes between subsequent layers of the network.
 
