@@ -148,7 +148,7 @@ where $\mathbf y=\mathbf{\Phi} \mathbf x$, $\mathbf x^{(0)}=\mathbf{R}_{\text{in
 \begin{align}
     \text{soft}(x, \theta) &= \text{sign}(x)\text{ReLU}(|x|-\theta). \label{eq:soft}
 \end{align}
-$\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ indicate trainable nonlinear mappings (in this case, CNNs), and $\mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ are subject to the symmetry constraint $\mathcal H^{(k)}\circ \tilde{\mathcal H}^{(k)}=\mathbf I$. The rectified linear unit (ReLU) is given as
+$\mathcal G^{(k)}, \mathcal D^{(k)},  \mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ indicate trainable nonlinear mappings (in this case, CNNs), and $\mathcal H^{(k)}, \tilde{\mathcal H}^{(k)}$ are subject to the symmetry constraint $\mathcal H^{(k)}\circ \tilde{\mathcal H}^{(k)}=\mathbf I$\footnote{Where $\circ$ denotes the function composition, $(f \circ g)(x) = f(g(x))$}. The rectified linear unit (ReLU) is given as
 \begin{align*}
     \text{ReLU}(x) &= 
         \begin{cases}

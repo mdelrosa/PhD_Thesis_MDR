@@ -68,11 +68,11 @@ and correspondingly, the input vector is padded with a single one,
 
 \section{Convolutional Layer}
 
-In a convolutional layer, the complexity is driven by the number of kernels ($N_k$), the height/width of kernel ($H_k/W_k$), and the channels/height/width of the input data ($C/H/W$). Denote the input data as $\mathbf I\in\mathbb{R}^{C\times H\times W}$, the kernel as $\mathbf{K}\in\mathbb{R}^{N_k\times H_k\times W_k}$, and the output image as $\mathbf O\in\mathbb{R}^{N_k\times H\times W}$. The convolution operation assigns a value to each element of the output using the following equation,
+In a convolutional layer, the complexity is driven by the number of kernels ($N_k$), the height/width of kernel ($H_k/W_k$), and the channels/height/width of the input data ($C/H/W$). Denote the input data as $\mathbf I\in\mathbb{R}^{C\times H\times W}$, the kernel as $\mathbf{K}\in\mathbb{R}^{N_k\times H_k\times W_k}$, and the output image as $\mathbf O\in\mathbb{R}^{N_k\times H\times W}$. The convolution operation (with no bias term) assigns a value to each element of the output using the following equation,
 \begin{align}
-	\mathbf{O}(i,j,k) &= \sum_{c=1}^{C}\sum_{h=1}^{H_k}\sum_{w=1}^{W_k} K(i,j+h,k+w)I\left(c,j+h-\left\lfloor\frac{H}{2}\right\rfloor,k+w-\left\lfloor\frac{W}{2}\right\rfloor\right)
+	\mathbf{O}(i,j,k) &= \sum_{c=1}^{C}\sum_{h=1}^{H_k}\sum_{w=1}^{W_k} K(i,j+h,k+w)I\left(c,j+h-\left\lfloor\frac{H}{2}\right\rfloor,k+w-\left\lfloor\frac{W}{2}\right\rfloor\right), \label{eq:2d-conv}
 \end{align}
-Whenever the height or width indices of $\mathbf{I}$ are out of the range $[1,\dots,H]$ or $[1,\dots,W]$, the elements involved in the convolution are determined by the padding (e.g., zero padding, reflected padding, etc.).
+where the $i,j,k$ index over the output channels, rows, and columns (respectively). On the right-hand side of (\ref{eq:2d-conv}), the first summation $\left(\sum_{c=1}^C\right)$ sums over the channels of the input image while the following two summations $\left(\sum_{h=1}^{H_k}/\sum_{w=1}^{W_k}\right)$ sum over the height/width of the kernel. Whenever the height or width indices of $\mathbf{I}$ are out of the range $[1,\dots,H]$ or $[1,\dots,W]$, the elements involved in the convolution are determined by the padding (e.g., zero padding, reflected padding, etc.).
 
 \textbf{FLOPs}: The number of FLOPs in a convolutional layer is given by the following formula,
 \begin{align*}
