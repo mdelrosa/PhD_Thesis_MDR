@@ -18,7 +18,7 @@ $\mathbf{M_f}$      & $\mathbf{32}$      & $\mathbf{64}$       & $\mathbf{128}$ 
 \vspace*{-0.3mm}
 \end{table}
 
-Since UEs are typically compute/memory constrained devices (e.g., cell phones, tablets, IoT devices), it is preferable to reduce any such burden where possible. In this chapter, we propose two methods to reduce computational complexity at the UE. In Section~\ref{sect:direct_pilots}, we propose a method to estimate the delay domain CSI at the BS based on compressed feedback of the frequency domain pilots. In Section~\ref{sect:model_reuse}, we propose a method for using a simple model to estimate subsets of subcarriers in CSI matrices. In Section~\ref{sect:direct_reuse_results}, we present results demonstrating that these methods maintain CSI estimation accuracy while reducing encoder-side complexity by as much as a factor of 10. 
+Since UEs are typically compute/memory constrained devices (e.g., cell phones, tablets, IoT devices), it is preferable to reduce any such burden where possible. In this chapter, we propose two methods to reduce computational complexity at the UE. In Section~\ref{sect:direct_pilots}, we propose a method to estimate the delay domain CSI at the BS based on compressive sensing feedback of the frequency domain pilots. In Section~\ref{sect:model_reuse}, we propose a method for using a simple model to estimate subsets of subcarriers in CSI matrices. In Section~\ref{sect:direct_reuse_results}, we present results demonstrating that these methods maintain CSI estimation accuracy while reducing encoder-side complexity by as much as a factor of 10. 
 
 \section{Direct Pilot-based Feedback} \label{sect:direct_pilots}
 
@@ -34,7 +34,7 @@ Since UEs are typically compute/memory constrained devices (e.g., cell phones, t
     we use downlink pilots to 
     generate a sparse, frequency domain CSI
     estimate 
-    of size $M_f << N_f$. This downsampled frequency domain CSI estimate is compressed at the UE
+    of size $M_f << N_f$. This downsampled frequency domain CSI estimate is compressive sensing at the UE
     and fed back to the BS.
     At the BS, we apply
     the P2D estimator, $\mathbf{Q}^{\#}_{N_t}$ \cite{ref:delRosario2022p2d} to acquire 
@@ -74,7 +74,7 @@ In order to enjoy the benefits of highly accurate CS networks while
 reducing network complexity at the UE, we propose to use a relatively simple CS
 model on contiguous blocks of $K$ subcarriers where $K \leq M_f$.
 The operating principle behind this approach is inspired by block 
-compressed sensing \cite{ref:Gan2007blockCS}, and the concept is 
+compressive sensing \cite{ref:Gan2007blockCS}, and the concept is 
 shown in Fig.~\ref{fig:model_reuse}.
 
 In this work, we study a deep CS network called ISTANet+ \cite{ref:zhang2018ista}.
@@ -83,7 +83,7 @@ For ISTANet+, the compression occurs at the UE by a simple matrix multiplication
     f(x) &= \mathbf{\Phi}\mathbf{x}
 \end{align}
 where $\mathbf{\Phi}$ is referred to as the measurement matrix and 
-$\mathbf{x}$ is the flattened CSI matrix. In the case of block compressed
+$\mathbf{x}$ is the flattened CSI matrix. In the case of block compressive
 sensing, the measurement matrix operates of $K$ contiguous subcarriers across
 all angular indices, i.e., $\mathbf{x} \in \mathbb{R}^{N_K}$, $\mathbf{\Phi} 
 \in \mathbb{R}^{\text{CR} K  \times K}$ where $N_K = 2 K N_a$ is the dimension of

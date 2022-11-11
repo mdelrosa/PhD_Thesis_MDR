@@ -118,7 +118,7 @@ Chapter~\ref{chap:markovnet} introduced the concept of differential encoding for
 
 The prior work proposed a differential encoding network that used an identical autoencoder at each timeslot. We refer to such a network as `homogeneous.' In contrast, we can consider a `heterogeneous' network, where we use different network architectures at different timeslots.
 
-In this section, we describe a heterogeneous differential encoder which combines deep compressed sensing with deep autoencoders.
+In this section, we describe a heterogeneous differential encoder which combines deep compressive sensing with deep autoencoders.
 
 \begin{figure}[!hbtp]
     \centering
@@ -132,13 +132,13 @@ In this section, we describe a heterogeneous differential encoder which combines
 
 % In \cite{ref:zhang2018ista}, the authors emulate the iterations of the Iterative Shrinkage-Thresholding Algorithm (ISTA) as lightweight CNNs. They propose a network (ISTANet+) which utilizes skip connections in each iteration to learn the residual of the reconstructed image.
  
-While CNN autoencoders have been dominant in CSI estimation, recent work from image processing has shown promise in using trainable CS algorithms based on CNNs\footnote{For an overview of conventional compressed sensing solutions as well as the original ISTA algorithm, see Appendix~\ref{appdx:compressed-sensing}}. These works treat iterative CS algorithms as sequential networks by ``unrolling'' them into discrete blocks \cite{ref:yang2016deep, ref:zhang2018ista}. Investigating unrolled CS algorithms for CSI estimation warrants consideration, as CS algorithms can have guaranteed convergence under mild sparsity conditions (in contrast with CNNs autoencoder approaches, which do not have such guarantees). Since CSI data exhibits sparsity in the delay domain, specifying an appropriate compressed sensing approach could provide appreciable performance gains in our differential CSI encoding architecture. 
+While CNN autoencoders have been dominant in CSI estimation, recent work from image processing has shown promise in using trainable CS algorithms based on CNNs\footnote{For an overview of conventional compressive sensing solutions as well as the original ISTA algorithm, see Appendix~\ref{appdx:compressed-sensing}}. These works treat iterative CS algorithms as sequential networks by ``unrolling'' them into discrete blocks \cite{ref:yang2016deep, ref:zhang2018ista}. Investigating unrolled CS algorithms for CSI estimation warrants consideration, as CS algorithms can have guaranteed convergence under mild sparsity conditions (in contrast with CNNs autoencoder approaches, which do not have such guarantees). Since CSI data exhibits sparsity in the delay domain, specifying an appropriate compressive sensing approach could provide appreciable performance gains in our differential CSI encoding architecture. 
 
 To exploit the temporal coherence of the MIMO channel, we propose to construct a differential encoding network using an unrolled optimization network based on a trainable version of the iterative shrinkage-thresholding algorithm (ISTA), called ISTANet+ \cite{ref:zhang2018ista}. See the top of Figure~\ref{fig:arch_compare} for a diagram of ISTANet+. Denote measurement matrix for the ISTANet+ as 
 \begin{align}
     \mathbf \Phi \in \mathbf{R}^{N_{\text{total}}\text{CR} \times N_{\text{total}}}.
 \end{align}
-For compressed sensing approaches, the measurement matrix is analogous to the `encoder' of autoencoder approaches, i.e., $f(x)=\mathbf\Phi x$. The `decoder' consists of $K$ iterations of the following update steps,
+For compressive sensing approaches, the measurement matrix is analogous to the `encoder' of autoencoder approaches, i.e., $f(x)=\mathbf\Phi x$. The `decoder' consists of $K$ iterations of the following update steps,
 \begin{align}
     \mathbf{r}^{(k)} &= \mathbf{x}^{(k-1)}-\rho^{(k)}\mathbf{\Phi}^\top(\mathbf{\Phi}\mathbf x^{(k-1)}-\mathbf y) \label{eq:istanet-grad} \\
     % \mathbf x^{(k)} &= \tilde{\mathcal{F}}^{(k)}\left(\text{soft}\left(\mathcal{F}^{(k)}(\mathbf{r}^{(k)}), \theta^{(k)}\right)\right)
