@@ -40,6 +40,8 @@
 
 \usepackage[linktocpage,bookmarksopen,bookmarksnumbered]{hyperref}
 
+\usepackage{pdfpages}
+
 %\usepackage[nottoc,numbib]{tocbibind}
  %\usepackage[pdftex]{graphicx}
  
@@ -212,20 +214,14 @@
 \doublespacing
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 
-\title{{\large \bf Efficient Deep Learning for Massive MIMO Channel State Estimation}
-	\vspace{0.2in}\\
-	PhD Dissertation (draft)}
-\author{Mason del Rosario\\
-	Department of Electrical and Computer Engineering\\
-	University of California, Davis\\
-	Davis, CA 95616, U.S.A.\vspace{0.8in}
-}
-
-\date{September, \the\year}
-\maketitle
+% the official guidance on the UCD title page is from here:
+% sample: https://ucdavis.app.box.com/v/GSSampleTitlePage
+% template: https://ucdavis.app.box.com/v/TitlePageTemplate
+\includepdf{title_page/title_page_mdr.pdf} % include UCD template title page in frontmatter
 
 \pagenumbering{roman}
 
+\stepcounter{page} % increment page number, accounting for title page
 \input{./source_file/Acknowledgements.tex}
 \tableofcontents
 \listoffigures
