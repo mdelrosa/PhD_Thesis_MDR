@@ -1918,7 +1918,16 @@
   \end{frame}
 
   \begin{frame}{Off-diagonal Regularization}
-  \textbf{TO-DO}
+    For a nearly singular matrix, stability of the matrix inverse can be improved by regularization. We use off-diagonal regularization (ODIR) to perform such regularization.
+
+    Denote $A_{ij}$ as the $i$-th row and $j$-th column of matrix $\mathbf{A}$. Select a scaling factor $\delta \in \mathbb{R}^{+}$ to scale down off-diagonal elements of $\mathbf{A}$. The elements of the resulting ODIR matrix, $\mathbf{A}_{\text{ODIR}}$, are written as
+    \begin{align}
+        A_{ij, \text{ODIR}} &= 
+            \begin{cases}
+                A_{ij} & \text{if } i = j\\
+                \frac{A_{ij}}{1+\delta} & \text{if } i \neq j.
+            \end{cases}
+    \end{align}
   \end{frame}
 
   \nofoot{
