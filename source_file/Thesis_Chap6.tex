@@ -1,5 +1,59 @@
 \chapter{Conclusion} \label{chap:conclusion}
 
-This dissertation surveyed techniques to improve the performance and efficiency of deep neural networks for the task of MIMO CSI estimation. In Chapter~\ref{chap:sph_norm} we discussed the importance of data pre-processing techniques, and we showed the efficacy of our proposed spherical normalization technique. In Chapter~\ref{chap:markovnet}, we exploited the temporal correlation of the wireless channel, and we demonstrated the superior performance and efficiency of a deep differential encoder compared to recurrent neural networks. In Chapter~\ref{chap:p2d}, we presented two main contributions: an accurate estimator of the delay domain CSI based on sparse frequency domain pilots and a hetergeneous differential encoding network combining deep compressive sensing networks with autoencoders. We showed the accuracy of our pilot-based delay domain estimator, even under aggressive sparsity and noisy pilot estimates. Furthermore, we verified the improved performance of heterogeneous networks over homogeneous networks. Finally in Chapter~\ref{chap:comp-effic}, we proposed a scheme which re-uses a simple model on contiguous blocks of multiple subcarriers, and we showed that this method can maintain accuracy while reducing the computational complexity of the network by a factor of 10.  
+This dissertation investigates techniques to improve the performance and efficiency of deep neural networks for the task of MIMO CSI estimation. In Chapter~\ref{chap:sph_norm} we discussed the importance of data pre-processing techniques, and we showed the efficacy of our proposed spherical normalization technique. In Chapter~\ref{chap:markovnet}, we exploited the temporal correlation of the wireless channel, and we demonstrated the superior performance and efficiency of a deep differential encoder compared to recurrent neural networks. In Chapter~\ref{chap:p2d}, we presented two main contributions: an accurate estimator of the delay domain CSI based on sparse frequency domain pilots and a hetergeneous differential encoding network combining deep compressive sensing networks with autoencoders. We showed the accuracy of our pilot-based delay domain estimator, even under aggressive sparsity and noisy pilot estimates. Furthermore, we verified the improved performance of heterogeneous networks over homogeneous networks. Finally in Chapter~\ref{chap:comp-effic}, we proposed a scheme which re-uses a simple model on contiguous blocks of multiple subcarriers, and we showed that this method can maintain accuracy while reducing the computational complexity of the network by a factor of 10.  
 
 Across all these works, we investigated techniques which exploited domain knowledge of the wireless channel to improve estimation accuracy and computational efficiency while better conforming to 3GPP protocols. Further work in CSI compression should take a similar approach by taking advantage of features of the wireless channel, the communications protocol, or CSI data itself.
+
+\section{Future Works}
+
+In addition to the work discussed in this dissertation, there are important additional directions which future works in deep learning for CSI compression should address. Here, we discuss a few such directions, including compression bounds for CSI estimation, networks with trainable codewords, and ...  
+
+\subsection{Rate-distortion Bounds for CSI Feedback}
+
+Many works provide results for their proposed CSI feedback networks using the NMSE at a small number of compression ratios. This approach allows for fair comparison between comparable networks/algorithms, but it does not answer a more important question: \emph{At a given compression ratio, what is the theoretical distortion limit?}
+
+Information theory provides us with a framework to answer this question: the rate-distortion curve. The rate-distortion of a random variable describes the optimal error that can be achieved whenever that variable is encoded using a given number of bits.
+
+The challenge with applying rate-distortion theory to MIMO CSI data is the lack of well-defined distributions for practical channel data. While rate-distortion bounds are known for well-defined distributions (e.g., univariate or multivariate Gaussian distributions), the same can not be said for empirical data.
+
+One possible approach to constructing a rate-distortion curve is to estimate the differential entropy of quantized CSI data. For a CSI matrix, $\mathbf{H}$, assume i.i.d. $\mathbf H_{(i,j)}$ where $i$ ($j$) denotes the row (column) of $\mathbf{H}$. The differential entropy of the $(i,j)$-th element is
+\begin{align*}
+	h(\mathbf H_{(i,j)}) &= - \int p(\mathbf H{(i,j)} = k) \log p(\mathbf H_{(i,j)} = k) dk,
+\end{align*}
+In practice, the distribution $p(\mathbf H_{(i,j)})$ is difficult to obtain. We can instead resort to the Kozachenko–Leonenko (KL) estimator \cite{ref:Kozachenko1987SampleEstimate} for each element in $\mathbf H$ and average over the elements,
+\begin{align}
+	h(\mathbf H) &\leq \sum_{i}^{R_d}\sum_{j}^{n_T} \hat h(\mathbf H_{(i,j)}) = h_{\text{UB}}(\mathbf H), \label{eq:csi-diff-ent}
+\end{align}
+for KL estimator $\hat h$. Based on Theorem 8.3.1 from Cover \cite{ref:Cover1999Elements}, for sufficiently small quantization interval $\Delta = \frac {1}{2^n}$, the entropy of a quantized random variable is related to its differential entropy as,
+\begin{align}
+  H(\mathbf H^{\Delta}) &= h(\mathbf H) + n, \label{eq:cover-thm}
+\end{align}
+for $n$-bit quantization. Thus, the differential entropy estimator admits an estimate for the entropy of the quantized CSI, $\hat H({\mathbf H}^\Delta) = \hat h(\mathbf H) + n$.
+
+To establish a rate-distortion curve, we can use the estimator outlined above on CSI data with Gaussian noise, i.e.
+\begin{align*}
+	\mathbf H_{\sigma,(i,j)} &= \mathbf H_{(i,j)} + v \text{ for i.i.d } v \sim \mathcal{N}(0,\sigma^2).
+\end{align*}
+Using the corrupted CSI matrices $\mathbf H_{\sigma}=\left[\mathbf H_{\sigma,(i,j)}\right]_{i\in [R_d],j\in [N_b]}$, we calculate the bounds $\hat h(\mathbf H_{\sigma}^\Delta)$ from or (\ref{eq:csi-diff-ent}) for different noise levels $\sigma$ to establish a rate-distortion curve.
+
+\subsection{Trainable Codewords}
+
+In addition to estimating the rate-distortion bounds of CSI data, new works should investigate techniques for improving the compression efficiency of CSI feedback networks. Some prior work has investigated feedback quantization in deep learning-based CSI compression. In \cite{ref:Yang2019DeepCMC}, the authors propose DeepCMC, an autoencoder structure where the continuous compressed elements are discretized via uniform quantization then encoded using context adaptive binary arithmetic coding (CABAC) \cite{ref:Marpe2003CABAC}. Since uniform quantization is non-differentiable, the authors do not perform true quantization during training and instead apply uniformly distributed noise to approximate quantization noise \cite{ref:Yang2019DeepCMC}. In \cite{ref:Mashhadi2020AnalogDeepCMC}, the authors propose AnalogDeepCMC, which encodes latent elements as power-normalized complex elements and decodes using maximal ratio combining. The authors also report the achieved rate of AnalogDeepCMC for different CSI overhead ratios.
+
+Further work into trainable codewords might borrow ideas from deep learning based image compression. For example, the soft-to-hard vector quantization (SHVQ) framework \cite{ref:Agustsson2017SoftToHard} could be used to imbue a CSI compression network with quantized codewords. To describe the framework, we choose a vector dimension, $m$, by which to partition the latent space $\mathbf Z = f_e(\mathbf H, \theta_e)$, and we denote the vectorized version of $\mathbf Z \in \mathbb R^{r}$ as $\tilde{\mathbf Z} \in \mathbb R^{r/m \times m}$. We define the $m$-dimensional codebook of size $L$ as $\mathbf C \in \mathbb R^{m\times L}$. The soft assignments of the $j$-th latent vector $\tilde{\mathbf z}_j$ can be written as
+\begin{align}
+\phi(\tilde{\mathbf z}_j) &= \left[\frac{\text{exp}(-\sigma \Arrowvert \tilde{\mathbf z}_j - \mathbf c_\ell\Arrowvert^2)}{\sum_{i=1}^L\text{exp}(-\sigma \Arrowvert \tilde{\mathbf z}_j - \mathbf c_i\Arrowvert^2)}\right]_{\ell\in [L]} \in \mathbb R^L \label{eq:soft_assign}
+\end{align}
+where (\ref{eq:soft_assign}) is typically referred to as the \emph{softmax} function, a differentiable alternative to the max function. The hyperparameter $\sigma$ controls the temperature of the softmax scores, with a lower $\sigma$ yielding a more uniform distribution and a higher $\sigma$ yielding a ``peakier'' distribution (i.e., $\sigma \to \infty \Rightarrow \phi(\tilde z_j) \to \text{max}(\tilde z_j)$). Using the soft assignments, the latent vectors are quantized based on the codebook $\mathbf C \in \mathbb R^{m \times L}$,
+\begin{align}
+Q(\tilde{\mathbf z}_j,\mathbf C) &= \phi(\tilde{\mathbf z}_j) \mathbf C^T. \label{eq:soft_quant}
+\end{align}
+The quantized version of the latent vector is taken by reshaping $\mathbf Q(\tilde{\mathbf Z},\mathbf C) \in \mathbb R^{r/m \times m}$ into $\hat{\mathbf Z} \in \mathbb R^d$, and the decoder produces the CSI estimates as $\hat{\mathbf H} = h(\hat{\mathbf Z}, \mathbf C)$. An abstract illustration of an autoencoder using soft quantization can be seen in Figure~\ref{fig:csinet_quant}.
+
+\begin{figure*}[!hbtp]
+\centering
+\def\svgwidth{0.8\linewidth}
+\input{images/csinet_quant.pdf_tex}
+\caption{Abstract architecture for a CSI compression network with the `SoftQuantize' layer ($Q(\tilde{\mathbf Z})$), a continuous, softmax-based relaxation of a $d$-dimensional quantization of the latent layer $\mathbf Z$.}
+\label{fig:csinet_quant}
+\end{figure*}

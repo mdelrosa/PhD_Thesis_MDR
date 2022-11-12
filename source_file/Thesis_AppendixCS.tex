@@ -1,6 +1,12 @@
 \chapter{Compressive sensing}
 \label{appdx:compressed-sensing}
 
+\begin{figure}[!hbtp] \centering 
+    \includegraphics[width=0.8\textwidth]{cs-measurement.png}
+    \label{fig:cs-measurement} \vspace*{-2mm}
+    \caption{Illustration of sampling/measurement process in compressive sensing \cite{ref:Marques2019ReviewOfSparseRecovery}. The notation used here differs slightly from the notation adopted in this appendix (i.e., $\mathbf{A}$ and $\mathbf{h}$ in the figure correspond to $\mathbf{\Phi}$ and $\mathbf{x}$, respectively)}.
+\end{figure}
+
 In Section~\ref{sect:hetero-markov} of Chapter~\ref{chap:p2d}, we introduced a heterogeneous differential encoder which utilized deep compressive sensing networks. This appendix provides a brief overview of the relevant theory from compressive sensing based on the excellent survey \cite{ref:Marques2019ReviewOfSparseRecovery}.
 
 Given a signal $\mathbf{x}\in\mathbb{R}^N$, denote a random measurement of this signal as 
@@ -43,6 +49,13 @@ Note the shrinkage operator, $\mathcal{T}_{\alpha} : \mathbb{R}^n \to \mathbb{R}
 \begin{align*}
     \mathcal{T}_{\alpha}(\mathbf{x})_i &= \text{soft}(x_i, \alpha) = (|x_i| - \alpha)_{+}(x_i)
 \end{align*}
+\begin{figure*}[!hbtp]
+\centering
+\def\svgwidth{0.8\linewidth}
+\input{images/soft-threshold.pdf_tex}
+\caption{Soft-threshold function used in the ISTA algorithm.}
+\label{fig:soft_threshold}
+\end{figure*}
 When this gradient method is applied to the compressive sensing problem, we have $f(\mathbf{x}) := \|\mathbf{\Phi}\mathbf{x}-\mathbf{y}\|$, and the resulting iterative algorithm is known as ISTA, where the iterations take the form,
 \begin{align}
     \mathbf{x}_k &= \mathcal{T}_{\lambda t_k}(\mathbf{x}_{k-1} - t_k\mathbf{\Phi}^T(\mathbf{\Phi} \mathbf{x}_{k-1} - \mathbf{y}))
