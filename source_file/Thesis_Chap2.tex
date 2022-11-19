@@ -64,7 +64,14 @@ The first type of data pre-processing we consider is a domain transformation, th
 \begin{align*}
 	\tilde{\mathbf H} &= \mathbf F_d^H \bar{\mathbf H} \mathbf F_a.
 \end{align*}
-The delay spread of the resulting $\tilde{\mathbf H}$ can typically be captured with a small number of delay elements (see Figure~\ref{fig:outdoor_energy_cdf}), so we restrict our attention to the first $R_d$ elements of $\tilde{\mathbf H}$, resulting in a truncated angular-delay matrix which we denote as $\mathbf H \in \mathbb C^{(R_d\times N_b)}$ for the downlink channel state. An illustrative example of this truncation can be seen at the bottom of Figure~\ref{fig:freq-vs-delay}. % (uplink) ($\mathbf H_u \in \mathbb C^{(R_d\times N_b)}$) 
+The delay spread of the resulting $\tilde{\mathbf H}$ can typically be captured with a small number of delay elements due to the multipath components. For a simple illustration of this phenomenon, see Figure~\ref{fig:delay_spread}, and for an empirical demonstration of the small delay spread, see Figure~\ref{fig:outdoor_energy_cdf}. To take advantage of the small delay spread, we restrict our attention to the first $R_d$ elements of $\tilde{\mathbf H}$, resulting in a truncated angular-delay matrix which we denote as $\mathbf H \in \mathbb C^{(R_d\times N_b)}$ for the downlink channel state. An illustrative example of this truncation can be seen at the bottom of Figure~\ref{fig:freq-vs-delay}. % (uplink) ($\mathbf H_u \in \mathbb C^{(R_d\times N_b)}$) 
+
+\begin{figure}[!hbtp]
+    \centering
+    \includegraphics{delay-spread.jpeg}
+    \caption{Illustration of multipath components and the resulting delay spread due to different arrival times of each component.\cite{ref:pedrini2020isi}} 
+    \label{fig:delay_spread}
+\end{figure}
 
 \begin{figure}[!hbtp]
     \centering
