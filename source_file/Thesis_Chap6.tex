@@ -34,21 +34,21 @@ To establish a rate-distortion curve, we can use the estimator outlined above on
 \begin{align*}
 	\mathbf H_{\sigma,(i,j)} &= \mathbf H_{(i,j)} + v \text{ for i.i.d } v \sim \mathcal{N}(0,\sigma^2).
 \end{align*}
-Using the corrupted CSI matrices $\mathbf H_{\sigma}=\left[\mathbf H_{\sigma,(i,j)}\right]_{i\in [R_d],j\in [N_b]}$, we calculate the bounds $\hat h(\mathbf H_{\sigma}^\Delta)$ from or (\ref{eq:csi-diff-ent}) for different noise levels $\sigma$ to establish a rate-distortion curve.
+Using the corrupted CSI matrices $\mathbf H_{\sigma}=\left[\mathbf H_{\sigma,(i,j)}\right]_{i\in [R_d],j\in [N_b]}$, we calculate the bounds $\hat h(\mathbf H_{\sigma}^\Delta)$ from (\ref{eq:csi-diff-ent}) for different noise levels $\sigma$ to establish a rate-distortion curve.
 
 \subsection{Trainable Codewords}
 
 In addition to estimating the rate-distortion bounds of CSI data, new works should investigate techniques for improving the compression efficiency of CSI feedback networks. Some prior work has investigated feedback quantization in deep learning-based CSI compression. In \cite{ref:Yang2019DeepCMC}, the authors propose DeepCMC, an autoencoder structure where the continuous compressed elements are discretized via uniform quantization then encoded using context adaptive binary arithmetic coding (CABAC) \cite{ref:Marpe2003CABAC}. Since uniform quantization is non-differentiable, the authors do not perform true quantization during training and instead apply uniformly distributed noise to approximate quantization noise \cite{ref:Yang2019DeepCMC}. In \cite{ref:Mashhadi2020AnalogDeepCMC}, the authors propose AnalogDeepCMC, which encodes latent elements as power-normalized complex elements and decodes using maximal ratio combining. The authors also report the achieved rate of AnalogDeepCMC for different CSI overhead ratios.
 
-Further work into trainable codewords might borrow ideas from deep learning based image compression. For example, the soft-to-hard vector quantization (SHVQ) framework \cite{ref:Agustsson2017SoftToHard} could be used to imbue a CSI compression network with quantized codewords. To describe the framework, we choose a vector dimension, $d$, by which to partition the latent space $\mathbf Z = f_e(\mathbf H, \theta_e)$, and we denote the vectorized version of $\mathbf Z \in \mathbb R^{r}$ as $\tilde{\mathbf Z} \in \mathbb R^{r/d \times d}$. We define the $d$-dimensional codebook of size $L$ as $\mathbf C \in \mathbb R^{d\times L}$. The soft assignments of the $j$-th latent vector $\tilde{\mathbf z}_j$ can be written as
+Further work into trainable codewords might borrow ideas from deep learning based image compression. For example, the soft-to-hard vector quantization (SHVQ) framework \cite{ref:Agustsson2017SoftToHard} could be used to imbue a CSI compression network with quantized codewords. To describe the framework, we choose a vector dimension, $d$, by which to partition the latent space $\mathbf Z = f_e(\mathbf H, \theta_e)$, and we denote the vectorized version of $\mathbf Z \in \mathbb R^{r}$ as $\tilde{\mathbf Z} \in \mathbb R^{r/d \times d}$. We define the $d$-dimensional codebook of size $L$ as $\mathbf C \in \mathbb R^{d\times L}$. The soft assignments of the $j$-th latent vector $\tilde{\mathbf z}_j\in \mathbb{R}^{d}$ (i.e., the $j$-th row of $\tilde{\mathbf{Z}}$) can be written as
 \begin{align}
 \phi(\tilde{\mathbf z}_j) &= \left[\frac{\text{exp}(-\sigma \Arrowvert \tilde{\mathbf z}_j - \mathbf c_\ell\Arrowvert^2)}{\sum_{i=1}^L\text{exp}(-\sigma \Arrowvert \tilde{\mathbf z}_j - \mathbf c_i\Arrowvert^2)}\right]_{\ell\in [L]} \in \mathbb R^L \label{eq:soft_assign}
 \end{align}
-where (\ref{eq:soft_assign}) is typically referred to as the \emph{softmax} function, a differentiable alternative to the max function. The hyperparameter $\sigma$ controls the temperature of the softmax scores, with a lower $\sigma$ yielding a more uniform distribution and a higher $\sigma$ yielding a ``peakier'' distribution (i.e., as $\sigma \to \infty \Rightarrow \phi(\tilde z_j) \to $ a one-hot vector). Using the soft assignments, the latent vectors are quantized based on the codebook $\mathbf C \in \mathbb R^{d \times L}$,
+where $\mathbf{c}_{\ell}\in\mathbb{R}^{d}$ is the $\ell$-th codeword in the code book $\mathbf{C}$. $\phi(\tilde{\mathbf z}_j)$ of (\ref{eq:soft_assign}) is typically referred to as the \emph{softmax} function, a differentiable alternative to the max function whose output resembles a probability mass function. The hyperparameter $\sigma$ controls the temperature of the softmax scores, with a lower $\sigma$ yielding a more uniform distribution and a higher $\sigma$ yielding a ``peakier'' distribution (i.e., as $\sigma \to \infty \Rightarrow \phi(\tilde z_j) \to $ a one-hot vector). Using the soft assignments, the latent vectors are quantized based on the codebook $\mathbf C \in \mathbb R^{d \times L}$,
 \begin{align}
 Q(\tilde{\mathbf z}_j,\mathbf C) &= \phi(\tilde{\mathbf z}_j) \mathbf C^T. \label{eq:soft_quant}
 \end{align}
-where we refer the $Q(\tilde{\mathbf z}_j, \mathbf C)$ as the `SoftQuantize' function. When applying $Q(\cdot)$ to the $r/d$ rows of $\tilde{\mathbf Z}$, we write the SoftQuantize function as a matrix operation, $\mathbf Q(\tilde{\mathbf Z},\mathbf C) \in \mathbb R^{r/d \times d}$. The matrix of soft-quantized latent vectors is then reshaped into the original latent vector dimension, $\hat{\mathbf Z} \in \mathbb R^r$, and the decoder produces the CSI estimates as $\hat{\mathbf H} = h(\hat{\mathbf Z}, \mathbf C)$. An abstract illustration of an autoencoder using soft quantization can be seen in Figure~\ref{fig:csinet_quant}.
+where we refer the $Q(\tilde{\mathbf z}_j, \mathbf C)$ as the `SoftQuantize' function. When applying $Q(\cdot)$ to the $r/d$ rows of $\tilde{\mathbf Z}$, we write the SoftQuantize function as a matrix operation, $\mathbf Q(\tilde{\mathbf Z},\mathbf C) \in \mathbb R^{r/d \times d}$. The matrix of soft-quantized latent vectors is then reshaped into the original latent vector dimension, $\hat{\mathbf Z} \in \mathbb R^r$, and the decoder produces the CSI estimates as $\hat{\mathbf H}$ using $\hat{\mathbf{Z}}$ as an input. An abstract illustration of an autoencoder using soft quantization can be seen in Figure~\ref{fig:csinet_quant}.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -60,9 +60,7 @@ where we refer the $Q(\tilde{\mathbf z}_j, \mathbf C)$ as the `SoftQuantize' fun
 
 To optimize the network with soft quantization, the loss function can be made to resemble the canonical rate-distortion function by adding an entropy penalization term,
 \begin{align}
-\underset{\theta_e, \theta_d, \mathbf C}{\text{argmin}}\; \frac 1N &\sum_{i=1}^N\Arrowvert \mathbf H_i - g(Q(f(\mathbf H_i, \theta_e), \mathbf C), \theta_d) \Arrowvert^2 \nonumber \\
-&+ \lambda \left(\Arrowvert\theta_e\Arrowvert^2+\Arrowvert\theta_d\Arrowvert^2+\Arrowvert \mathbf C \Arrowvert^2\right) \label{eq:loss_entropy} \\
-&+ m\beta H(\phi), \nonumber
+\underset{\theta_e, \theta_d, \mathbf C}{\text{argmin}}\; \frac 1N &\sum_{i=1}^N\Arrowvert \mathbf H_i - g(Q(f(\mathbf H_i, \theta_e), \mathbf C), \theta_d) \Arrowvert^2 + m\beta H(\phi), \label{eq:loss_entropy}
 \end{align}
 where $H(\phi)=H(p,q)$ is the crossentropy based on the hard and soft probability estimates $p$ and $q$, respectively. Before defining the estimates $p$ and $q$, we briefly discuss the population probabilities of the latent codewords. Denote the symbol encoder/decoder pair as $E:\mathbb R^d \to [L]^d$/$D:[L]^d \to \mathbb R^d$. Denote the distribution of latent variables as $\mathsf Z$ such that $\mathbf z \sim \mathsf Z$ with the encoder $E(\mathsf Z)=\mathbf e$ . The entropy of $\mathsf Z$ is given as 
 \begin{align*}
@@ -72,8 +70,8 @@ In practice, the true population probabilities $P(E(\mathsf Z))$ are inaccessibl
 \begin{align*}
 p_j &= \frac{|\{e_l(\mathbf z_i)|l\in[d], i \in [N], e_l(\mathbf z_i)=j\}|}{dN}.
 \end{align*}
-The soft assignments of $\phi$ admit valid probability masses, $q_j = \phi(\tilde{\mathbf z})$, over the codewords. Using histogram estimates $p_j$ and the soft assignments $q_j$, the crossentropy term is written
+The soft assignments of $\phi$ admit valid probability masses, $q_j = \phi(\tilde{\mathbf z})$, over the codewords. Using histogram estimates $p_j$ and the soft assignments $q_j$, the crossentropy term is written as
 \begin{align*}
-H(\phi) := H(p,q) &= -\sum_{j=1}^L p_j\log q_j = H(p) + D_{\text{KL}}(p\Arrowvert q)
+H(\phi) := H(p,q) &= -\sum_{j=1}^L p_j\log q_j = H(p) + D_{\text{KL}}(p\Arrowvert q),
 \end{align*}
-where $D_{\text{KL}}(p\Arrowvert q)=-\sum_{j=1}^L p_j \log\left(\frac{p_j}{q_j}\right)$ is the Kullback-Liebler (KL) divergence. Due to the nonnegativity of $D_{\text{KL}}$, $H(\phi)$ is an upper bound on $H(p)$, and so (\ref{eq:loss_entropy}) is a valid optimization target.
+where $D_{\text{KL}}(p\Arrowvert q)=-\sum_{j=1}^L p_j \log\left(\frac{p_j}{q_j}\right)$ is the Kullback-Liebler (KL) divergence. Due to the nonnegativity of $D_{\text{KL}}$, $H(\phi)$ is an upper bound on $H(p)$, and so the inclusion of $H(\phi)$ in (\ref{eq:loss_entropy}) is an indirect way of minimizing the entropy of $p$.
